@@ -2,11 +2,20 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from decouple import config
 import torch
+from pathlib import Path
+from openai import OpenAI
 import logging
 
 # konfiguracja logów
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# ścieżka do audio
+speech_file_path = Path(__file__).parent / "speech.mp3"
+
+# inicjalizacja OpenAI
+openai_api_key = config("OPENAI_API_KEY")
+openai_client = OpenAI(api_key=openai_api_key)
 
 # inicjalizacja facebook/blenderbot-400M-distill
 tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
@@ -38,9 +47,21 @@ def echo(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
 def generate_speech(update, context):
+    # Pobieranie tekstu z wiadomości
     user_text = " ".join(context.args)
-    response = generate_response(user_text)
-    context.bot.send_voice(chat_id=update.effective_chat.id, voice=response)
+
+    # Generowanie mowy OpenAI
+    response = openai_client.audio.speech.create(
+        model="tts-1",
+        voice="alloy",
+        input=user_text
+    )
+
+    # Zapis odpowiedzi do głosówki
+    response.stream_to_file(speech_file_path)
+
+    # Wysyłanie głosówki do użytkownika
+    context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
 
 def main():
     telegram_bot_token = config("TELEGRAM_API_KEY")
