@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 speech_file_path = Path(__file__).parent / "speech.mp3"
 
 # inicjalizacja OpenAI
-openai_api_key = config("OPENAI_API_KEY")
+openai_api_key = 
 openai_client = OpenAI(api_key=openai_api_key)
 
 # inicjalizacja facebook/blenderbot-400M-distill
@@ -41,10 +41,6 @@ def generate_response(user_input):
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     return response
 
-def echo(update, context):
-    user_input = update.message.text
-    response = generate_response(user_input)
-    context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
 def generate_speech(update, context):
     # Pobieranie tekstu z wiadomości
@@ -57,12 +53,37 @@ def generate_speech(update, context):
         input=user_text
     )
 
-    # Zapis odpowiedzi do głosówki
+    # Zapis odpowiedzi do pliku audio
     response.stream_to_file(speech_file_path)
+
+    # Wysyłanie pliku audio do użytkownika
+    context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
+    
+def generate_speech_response(update, context):
+    # Pobieranie tekstu z wiadomości
+    user_text = " ".join(context.args)
+
+    # Generowanie odpowiedzi tekstowej z modelu Blenderbot
+    response_text = generate_response(user_text)
+
+    # Generowanie mowy OpenAI na podstawie odpowiedzi tekstowej
+    response_audio = openai_client.audio.speech.create(
+        model="tts-1",
+        voice="alloy",
+        input=response_text
+    )
+
+    # Zapis odpowiedzi do głosówki
+    response_audio.stream_to_file(speech_file_path)
 
     # Wysyłanie głosówki do użytkownika
     context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
 
+def echo(update, context):
+    user_input = update.message.text
+    response = generate_response(user_input)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+    
 def main():
     telegram_bot_token = config("TELEGRAM_API_KEY")
     global updater
@@ -79,7 +100,10 @@ def main():
 
     # obsługa wiadomości głosowych
     dp.add_handler(CommandHandler("speech", generate_speech))
-
+    
+    # obsługa wiadomości głosowych generowanych przez blenderbot
+    dp.add_handler(CommandHandler("bspeach", generate_speech_response))
+    
     # nasłuchiwanie wiadomości
     updater.start_polling()
 
