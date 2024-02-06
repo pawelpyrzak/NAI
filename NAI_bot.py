@@ -25,7 +25,7 @@ user_bad_word_count = {}
 speech_file_path = Path(__file__).parent / "speech.mp3"
 
 # inicjalizacja OpenAI
-openai_api_key = "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"
+openai_api_key = ""
 openai_client = OpenAI(api_key=openai_api_key)
 
 # inicjalizacja facebook/blenderbot-400M-distill
@@ -37,7 +37,7 @@ m2m100_model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_4
 m2m100_tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
 
 #inicjalizacja assemblyai
-aai.settings.api_key = "b94a066bd92d470fb52b4171688a7720"
+aai.settings.api_key = ""
 transcriber = aai.Transcriber()
 
 def start(update, context):
