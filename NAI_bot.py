@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 speech_file_path = Path(__file__).parent / "speech.mp3"
 
 # inicjalizacja OpenAI
-openai_api_key = "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"
+openai_api_key = ""
 openai_client = OpenAI(api_key=openai_api_key)
 
 # inicjalizacja facebook/blenderbot-400M-distill
