@@ -11,14 +11,12 @@ from transformers import pipeline
 from telegram import Update, ParseMode
 
 
-
-
 # konfiguracja logów
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # słowa zablokowane
-blocked_words = ['ban', 'block', 'test']
+blocked_words = ['cat', 'block', 'test']
 user_bad_word_count = {}
 
 # ścieżka do audio
@@ -44,190 +42,220 @@ def start(update, context):
     help_command(update, context)
 
 def stop(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Do zobaczenia!")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="See you later!")
     updater.stop()
     
-# Funkcja wysyłająca wiadomość
+# funkcja wysyłająca wiadomość
 def send_message(update, context, text):
     return context.bot.send_message(chat_id=update.effective_chat.id, text=text, parse_mode=ParseMode.MARKDOWN)
 
 def save_all_messages(update, context):
     context.user_data.setdefault('all_messages', []).append(update.message.text)
-    block_words(update, context)  # Sprawdzenie słów blokowanych po zapisaniu wiadomości    
+    block_words(update, context)  # sprawdzenie słów blokowanych po zapisaniu wiadomości    
     
-# Funkcja generująca streszczenie za pomocą transformers
+# funkcja generująca streszczenie za pomocą transformers
 def generate_summary(update, context, text):
     summarization = pipeline("summarization", model="facebook/bart-large-cnn")
     
-    # Split the text into chunks of 4096 characters (to stay within Telegram message size limit)
+    # dzielenie tekstu na fragmenty aby nie przekroczyć limitu rozmiau wiadomości
     chunks = [text[i:i + 4096] for i in range(0, len(text), 4096)]
     
-    # Generate summaries for each chunk
+    # generowanie podsumowań dla każdego fragmentu
     summaries = [summarization(chunk)[0]['summary_text'] for chunk in chunks]
     
-    # Concatenate the summaries
+    # łączenie podsumowań
     result_summary = ' '.join(summaries)
     
     return result_summary    
 
 def summary(update, context):
-    # Pobierz tekst do streszczenia
+    # pobieranie tekstu do streszczenia
     text_to_summarize = ' '.join(context.args) if context.args else ' '.join(context.user_data.get('all_messages', []))
     if text_to_summarize:
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
-        # Domyślnie używamy transformers do streszczenia
+        
         summary_result = generate_summary(update, context, text_to_summarize)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         if message_sent:
             context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        # Wysłanie wyniku streszczenia
-        send_message(update, context, f"Streszczenie: {summary_result}")
+        # wysłanie wyniku streszczenia
+        send_message(update, context, f"Summary: {summary_result}")
     else:
         send_message(update, context,
-                     "Podaj tekst do streszczenia po komendzie /summary, "
-                     "lub użyj /summary_previous_one, aby streszczyć poprzednią wiadomość, "
-                     "lub /summary_previous_n, aby streszczyć ostatnie N wiadomości.")
+                     "Provide text for summary after command /summary, "
+                     "or use /summary_previous_one to summarize the previous message, "
+                     "or /summary_previous_n to summarize the last N messages.")
+        
+def summary_speech(update, context):
+    # pobieranie tekstu do streszczenia
+    text_to_summarize = ' '.join(context.args) if context.args else ' '.join(context.user_data.get('all_messages', []))
+    if text_to_summarize:
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
+        
+        summary_result = generate_summary(update, context, text_to_summarize)
 
-# Funkcja streszczająca poprzednią wiadomość
+        # generowanie mowy OpenAI na podstawie streszczenia
+        response = openai_client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=summary_result
+        )
+        
+        # zapis odpowiedzi do pliku audio
+        response.stream_to_file(speech_file_path)
+
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
+
+        # wysłanie pliku audio do użytkownika
+        context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
+
+    else:
+        send_message(update, context,
+                     "Provide the text for the summary after the /summary command, "
+                     "or use /summary_previous_one to summarize the previous message, "
+                     "or /summary_previous_n to summarize the last N messages.")
+
+# funkcja streszczająca poprzednią wiadomość
 def summary_previous_one(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages:
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
         summary_result = generate_summary(update, context, all_messages[-1])
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        send_message(update, context, f"Streszczenie poprzedniej wiadomości: {summary_result}")
+        send_message(update, context, f"Summary of previous message: {summary_result}")
     else:
-        send_message(update, context, "Brak dostępnych poprzednich wiadomości do streszczenia.")
+        send_message(update, context, "No past messages available for summary..")
 
 def summary_previous_one_speech(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages:
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
         
-        # Streszczenie ostatniej wiadomości
+        # streszczenie ostatniej wiadomości
         summary_result = generate_summary(update, context, all_messages[-1])
 
-        # Generowanie mowy OpenAI na podstawie streszczenia
+        # generowanie mowy OpenAI na podstawie streszczenia
         response = openai_client.audio.speech.create(
             model="tts-1",
             voice="alloy",
             input=summary_result
         )
     
-    # Zapis odpowiedzi do pliku audio
+        # zapis odpowiedzi do pliku audio
         response.stream_to_file(speech_file_path)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        # Wysłanie pliku audio do użytkownika
+        # wysłanie pliku audio do użytkownika
         context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     else:
-        send_message(update, context, "Brak dostępnych poprzednich wiadomości do streszczenia.")   
-     
-# Funkcja streszczająca ostatnie N wiadomości
+        send_message(update, context, "No past messages available for summary..")   
+
+# funkcja streszczająca ostatnie N wiadomości
 def summary_previous_n(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages and context.args and context.args[0].isdigit():
         n = int(context.args[0])
 
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
         text_to_summarize = ' '.join(all_messages[-n:])
         summary_result = generate_summary(update, context, text_to_summarize)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        send_message(update, context, f"Streszczenie ostatnich {n} poprzednich wiadomości: {summary_result}")
+        send_message(update, context, f"Summary of recent{n} past messages: {summary_result}")
     else:
-        send_message(update, context,
-                     "Podaj liczbę wiadomości do streszczenia po komendzie /summary_previous_n.")
+        send_message(update, context, "Specify the number of messages to summarize after the /summary_previous_n command.")
 
 def summary_previous_n_speech(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages and context.args and context.args[0].isdigit():
         n = int(context.args[0])
-         # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
         text_to_summarize = ' '.join(all_messages[-n:])
         summary_result = generate_summary(update, context, text_to_summarize) 
         
-        # Generowanie mowy OpenAI na podstawie streszczenia
+        # generowanie mowy OpenAI na podstawie streszczenia
         response = openai_client.audio.speech.create(
             model="tts-1",
             voice="alloy",
             input=summary_result
         )
         
-         # Zapis odpowiedzi do pliku audio
+        # zapis odpowiedzi do pliku audio
         response.stream_to_file(speech_file_path)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        # Wysłanie pliku audio do użytkownika
+        # wysłanie pliku audio do użytkownika
         context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     else:
-        send_message(update, context, "Brak dostępnych poprzednich wiadomości do streszczenia.")   
-              
-# Funkcja streszczająca wszystkie zapisane wiadomości
+        send_message(update, context, "No past messages available for summary..")   
+        
+# funkcja streszczająca wszystkie zapisane wiadomości
 def summary_all(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages:
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
         text_to_summarize = ' '.join(all_messages)
         summary_result = generate_summary(update, context, text_to_summarize)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        send_message(update, context, f"Streszczenie wszystkich zapisanych wiadomości: {summary_result}")
+        send_message(update, context, f"Summary of all saved messages: {summary_result}")
     else:
-        send_message(update, context, "Brak zapisanych wiadomości do streszczenia.")
+        send_message(update, context, "No saved messages to summarize.")
         
 def summary_all_speech(update, context):
     all_messages = context.user_data.get('all_messages', [])
     if all_messages:
-        # Wysłanie informacji o rozpoczęciu
-        message_sent = send_message(update, context, "Streszczanie proszę czekać")
+        # wysłanie informacji o rozpoczęciu
+        message_sent = send_message(update, context, "Summary in process please wait")
 
         text_to_summarize = ' '.join(all_messages)
         summary_result = generate_summary(update, context, text_to_summarize)
         
-         # Generowanie mowy OpenAI na podstawie streszczenia
+        # generowanie mowy OpenAI na podstawie streszczenia
         response = openai_client.audio.speech.create(
             model="tts-1",
             voice="alloy",
             input=summary_result
         )
-             # Zapis odpowiedzi do pliku audio
+        # zapis odpowiedzi do pliku audio
         response.stream_to_file(speech_file_path)
 
-        # Usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
+        # usunięcie lub zmiana wiadomości "streszczanie proszę czekać"
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=message_sent.message_id)
 
-        # Wysłanie pliku audio do użytkownika
+        # wysłanie pliku audio do użytkownika
         context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     else:
-        send_message(update, context, "Brak dostępnych poprzednich wiadomości do streszczenia.") 
+        send_message(update, context, "No past messages available for summary..") 
         
-# Funkcja blokująca wiadomości zawierające zablokowane słowa
+# blokowanie wiadomości zawierające zablokowane słowa
 def block_words(update, context):
     message_text = update.message.text.lower()
 
@@ -238,32 +266,32 @@ def block_words(update, context):
         context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
 
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=f'Wiadomość zawiera zablokowane słowo. Proszę unikać używania takich słów.\n'
-                                      f'Liczba złych słów: {user_bad_word_count[user_id]}')
+        text=f'The message contains a blocked word. Please avoid using such words.\n'
+        f'Number of bad words:{user_bad_word_count[user_id]}')
         if user_bad_word_count[user_id] >= 3:
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text=f'Użytkownik {update.effective_user.username} został zablokowany za nadużywanie.')
+            text=f'User {update.effective_user.username} has been blocked for abuse')
 
-# Funkcja obsługująca komendę /help
+# funkcja obsługująca komendę /help
 def help_command(update, context):
     commands_info = [
-        ("/start", "Uruchamia /help."),
-        ("/help", "Wyświetla listę dostępnych komend i ich opis."),
-        ("/summary [tekst]",
-         "Generuje streszczenie podanego tekstu. Jeśli brak argumentu, używa poprzednich wiadomości."),
-        ("/summary_all", "Generuje streszczenie całej konwersacji."),
-        ("/summary_previous_one", "Generuje streszczenie ostatniej wiadomości."),
-        ("/summary_previous_n [liczba]", "Generuje streszczenie ostatnich N wiadomości."),
+      ("/start", "Starts /help."),
+        ("/help", "Displays a list of available commands and their description."),
+        ("/summary [text]",
+        "Generates a summary of the specified text. If no argument, uses previous messages."),
+        ("/summary_all", "Generates a summary of the entire conversation."),
+        ("/summary_previous_one", "Generates a summary of the last message."),
+        ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
     ]
 
-    message = "Dostępne komendy:\n\n"
+    message = "Available commands:\n\n"
     for cmd, description in commands_info:
         message += f"{cmd}: {description}\n"
 
     send_message(update, context, message)
                                             
 def transcription(update, context):    
-# Pobierz plik audio z wiadomości głosowej
+# pobiernaie pliku audio z wiadomości głosowej
     voice_message = update.message.voice
     file_id = voice_message.file_id
     file = context.bot.get_file(file_id)
@@ -272,51 +300,96 @@ def transcription(update, context):
     # pobieranie nazwy użytkownika
     user_name = update.effective_user.username
     
-    # Pobierz transkrypcję za pomocą assemblyai
+    # pobieranie transkrypcji za pomocą assemblyai
     transcript = transcribe_audio(file_path)
+    
+    
+    
+    if 'cat' in transcript.lower():
+        user_id = update.effective_user.id
+        user_bad_word_count[user_id] = user_bad_word_count.get(user_id, 0) + 1
 
+        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
 
-    # Wyślij transkrypcję do użytkownika
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"{user_name} nagrał wiadomość głosową: {transcript}")
+        context.bot.send_message(chat_id=update.effective_chat.id,
+        text=f'The message contains a blocked word. Please avoid using such words.\n'
+        f'Number of bad words:{user_bad_word_count[user_id]}')
+        
+        if user_bad_word_count[user_id] >= 3:
+            context.bot.send_message(chat_id=update.effective_chat.id,
+            text=f'User {update.effective_user.username} has been blocked for abuse')
+    
+    
+    if 'test' in transcript.lower():
+        user_id = update.effective_user.id
+        user_bad_word_count[user_id] = user_bad_word_count.get(user_id, 0) + 1
+
+        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
+
+        context.bot.send_message(chat_id=update.effective_chat.id,
+        text=f'The message contains a blocked word. Please avoid using such words.\n'
+        f'Number of bad words:{user_bad_word_count[user_id]}')
+        
+        if user_bad_word_count[user_id] >= 3:
+            context.bot.send_message(chat_id=update.effective_chat.id,
+            text=f'User {update.effective_user.username} has been blocked for abuse')
+
+    if 'blocked' in transcript.lower():
+        user_id = update.effective_user.id
+        user_bad_word_count[user_id] = user_bad_word_count.get(user_id, 0) + 1
+
+        context.bot.delete_message(chat_id=update.effective_chat.id, message_id=update.message.message_id)
+
+        context.bot.send_message(chat_id=update.effective_chat.id,
+        text=f'The message contains a blocked word. Please avoid using such words.\n'
+        f'Number of bad words:{user_bad_word_count[user_id]}')
+        
+        if user_bad_word_count[user_id] >= 3:
+            context.bot.send_message(chat_id=update.effective_chat.id,
+            text=f'User {update.effective_user.username} has been blocked for abuse')
+    else:
+        # wysyłanie transkrypcji do użytkownika
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"{user_name} recorded a voice message: {transcript}")
+    
 
 def transcribe_audio(audio_file_path):
-    # Utwórz instancję transkrybera z użyciem assemblyai
+    # tworzenie instancji transkrybera z użyciem assemblyai
     transcriber = aai.Transcriber()
 
-    # Pobierz transkrypcję z pliku audio
+    # pobieranie transkrypcji z pliku audio
     transcript = transcriber.transcribe(audio_file_path)
 
     return transcript.text
-    
+
 def translate_text_pl_fr(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "pl"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka francuskiego
+    # ustawienie forced_bos_token_id dla języka francuskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("fr"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
 
-    # Wysyłanie przetłumaczonego tekstu do użytkownika
+    # wysyłanie przetłumaczonego tekstu do użytkownika
     context.bot.send_message(chat_id=update.effective_chat.id, text=translated_text[0])
     
 def translate_text_fr_pl(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "pl"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka francuskiego
+    # ustawienie forced_bos_token_id dla języka francuskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("fr"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
@@ -325,51 +398,51 @@ def translate_text_fr_pl(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=translated_text[0])
         
 def translate_text_en_pl(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "en"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka francuskiego
+    # ustawienie forced_bos_token_id dla języka francuskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("pl"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
 
-    # Wysyłanie przetłumaczonego tekstu do użytkownika
+    # wysyłanie przetłumaczonego tekstu do użytkownika
     context.bot.send_message(chat_id=update.effective_chat.id, text=translated_text[0])
     
     
 def translate_text_pl_en(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "pl"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka francuskiego
+    # ustawienie forced_bos_token_id dla języka francuskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("en"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
 
-    # Wysyłanie przetłumaczonego tekstu do użytkownika
+    # wysyłanie przetłumaczonego tekstu do użytkownika
     context.bot.send_message(chat_id=update.effective_chat.id, text=translated_text[0])
 
     
 def generate_response(update, context):
-    # Extract user input from the update
+   
     user_input = update.message.text
     
     if user_input.startswith('/conv'):
         user_input = ' '.join(user_input.split(' ')[1:]).strip()
 
-    # Rest of your code to generate the response
+    # generowanie odpowiedzi
     input_ids = blender_bot_tokenizer.encode(user_input, return_tensors="pt")
     
     with torch.no_grad():
@@ -377,25 +450,25 @@ def generate_response(update, context):
 
     response = blender_bot_tokenizer.decode(output[0], skip_special_tokens=True)
 
-    # Send the generated response back to the user
+    # wysyłanie wygenerowanej odpowiedzi z powrotem do użytkownika
     context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
 
 def generate_speech(update, context):
-    # Pobieranie tekstu z wiadomości
+    # pobieranie tekstu z wiadomości
     user_text = " ".join(context.args)
 
-    # Generowanie mowy OpenAI
+    # generowanie mowy OpenAI
     response = openai_client.audio.speech.create(
         model="tts-1",
         voice="alloy",
         input=user_text
     )
 
-    # Zapis odpowiedzi do pliku audio
+    # zapis odpowiedzi do pliku audio
     response.stream_to_file(speech_file_path)
 
-    # Wysyłanie pliku audio do użytkownika
+    # wysyłanie pliku audio do użytkownika
     context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     
 def generate_speech_response(update, context):
@@ -427,21 +500,21 @@ def generate_speech_response(update, context):
     context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     
 def generate_translate_speech_pl_en(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "pl"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka angielskiego
+    # ustawienie forced_bos_token_id dla języka angielskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("en"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
     
-    # Generowanie mowy OpenAI
+    # generowanie mowy OpenAI
     response = openai_client.audio.speech.create(
         model="tts-1",
         voice="alloy",
@@ -453,21 +526,21 @@ def generate_translate_speech_pl_en(update, context):
     context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     
 def generate_translate_speech_enpl(update, context):
-    # Pobieranie tekstu do przetłumaczenia z wiadomości
+    # pobieranie tekstu do przetłumaczenia z wiadomości
     user_text = " ".join(context.args)
 
-    # Ustawienie źródłowego języka w tokenizatorze na polski
+    # ustawienie źródłowego języka w tokenizatorze na polski
     m2m100_tokenizer.src_lang = "en"
 
-    # Tokenizacja i generowanie tłumaczenia
+    # tokenizacja i generowanie tłumaczenia
     model_inputs = m2m100_tokenizer(user_text, return_tensors="pt")
 
-    # Ustawienie forced_bos_token_id dla języka polskiego
+    # ustawienie forced_bos_token_id dla języka polskiego
     gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("pl"))
     
     translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
     
-    # Generowanie mowy OpenAI
+    # generowanie mowy OpenAI
     response = openai_client.audio.speech.create(
         model="tts-1",
         voice="alloy",
@@ -476,7 +549,7 @@ def generate_translate_speech_enpl(update, context):
 
     response.stream_to_file(speech_file_path)
     context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
-     
+    
 def main():
     telegram_bot_token = config("TELEGRAM_API_KEY")
     global updater
@@ -495,11 +568,13 @@ def main():
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, save_all_messages))
 
     dp.add_handler(CommandHandler("summary", summary, pass_args=True))
-     
-     # obsługa streszczenia wszystkich zapisane wiadomości
+    
+    dp.add_handler(CommandHandler("summary_speech", summary_speech, pass_args=True))
+
+    # obsługa streszczenia wszystkich zapisane wiadomości
     dp.add_handler(CommandHandler("summary_all", summary_all))
     
-     # obsługa streszczenia wszystkich zapisanych wiadomości i zwaracanie ich w formie głosówki 
+    # obsługa streszczenia wszystkich zapisanych wiadomości i zwaracanie ich w formie głosówki 
     dp.add_handler(CommandHandler("summary_all_speech", summary_all_speech))
     
     # obsługa streszczenia ostatniej wiadomości
@@ -540,7 +615,7 @@ def main():
     
     # obsługa tłumaczenia głosowego z polskiego na angielski
     dp.add_handler(CommandHandler("speach_translate_enpl", generate_translate_speech_enpl))
-    
+
     # nasłuchiwanie wiadomości
     updater.start_polling()
 
