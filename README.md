@@ -14,7 +14,11 @@ model="facebook/bart-large-cnn to create user text summaries.
 Using the models considered above, we were able to such funfictions as: 
 
 "/start" - Starts /help. 
+
+
 "/stop"- Stops bot. 
+
+
 "/help"- Displays a list of available commands and their description. 
 "/summary [text]"- Generates a summary of the specified text. If no argument, uses previous messages. 
 "/summary_all"- Generates a summary of the entire conversation. 
