@@ -2,7 +2,6 @@
 Telegram bot project using artificial intelligence.   
 The bot is supposed to improve communication in group conversations. 
 
-
 In this project, we used models such as:
 
 M2m100 to translate text/speech into a language other than the one entered,
