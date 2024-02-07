@@ -286,7 +286,7 @@ def help_command(update, context):
         ("/summary_all_speech",""),
         ("/summary_previous_one_speech",""),
         ("/summary_previous_n_speech",""),
-        ("/conv", "")
+        ("/conv", ""),
         ("/speech",""),
         ("/bspeech",""),
         ("/translate_plfr",""),
@@ -317,6 +317,88 @@ def transcription(update, context):
     # pobieranie transkrypcji za pomocą assemblyai
     transcript = transcribe_audio(file_path)
     
+    if 'show me instruction' in transcript.lower():
+        start_index = transcript.lower().index('show me instruction') + len('show me instruction')
+        commands_text = transcript[start_index:].strip()
+    
+        commands_info = [
+            ("/start", "Starts /help."),
+            ("/stop", ""),
+            ("/help", "Displays a list of available commands and their description."),
+            ("/summary [text]", "Generates a summary of the specified text. If no argument, uses previous messages."),
+            ("/summary_all", "Generates a summary of the entire conversation."),
+            ("/summary_previous_one", "Generates a summary of the last message."),
+            ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
+            ("/summary_speech", ""),
+            ("/summary_all_speech", ""),
+            ("/summary_previous_one_speech", ""),
+            ("/summary_previous_n_speech", ""),
+            ("/conv", ""),
+            ("/speech", ""),
+            ("/bspeech", ""),
+            ("/translate_plfr", ""),
+            ("/translate_frpl", ""),
+            ("/translate_plen", ""),
+            ("/translate_enpl", ""),
+            ("/speech_translate_plen", ""),
+            ("/", ""),
+            ("voice messages", "")
+        ]
+
+        message = "Available commands:\n\n"
+        for cmd, description in commands_info:
+            message += f"{cmd}: {description}\n"
+            
+        context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+            
+        
+    
+    if 'text talk with blender' in transcript.lower():
+        start_index = transcript.lower().index('text talk with blender') + len('text talk with blender')
+        text_to_translate = transcript[start_index:].strip()
+        
+
+        if text_to_translate:
+            # Generowanie odpowiedzi
+            input_ids = blender_bot_tokenizer.encode(text_to_translate, return_tensors="pt")
+        
+            with torch.no_grad():
+                output = blender_bot_model.generate(input_ids)
+
+            response = blender_bot_tokenizer.decode(output[0], skip_special_tokens=True)
+
+            # Wysłanie wygenerowanej odpowiedzi z powrotem do użytkownika
+            context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+            
+    if 'voice talk with blender' in transcript.lower():
+        start_index = transcript.lower().index('voice talk with blender') + len('voice talk with blender')
+        text_to_translate = transcript[start_index:].strip()
+        
+        if text_to_translate:
+    
+            # generowanie odpowiedzi tekstowej z modelu Blender
+            input_ids = blender_bot_tokenizer.encode(text_to_translate, return_tensors="pt")
+        
+            with torch.no_grad():
+                output = blender_bot_model.generate(input_ids)
+
+            response_text = blender_bot_tokenizer.decode(output[0], skip_special_tokens=True)
+
+        # generowanie mowy OpenAI na podstawie odpowiedzi Blendera
+        response_audio = openai_client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=response_text
+        )
+
+        # zapis odpowiedzi do głosówki
+        response_audio.stream_to_file(speech_file_path)
+
+        # wysyłanie głosówki do użytkownika
+        context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
+        
+        
+
     if 'translate to polish by voice' in transcript.lower():
         start_index = transcript.lower().index('translate to polish by voice') + len('translate to polish by voice')
         text_to_translate = transcript[start_index:].strip()
@@ -338,8 +420,8 @@ def transcription(update, context):
             input=translated_text[0]
         )
 
-    response.stream_to_file(speech_file_path)
-    context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
+        response.stream_to_file(speech_file_path)
+        context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
     
     if 'translate to polish' in transcript.lower():
         start_index = transcript.lower().index('translate to polish') + len('translate to polish')
