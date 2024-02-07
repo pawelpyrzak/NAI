@@ -276,26 +276,32 @@ def block_words(update, context):
 def help_command(update, context):
     commands_info = [
         ("/start", "Starts /help."),
-        ("/stop",""),
+        ("/stop", "Stops Blender bot."),
         ("/help", "Displays a list of available commands and their description."),
         ("/summary [text]", "Generates a summary of the specified text. If no argument, uses previous messages."),
         ("/summary_all", "Generates a summary of the entire conversation."),
         ("/summary_previous_one", "Generates a summary of the last message."),
         ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
-        ("/summary_speech",""),
-        ("/summary_all_speech",""),
-        ("/summary_previous_one_speech",""),
-        ("/summary_previous_n_speech",""),
-        ("/conv", ""),
-        ("/speech",""),
-        ("/bspeech",""),
-        ("/translate_plfr",""),
-        ("/translate_frpl",""),
-        ("/translate_plen",""),
-        ("/translate_enpl",""),
-        ("/speech_translate_plen",""),
-        ("/",""),
-        ("voice messages", )
+        ("/summary_speech [text]", "Generates a summary of the specified text by speech. If no argument, uses previous messages."),
+        ("/summary_all_speech", "Generates a summary of the entire conversation by speech."),
+        ("/summary_previous_one_speech", "Generates a summary of the last message by voice."),
+        ("/summary_previous_n_speech [number]", "Generates a summary of the last N messages by speech."),
+        ("/conv [text]", "Conversation with blender bot."),
+        ("/speech [text]", "Voice messages by text."),
+        ("/bspeech [text]", "Conversation with blender bot returned as voice message."),
+        ("/translate_plfr [text]", "Text translation from Polish to French."),
+        ("/translate_frpl [text]", "Text translation from French to Polish."),
+        ("/translate_plen [text]", "Text translation from Polish to English"),
+        ("/translate_enpl [text]", "Text translation from English to Polish"),
+        ("/speech_translate_plen [text]", "Text translation from Polish to English returned as a voice message"),
+        ("/speech_translate_enpl [text]", "Text translation from English to Polish returned as a voice message"),
+        ("stop [voice]", "Stops Blender bot."),
+        ("show me instruction [voice]", "Displays a list of available commands and their description."),
+        ("text talk with blender [voice]", "Conversation with blender bot."),
+        ("voice talk with blender [voice]", "Conversation with blender bot returned as voice message."),
+        ("translate to polish by voice [voice]", "Text translation from English to Polish"),
+        ("translate to polish [voice]", "Text translation from English to Polish returned as a voice message"),
+        ("WARNING- U CAN'T USE WORDS LIKE:CAT, TEST, BLOCK IN TEXT/VOICE MESSAGES","MESSAGES CONTAINING THESE WORDS WILL BE DELETED" )
     ]
 
     message = "Available commands:\n\n"
@@ -317,33 +323,48 @@ def transcription(update, context):
     # pobieranie transkrypcji za pomocą assemblyai
     transcript = transcribe_audio(file_path)
     
+    if 'stop' in transcript.lower():
+        start_index = transcript.lower().index('stop') + len('stop')
+        stop_text = transcript[start_index:].strip()
+        
+        context.bot.send_message(chat_id=update.effective_chat.id, text="See you later!")
+        updater.stop()
+        
+    
     if 'show me instruction' in transcript.lower():
         start_index = transcript.lower().index('show me instruction') + len('show me instruction')
         commands_text = transcript[start_index:].strip()
     
         commands_info = [
-            ("/start", "Starts /help."),
-            ("/stop", ""),
-            ("/help", "Displays a list of available commands and their description."),
-            ("/summary [text]", "Generates a summary of the specified text. If no argument, uses previous messages."),
-            ("/summary_all", "Generates a summary of the entire conversation."),
-            ("/summary_previous_one", "Generates a summary of the last message."),
-            ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
-            ("/summary_speech", ""),
-            ("/summary_all_speech", ""),
-            ("/summary_previous_one_speech", ""),
-            ("/summary_previous_n_speech", ""),
-            ("/conv", ""),
-            ("/speech", ""),
-            ("/bspeech", ""),
-            ("/translate_plfr", ""),
-            ("/translate_frpl", ""),
-            ("/translate_plen", ""),
-            ("/translate_enpl", ""),
-            ("/speech_translate_plen", ""),
-            ("/", ""),
-            ("voice messages", "")
-        ]
+        ("/start", "Starts /help."),
+        ("/stop", "Stops Blender bot."),
+        ("/help", "Displays a list of available commands and their description."),
+        ("/summary [text]", "Generates a summary of the specified text. If no argument, uses previous messages."),
+        ("/summary_all", "Generates a summary of the entire conversation."),
+        ("/summary_previous_one", "Generates a summary of the last message."),
+        ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
+        ("/summary_speech [text]", "Generates a summary of the specified text by speech. If no argument, uses previous messages."),
+        ("/summary_all_speech", "Generates a summary of the entire conversation by speech."),
+        ("/summary_previous_one_speech", "Generates a summary of the last message by voice."),
+        ("/summary_previous_n_speech [number]", "Generates a summary of the last N messages by speech."),
+        ("/conv [text]", "Conversation with blender bot."),
+        ("/speech [text]", "Voice messages by text."),
+        ("/bspeech [text]", "Conversation with blender bot returned as voice message."),
+        ("/translate_plfr [text]", "Text translation from Polish to French."),
+        ("/translate_frpl [text]", "Text translation from French to Polish."),
+        ("/translate_plen [text]", "Text translation from Polish to English"),
+        ("/translate_enpl [text]", "Text translation from English to Polish"),
+        ("/speech_translate_plen [text]", "Text translation from Polish to English returned as a voice message"),
+        ("/speech_translate_enpl [text]", "Text translation from English to Polish returned as a voice message"),
+        ("stop [voice]", "Stops Blender bot."),
+        ("show me instruction [voice]", "Displays a list of available commands and their description."),
+        ("text talk with blender [voice]", "Conversation with blender bot."),
+        ("voice talk with blender [voice]", "Conversation with blender bot returned as voice message."),
+        ("translate to polish by voice [voice]", "Text translation from English to Polish"),
+        ("translate to polish [voice]", "Text translation from English to Polish returned as a voice message"),
+        ("WARNING- U CAN'T USE WORDS LIKE:CAT, TEST, BLOCK IN TEXT/VOICE MESSAGES","MESSAGES CONTAINING THESE WORDS WILL BE DELETED" )
+    ]
+
 
         message = "Available commands:\n\n"
         for cmd, description in commands_info:
@@ -747,10 +768,10 @@ def main():
     dp.add_handler(CommandHandler("translate_enpl", translate_text_en_pl))
     
     # obsługa tłumaczenia głosowego z polskiego na angielski
-    dp.add_handler(CommandHandler("speach_translate_plen",  generate_translate_speech_pl_en))
+    dp.add_handler(CommandHandler("speech_translate_plen",  generate_translate_speech_pl_en))
     
     # obsługa tłumaczenia głosowego z polskiego na angielski
-    dp.add_handler(CommandHandler("speach_translate_enpl", generate_translate_speech_enpl))
+    dp.add_handler(CommandHandler("speech_translate_enpl", generate_translate_speech_enpl))
 
     # nasłuchiwanie wiadomości
     updater.start_polling()
