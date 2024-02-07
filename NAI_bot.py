@@ -275,20 +275,34 @@ def block_words(update, context):
 # funkcja obsługująca komendę /help
 def help_command(update, context):
     commands_info = [
-      ("/start", "Starts /help."),
+        ("/start", "Starts /help."),
+        ("/stop",""),
         ("/help", "Displays a list of available commands and their description."),
-        ("/summary [text]",
-        "Generates a summary of the specified text. If no argument, uses previous messages."),
+        ("/summary [text]", "Generates a summary of the specified text. If no argument, uses previous messages."),
         ("/summary_all", "Generates a summary of the entire conversation."),
         ("/summary_previous_one", "Generates a summary of the last message."),
         ("/summary_previous_n [number]", "Generates a summary of the last N messages."),
+        ("/summary_speech",""),
+        ("/summary_all_speech",""),
+        ("/summary_previous_one_speech",""),
+        ("/summary_previous_n_speech",""),
+        ("/conv", "")
+        ("/speech",""),
+        ("/bspeech",""),
+        ("/translate_plfr",""),
+        ("/translate_frpl",""),
+        ("/translate_plen",""),
+        ("/translate_enpl",""),
+        ("/speech_translate_plen",""),
+        ("/",""),
+        ("voice messages", )
     ]
 
     message = "Available commands:\n\n"
     for cmd, description in commands_info:
         message += f"{cmd}: {description}\n"
 
-    send_message(update, context, message)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=message)
                                             
 def transcription(update, context):    
 # pobiernaie pliku audio z wiadomości głosowej
@@ -303,7 +317,47 @@ def transcription(update, context):
     # pobieranie transkrypcji za pomocą assemblyai
     transcript = transcribe_audio(file_path)
     
+    if 'translate to polish by voice' in transcript.lower():
+        start_index = transcript.lower().index('translate to polish by voice') + len('translate to polish by voice')
+        text_to_translate = transcript[start_index:].strip()
+        
+        m2m100_tokenizer.src_lang = "en"
+
+        # tokenizacja i generowanie tłumaczenia
+        model_inputs = m2m100_tokenizer(text_to_translate, return_tensors="pt")
+
+        # ustawienie forced_bos_token_id dla języka polskiego
+        gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("pl"))
     
+        translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
+    
+        # generowanie mowy OpenAI
+        response = openai_client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=translated_text[0]
+        )
+
+    response.stream_to_file(speech_file_path)
+    context.bot.send_voice(chat_id=update.effective_chat.id, voice=open(speech_file_path, 'rb'))
+    
+    if 'translate to polish' in transcript.lower():
+        start_index = transcript.lower().index('translate to polish') + len('translate to polish')
+        text_to_translate = transcript[start_index:].strip()
+        
+        # Ustawienie źródłowego języka w tokenizatorze na angielski
+        m2m100_tokenizer.src_lang = "en"
+
+        # Tokenizacja i generowanie tłumaczenia
+        model_inputs = m2m100_tokenizer(text_to_translate, return_tensors="pt")
+
+        # Ustawienie forced_bos_token_id dla języka polskiego
+        gen_tokens = m2m100_model.generate(**model_inputs, forced_bos_token_id=m2m100_tokenizer.get_lang_id("pl"))
+        
+        translated_text = m2m100_tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)
+
+        # Wysłanie przetłumaczonego tekstu
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"{user_name}, przetłumaczono na język polski: {translated_text[0]}")
     
     if 'cat' in transcript.lower():
         user_id = update.effective_user.id
