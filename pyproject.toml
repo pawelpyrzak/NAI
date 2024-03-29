@@ -2,20 +2,20 @@
 name = "bots"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["s24293 <s24293@pjwstk.edu.pl>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-python-telegram-bot = "^21.0.1"
-transformers = "^4.39.1"
-torch = "^2.2.1"
-assemblyai = "^0.23.1"
+requests = "^2.31.0"
+discord-py = "^2.3.2"
 python-decouple = "^3.8"
-openai = "^1.14.2"
-"discord.py" = "^2.3.2"
-slack-sdk = "^3.27.1"
-flask = "^3.0.2"
+transformers = "^4.39.2"
+assemblyai = "^0.23.1"
+torch = "^2.2.2"
+openai = "^1.14.3"
+python-telegram-bot = "13.7"
+sentencepiece = "^0.2.0"
 
 
 [build-system]
