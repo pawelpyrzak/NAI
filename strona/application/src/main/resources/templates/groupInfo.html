@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>UserInfo</title>
+</head>
+<body>
+<div th:if="${error}">
+  <p class="error" th:text="${error}"></p>
+</div>
+<h1>Info</h1>
+
+<!-- If the token is not empty, display the token and expiry date -->
+<div th:if="${invitationToken.getToken()}">
+  <div class="content" th:text="${invitationToken.getToken()}"></div>
+  <div class="content" th:text="${invitationToken.getExpiryDate()}"></div>
+</div>
+
+<!-- If the token is empty, display the form to create a new token -->
+<div th:if="${invitationToken.getToken()} == null || ${invitationToken.getToken()} == ''">
+  <form th:action="@{/create-token}" method="post">
+    <div>
+      <label for="expiryDate">Expiry Date:</label>
+      <input type="date" id="expiryDate" name="expiryDate" required>
+    </div>
+    <input type="hidden" name="groupId" th:value="${invitationToken.getGroup().getId()}">
+    <div>
+      <button type="submit">Generate Token</button>
+    </div>
+  </form>
+</div>
+
+<!-- Display the group information -->
+<div class="content" th:text="${invitationToken.getGroup().getId()}"></div>
+<div class="content" th:text="${invitationToken.getGroup().getName()}"></div>
+<div class="content" th:text="${invitationToken.getGroup().getToken()}"></div>
+
+</body>
+</html>

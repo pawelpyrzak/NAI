@@ -1,0 +1,23 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Invitation</title>
+</head>
+<body>
+<div>
+    <h1>Create group</h1>
+    <form th:action="@{/group/create}" th:object="${group}" method="post">
+        <!-- Title -->
+        <div class="form-field">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required>
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{name}"></span>
+        </div>
+
+        <button type="submit">Create Invitation</button>
+    </form>
+</div>
+</body>
+</html>

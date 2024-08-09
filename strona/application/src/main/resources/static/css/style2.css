@@ -1,0 +1,138 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url("../images/ai.jpg");
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    padding-left: 8%;
+    padding-right: 8%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+html {
+    height: 100%;
+}
+.welcome-txt h2{
+    font-family: 'Poppins' , sans-serif;
+    font-size: 18px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: -10px;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-step h2 {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #3e6464;
+    outline: none;
+}
+
+
+.form-control {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-control:hover {
+    background-color: #f5f5f5;
+}
+#loginForm {
+    height: 250px;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+}
+#password{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+}
+
+button {
+    display: block;
+    margin-top: 15px;
+    width: 100%;
+    background-color: #3e6464;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #1a4242;
+}
+
+.ca {
+    display: block;
+    margin-top: 10px;
+    color: #1a4242;
+    text-decoration: none;
+    text-align: center;
+}
+
+.error {
+    color: #f00;
+}
+.link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4c74af;
+    color: white;
+    border: 2px solid #4c74af;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.link:hover {
+    background-color: white;
+    color: #4c74af;
+}
