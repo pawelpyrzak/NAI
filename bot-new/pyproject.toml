@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "bot-new"
+version = "0.1.0"
+description = ""
+authors = ["s24293 <s24293@pjwstk.edu.pl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+discord-py = "^2.4.0"
+python-decouple = "^3.8"
+transformers = "^4.42.3"
+assemblyai = "^0.29.0"
+torch = "^2.3.1"
+openai = "^1.35.10"
+sentencepiece = "^0.2.0"
+python-docx = "^1.1.2"
+python-telegram-bot = "^21.3"
+mysql-connector-python = "^9.0.0"
+psycopg2-binary = "^2.9.9"
+gtts = "^2.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

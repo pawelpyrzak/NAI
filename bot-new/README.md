@@ -1,0 +1,1 @@
+Działa z najnowszą wersją pythona i telegrambota
