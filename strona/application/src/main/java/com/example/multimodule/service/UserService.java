@@ -2,6 +2,7 @@ package com.example.multimodule.service;
 
 import com.example.multimodule.model.User;
 import com.example.multimodule.repositories.ICatalogData;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,26 +19,23 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService  {
+@Transactional
+public class UserService implements UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final ICatalogData data;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = data.getUserRepository().findByEmail(email);
+        User user;
+        user = data.getUserRepository().findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+        // Initialize roles collection
+        user.getRoles().size(); // Force initialization
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    getAuthorities(user)
-            );
-        } else {
-            LOGGER.error("User not found with email: {}", email);
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                getAuthorities(user)
+        );
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(User user) {

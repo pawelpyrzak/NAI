@@ -21,7 +21,7 @@ public interface ICatalogData {
 
     InvitationTokenRepository getInvitationTokenRepository();
 
-    UserRoleRepository getUserRoleRepository();
+//    UserRoleRepository getUserRoleRepository();
 
     ChatUserRepository getChatUserRepository();
 

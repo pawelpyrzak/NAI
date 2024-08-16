@@ -9,6 +9,10 @@
 <div class="signup-container">
     <form id="signupForm" action="/signup" method="post" th:action="@{/signup}" th:object="${userDTO}">
         <h2>SIGN UP</h2>
+        <p th:errors="*{termsAgreed}" class="error"
+           th:if="${#fields.hasErrors('termsAgreed')}"></p>
+        <p th:errors="*{privacyAgreed}" class="error"
+           th:if="${#fields.hasErrors('privacyAgreed')}"></p>
 
         <div th:if="${error}">
             <p class="error" th:text="${error}"></p>
@@ -18,39 +22,40 @@
             <p class="success" th:text="${success}"></p>
         </div>
 
-        <label for="firstname" class="form-label">Imie:</label>
-        <input type="text" class="form-control" id="firstname" name="firstname"  th:field="*{firstname}" th:required="required">
         <p th:errors="*{firstname}" class="error"
            th:if="${#fields.hasErrors('firstname')}"></p>
+        <label for="firstname" class="form-label">Imie:</label>
+        <input type="text" class="form-control" id="firstname" name="firstname"  th:field="*{firstname}" th:required="required">
 
-
-        <label for="lastname" class="form-label">Nazwisko:</label>
-        <input type="text" class="form-control" id="lastname" name="lastname" th:field="*{lastname}" th:required="required">
         <p th:errors="*{lastname}" class="error"
            th:if="${#fields.hasErrors('lastname')}"></p>
+        <label for="lastname" class="form-label">Nazwisko:</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" th:field="*{lastname}" th:required="required">
 
 
-        <label for="email" class="form-label">Adres e-mail:</label>
-        <input type="email" class="form-control" id="email" name="email" th:field="*{email}" th:required="required">
         <p th:errors="*{email}" class="error"
            th:if="${#fields.hasErrors('email')}"></p>
+        <label for="email" class="form-label">Adres e-mail:</label>
+        <input type="email" class="form-control" id="email" name="email" th:field="*{email}" th:required="required">
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" th:field="*{password}" th:required="required"><br>
         <p th:errors="*{password}" class="error"
            th:if="${#fields.hasErrors('password')}"></p>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" th:field="*{password}" th:required="required"><br>
 
-        <label for="rePassword">Re Password</label>
-        <input type="password" name="rePassword" id="rePassword" th:field="*{rePassword}" th:required="required"><br>
+
         <p th:errors="*{rePassword}" class="error"
            th:if="${#fields.hasErrors('rePassword')}"></p>
+        <label for="rePassword">Re Password</label>
+        <input type="password" name="rePassword" id="rePassword" th:field="*{rePassword}" th:required="required"><br>
 
-        <label for="agreement"> </label>
-        <input style="text-align: left" type="checkbox" id="agreement" name="agreement" required>
+
+        <label for="termsAgreed"> </label>
+        <input style="text-align: left" type="checkbox" id="termsAgreed" th:field="*{termsAgreed}" name="termsAgreed" required>
         Akceptuje regulamin <br>
 
-        <label for="agreement2"> </label>
-        <input style="text-align: left" type="checkbox" id="agreement2" name="agreement" required>Zgadzam sie na
+        <label for="privacyAgreed"> </label>
+        <input style="text-align: left" type="checkbox" id="privacyAgreed" name="privacyAgreed" th:field="*{privacyAgreed}" required>Zgadzam sie na
         przetwarzanie moich danych zgodnie z RODO.
 
         <button type="submit">Zaloz konto</button>

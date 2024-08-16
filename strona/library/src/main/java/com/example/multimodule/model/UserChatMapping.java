@@ -15,10 +15,10 @@ public class UserChatMapping {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Chats_id")
+    @JoinColumn(name = "Chat_id")
     private Chat chat;
 
     @ManyToOne
-    @JoinColumn(name = "ChatUsers_id")
+    @JoinColumn(name = "Chat_User_id")
     private ChatUser chatUser;
 }

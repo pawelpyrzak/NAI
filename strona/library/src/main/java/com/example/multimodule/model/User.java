@@ -11,6 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "\"User\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "userRoles",
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )

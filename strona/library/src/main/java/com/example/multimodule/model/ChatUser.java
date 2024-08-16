@@ -17,6 +17,5 @@ public class ChatUser {
     private String username;
 
     @ManyToOne
-    @JoinColumn(name = "User_id")
     private User user;
 }

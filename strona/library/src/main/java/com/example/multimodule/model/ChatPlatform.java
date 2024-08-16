@@ -6,7 +6,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ChatPlatform")
+@Table(name = "Chat_Platform")
 @Getter
 @Setter
 public class ChatPlatform {

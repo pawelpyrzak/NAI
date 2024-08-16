@@ -31,5 +31,5 @@ public class BotsDataCatalog implements ICatalogData {
 
     private final InvitationTokenRepository invitationTokenRepository;
 
-    private final UserRoleRepository userRoleRepository;
+//    private final UserRoleRepository userRoleRepository;
 }

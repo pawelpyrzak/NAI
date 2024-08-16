@@ -19,7 +19,6 @@ public class GroupAnnouncement {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "UserGroupMapping_id")
     private UserGroupMapping userGroupMapping;
 
     private LocalDateTime startTime;
