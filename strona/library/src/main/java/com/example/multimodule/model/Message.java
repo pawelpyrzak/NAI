@@ -20,8 +20,9 @@ public class Message {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "UserChatMapping_id")
-    private UserChatMapping userChatMapping;
+    private Chat chat;
+
+    private String username;
 
     private LocalDateTime timestamp;
 }

@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +19,7 @@ public class GroupAnnouncement {
     private Long id;
 
     @ManyToOne
-    private UserGroupMapping userGroupMapping;
+    private Group group;
 
     private LocalDateTime startTime;
 
@@ -28,7 +28,8 @@ public class GroupAnnouncement {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    public GroupAnnouncement(LocalDateTime startTime, LocalDateTime endTime, String content) {
+    public GroupAnnouncement(Group group, LocalDateTime startTime, LocalDateTime endTime, String content) {
+        this.group = group;
         this.startTime = startTime;
         this.endTime = endTime;
         this.content = content;

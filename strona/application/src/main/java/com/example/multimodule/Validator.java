@@ -5,15 +5,16 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static io.micrometer.common.util.StringUtils.isEmpty;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 public class Validator {
     private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
 
     public static String validate(String data) {
         LOGGER.info("validate");
-        if (StringUtils.isEmpty(data)) throw new NullPointerException("Please fill in all the required fields 1");
-        String trimmedData = data.trim();
-        String unescapedData = trimmedData.replace("\\", "");
-        if (StringUtils.isEmpty(data)) throw new NullPointerException("Please fill in all the required fields 2");
-        return StringEscapeUtils.escapeHtml4(unescapedData);
+        data= escapeHtml4(data.trim().replace("\\", ""));
+        if (isEmpty(data)) throw new NullPointerException("Please fill in all the required fields");
+        return data;
     }
 }

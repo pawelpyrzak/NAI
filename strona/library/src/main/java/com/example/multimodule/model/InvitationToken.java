@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "InvitationToken")
 @Getter
 @Setter
 public class InvitationToken {
@@ -20,8 +19,7 @@ public class InvitationToken {
     private String token;
 
     @ManyToOne
-    @JoinColumn(name = "UserGroupMapping_id")
-    private UserGroupMapping userGroupMapping;
+    private Group group;
 
     private Timestamp expiryDate;
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    @Query("SELECT m FROM Message m WHERE m.userChatMapping.chat.group.token = :token")
+    @Query("SELECT m FROM Message m WHERE m.chat.group.token = :token")
     List<Message> findAllByGroupToken(@Param("token") String token);
 
 }

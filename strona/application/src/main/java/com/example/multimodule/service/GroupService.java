@@ -10,10 +10,8 @@ import com.example.multimodule.repositories.ICatalogData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.management.BadAttributeValueExpException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -47,15 +45,15 @@ public class GroupService {
         User user = data.getUserRepository().findByEmail(groupDTO.getUserEmail()).orElseThrow(() -> new NoSuchElementException("User is not present"));
         Role role = data.getRoleRepository().findByName("GroupAdmin").orElseThrow(() -> new NoSuchElementException("Role not found"));
 
-        UserGroupMapping userGroupMapping = new UserGroupMapping(role,user, group);
+        UserGroupRole userGroupRole = new UserGroupRole(role,user, group);
         data.getGroupRepository().save(group);
-        data.getUserGroupMappingRepository().save(userGroupMapping);
+        data.getUserGroupRoleRepository().save(userGroupRole);
 
 
     }
 
     public Boolean isAdmin(User users, long groupId) {
-        Optional<UserGroupMapping> userGroup = data.getUserGroupMappingRepository()
+        Optional<UserGroupRole> userGroup = data.getUserGroupRoleRepository()
                 .findByUserIdAndGroupId(users.getId(), groupId);
         return userGroup.isPresent() && userGroup.get().getRole().getName().equals("GroupAdmin");
     }

@@ -2,7 +2,6 @@ package com.example.multimodule.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class Group {
     private Long id;
 
     @OneToMany(mappedBy = "group")
-    private List<UserGroupMapping> userGroups;
+    private List<UserGroupRole> userGroups;
 
     private String name;
 
@@ -33,6 +32,12 @@ public class Group {
             inverseJoinColumns = @JoinColumn(name = "chat_id")
     )
     private Set<Chat> chats;
+
+    @ManyToMany(mappedBy = "groups")
+    private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
     public Group( String name, String token) {
         this.name = name;

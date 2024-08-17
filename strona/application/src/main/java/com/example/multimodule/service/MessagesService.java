@@ -21,10 +21,10 @@ public class MessagesService {
         }
         return list.stream().
                 map(message -> new MessagesDTO(message.getContent(),
-                        message.getUserChatMapping().getChatUser().getUsername(),
+                        message.getUsername(),
                         message.getTimestamp(),
-                        message.getUserChatMapping().getChat().getName(),
-                        message.getUserChatMapping().getChat().getChatPlatform().getName()
+                        message.getChat().getName(),
+                        message.getChat().getChatPlatform().getName()
                 )).toList();
     }
 }

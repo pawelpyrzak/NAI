@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class UserGroupMapping {
+public class UserGroupRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class UserGroupMapping {
     @JoinColumn(name = "Group_id")
     private Group group;
 
-    public UserGroupMapping(Role role, User user, Group group) {
+    public UserGroupRole(Role role, User user, Group group) {
         this.role = role;
         this.user = user;
         this.group = group;

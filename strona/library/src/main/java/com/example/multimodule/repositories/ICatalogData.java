@@ -9,9 +9,7 @@ public interface ICatalogData {
 
     ChatRepository getChatRepository();
 
-    UserGroupMappingRepository getUserGroupMappingRepository();
-
-    UserChatMappingRepository getUserChatMappingRepository();
+    UserGroupRoleRepository getUserGroupRoleRepository();
 
     GroupRepository getGroupRepository();
 
@@ -20,10 +18,6 @@ public interface ICatalogData {
     GroupAnnouncementRepository getGroupAnnouncementRepository();
 
     InvitationTokenRepository getInvitationTokenRepository();
-
-//    UserRoleRepository getUserRoleRepository();
-
-    ChatUserRepository getChatUserRepository();
 
 
 }

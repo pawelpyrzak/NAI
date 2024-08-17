@@ -1,7 +1,6 @@
 package com.example.multimodule.contract;
 
 import com.example.multimodule.model.Group;
-import com.example.multimodule.model.UserGroupMapping;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

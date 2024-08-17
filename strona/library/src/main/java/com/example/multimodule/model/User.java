@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,9 +22,6 @@ public class User {
 
     private String lastName;
 
-    @Column(length = 64)
-    private String authKey;
-
     private String password;
 
     private String email;
@@ -34,14 +32,24 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();;
 
-    public User(String firstName, String lastName, String authKey, String password, String email, Set<Role> roles) {
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_group",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserGroupRole> userGroupRoles = new HashSet<>();
+
+    public User(String firstName, String lastName, String password, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.authKey = authKey;
         this.password = password;
         this.email = email;
-        this.roles = roles;
     }
 }

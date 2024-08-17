@@ -1,14 +1,11 @@
 package com.example.multimodule.contract;
 
 import com.example.multimodule.model.Group;
-import com.example.multimodule.model.User;
-import com.example.multimodule.model.UserGroupMapping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter

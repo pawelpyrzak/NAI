@@ -17,11 +17,7 @@ public class BotsDataCatalog implements ICatalogData {
 
     private final RoleRepository roleRepository;
 
-    private final ChatUserRepository chatUserRepository;
-
-    private final UserGroupMappingRepository userGroupMappingRepository;
-
-    private final UserChatMappingRepository userChatMappingRepository;
+    private final UserGroupRoleRepository userGroupRoleRepository;
 
     private final GroupRepository groupRepository;
 
@@ -31,5 +27,4 @@ public class BotsDataCatalog implements ICatalogData {
 
     private final InvitationTokenRepository invitationTokenRepository;
 
-//    private final UserRoleRepository userRoleRepository;
 }
