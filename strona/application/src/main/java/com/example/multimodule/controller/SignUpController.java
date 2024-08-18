@@ -39,7 +39,7 @@ public class SignUpController {
             userService.registerUser(userDTO);
             model.addAttribute("success", "Your account has been created successfully");
             LOGGER.info("Account created successfully for {}", userDTO.getEmail());
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             LOGGER.error("Error during registration: {}", e.getMessage());
         }
