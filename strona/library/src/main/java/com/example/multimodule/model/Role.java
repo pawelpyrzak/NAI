@@ -20,6 +20,4 @@ public class Role {
 
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 }

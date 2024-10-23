@@ -49,6 +49,7 @@ public class SignUpService {
         data.getUserRepository().save(user);
 
     }
+
     private String encodePassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }

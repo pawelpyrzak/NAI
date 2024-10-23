@@ -6,13 +6,13 @@
 </head>
 <body>
 <h1>User Groups</h1>
-<div th:if="${!groups}">
+<div th:if="${groups.isEmpty()}">
   <p>No groups found.</p>
 </div>
 <div th:if="${groups}">
 <ul>
   <li th:each="group : ${groups}">
-    <a th:href="@{'/groups/' + ${group.token}}"
+    <a th:href="@{'/group/' + ${group.uuid}}"
        th:text="${group.name}"></a>
   </li>
 </ul>

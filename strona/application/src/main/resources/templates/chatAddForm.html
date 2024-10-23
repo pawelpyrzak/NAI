@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Communicator UUID Validation</title>
+</head>
+<body>
+<h2>Choose a communicator and enter UUID</h2>
+<div th:if="${error}">
+    <p class="error" th:text="${error}"></p>
+</div>
+<div th:if="${success}">
+    <p class="success" th:text="${success}"></p>
+</div>
+<h1>Info</h1>
+
+
+<form method="post" th:action="@{'/group/{uuid}/admin/chats'(uuid=${uuid})}">
+    <label for="chatPlatformName">Communicator:</label>
+    <select name="chatPlatformName" id="chatPlatformName">
+        <option th:each="communicator : ${communicators}" th:value="${communicator.name}" th:text="${communicator.name}">
+        </option>
+    </select>
+    <br><br>
+    <label for="chat_uuid">UUID:</label>
+    <input type="text" name="chat_uuid" id="chat_uuid" required/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <br><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

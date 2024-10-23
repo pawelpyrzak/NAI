@@ -8,6 +8,7 @@
 <body>
 <div class="signup-container">
     <form id="signupForm" action="/signup" method="post" th:action="@{/signup}" th:object="${userDTO}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <h2>SIGN UP</h2>
         <p th:errors="*{termsAgreed}" class="error"
            th:if="${#fields.hasErrors('termsAgreed')}"></p>
@@ -59,7 +60,8 @@
         przetwarzanie moich danych zgodnie z RODO.
 
         <button type="submit">Zaloz konto</button>
-        <a href="/logins" class="ca">Masz juz konto?</a>
+        <a href="/login" class="ca">Masz juz konto?</a>
+
     </form>
 </div>
 </body>

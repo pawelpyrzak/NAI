@@ -1,130 +1,124 @@
 package com.example.multimodule.controller;
 
+import com.example.multimodule.contract.ChatDTO;
 import com.example.multimodule.contract.GroupAnnouncementDTO;
-import com.example.multimodule.contract.GroupDTO;
 import com.example.multimodule.contract.InvitationTokenDTO;
 import com.example.multimodule.model.Group;
-import com.example.multimodule.model.GroupAnnouncement;
-import com.example.multimodule.model.InvitationToken;
-import com.example.multimodule.model.User;
+import com.example.multimodule.service.ChatAddService;
 import com.example.multimodule.service.GroupService;
 import com.example.multimodule.service.MessagesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
-@RequestMapping("/groups")
+@RequestMapping("/group")
 @RequiredArgsConstructor
 public class GroupController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupController.class);
     private final GroupService groupService;
     private final MessagesService messagesService;
+    private final ChatAddService chatAddService;
 
-    @GetMapping
-    public String getUserGroups(Model model, Principal principal) {
-        List<Group> groups = groupService.findGroupsByUserByEmail(principal.getName());
-        model.addAttribute("groups", groups);
-        return "groups";
+    @GetMapping("")
+    public String getGroup() {
+        return "redirect:/groups";
     }
 
-    @GetMapping("/{token}")
-    public String getGroupMessages(@PathVariable String token, Model model) {
+    @GetMapping("/{uuid}/messages")
+    public String getGroupMessages(@PathVariable UUID uuid, Model model) {
         try {
-            model.addAttribute("messages", messagesService.findGroupsMessagesByGroupToken(token));
+            model.addAttribute("messages", messagesService.findGroupsMessagesByGroupToken(uuid));
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
-
         return "groupMessages";
     }
 
-    @GetMapping("/create")
-    public String getFormOfCreateGroup() {
-        return "groupCreate";
+    @GetMapping("/{uuid}")
+    public String getGroupPage(@PathVariable UUID uuid) {
+        return "groupPage";
     }
 
-    @GetMapping("/{token}/announcement")
-    public String getGroupAnnouncement(@PathVariable String token, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        try {
-            Group group = groupService.findGroupByToken(token);
-            User user = groupService.findUserByEmail(userDetails.getUsername());
-            boolean isAdmin = groupService.isAdmin(user, group.getId());
-            if (!isAdmin) {
-                return "redirect:/groups/" + token;
-            }
-            GroupAnnouncementDTO groupAnnouncementDTO = new GroupAnnouncementDTO();
-            groupAnnouncementDTO.setGroup(group);
-            model.addAttribute("announcement", groupAnnouncementDTO);
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-        }
-
+    @GetMapping("/{uuid}/admin/announcement")
+    public String getGroupAnnouncement(@PathVariable UUID uuid, Model model) {
+        GroupAnnouncementDTO groupAnnouncementDTO = new GroupAnnouncementDTO();
+        groupAnnouncementDTO.setGroup(groupService.findGroupByToken(uuid));
+        model.addAttribute("announcement", groupAnnouncementDTO);
         return "groupAnnouncement";
     }
 
-
-    @PostMapping("/{token}/announcement")
-    public String GroupAnnouncement(@PathVariable String token, Model model, @AuthenticationPrincipal UserDetails userDetails, GroupAnnouncementDTO announcementDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    @PostMapping("/{uuid}/admin/announcement")
+    public String GroupAnnouncement(@PathVariable UUID uuid, Model model, @ModelAttribute GroupAnnouncementDTO announcementDTO, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                groupService.createGroupAnnouncement(announcementDTO);
+                model.addAttribute("success", "Announcement created");
+            } catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        } else {
             model.addAttribute("errors", bindingResult);
-            return "signUpForm";
         }
-        try {
-            Group group = announcementDTO.getGroup();
-            User user = groupService.findUserByEmail(userDetails.getUsername());
-
-            boolean isAdmin = groupService.isAdmin(user, group.getId());
-            if (!isAdmin) {
-                model.addAttribute("error", "No permissions");
-                return "groupMessages";
-            }
-            groupService.createGroupAnnouncement(announcementDTO, user);
-            model.addAttribute("success", "Group successful create");
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-        }
-
         return "groupAnnouncement";
     }
 
-    @GetMapping("/{token}/info")
-    public String getGroupInfo(@PathVariable String token, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    @GetMapping("/{uuid}/admin/info")
+    public String getGroupInfo(@PathVariable UUID uuid, Model model) {
         try {
-            Group group = groupService.findGroupByToken(token);
-            User user = groupService.findUserByEmail(userDetails.getUsername());
-            boolean isAdmin = groupService.isAdmin(user, group.getId());
-            if (!isAdmin) {
-                return "redirect:/groups/" + token;
-            }
-            InvitationTokenDTO invitationToken =new InvitationTokenDTO();
-            invitationToken.setGroup(group);
-            model.addAttribute("invitationToken", invitationToken);
+            Group group = groupService.findGroupByToken(uuid);
+            List<InvitationTokenDTO> invitationTokens = groupService.findInvitationByGroup(group);
+            model.addAttribute("invitations", invitationTokens);
+            model.addAttribute("group", group);
+
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
-
+        model.addAttribute("uuid", uuid);
         return "groupInfo";
     }
-    @PostMapping("/create")
-    public String createGroup(GroupDTO groupDTO, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        try {
-            groupDTO.setUserEmail(userDetails.getUsername());
-            groupService.CreateGroup(groupDTO);
-            model.addAttribute("success", "Group created");
 
+    @PostMapping("/{uuid}/admin/info")
+    public String getCreateInvitationToken(@PathVariable UUID uuid, Model model, @ModelAttribute InvitationTokenDTO invitationToken) {
+        System.out.println(invitationToken.getExpiryDate());
+        try {
+            Group group = groupService.findGroupByToken(uuid);
+            groupService.addInvitationToken(invitationToken, group);
+            List<InvitationTokenDTO> invitationTokens = groupService.findInvitationByGroup(group);
+            model.addAttribute("invitations", invitationTokens);
+            model.addAttribute("group", group);
+            model.addAttribute("success", "Stworzono zaproszenie");
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
         }
-        return "groupCreate";
+        return "groupInfo";
+    }
+
+    @GetMapping("/{uuid}/admin/chats")
+    public String showChatForm(Model model, @PathVariable UUID uuid) {
+        model.addAttribute("communicators", chatAddService.getAllChatPlatform());
+        model.addAttribute("uuid", uuid);
+        LOGGER.info("chat get");
+        return "chatAddForm";
+    }
+
+    @PostMapping("/{uuid}/admin/chats")
+    public String addChat(@ModelAttribute ChatDTO chatDTO, Model model, @PathVariable UUID uuid) {
+        LOGGER.info("chat post");
+        Group group = groupService.findGroupByToken(uuid);
+        try {
+            chatAddService.AddChat(chatDTO, group);
+            model.addAttribute("success", "Chat added to group");
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "chatAddForm";
     }
 }

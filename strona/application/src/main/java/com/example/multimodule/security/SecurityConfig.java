@@ -1,4 +1,4 @@
-package com.example.multimodule.sec;
+package com.example.multimodule.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +22,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/","/signup", "/login", "/css/**", "/js/**","/images/**").permitAll()
-                                .requestMatchers("/home", "/group").authenticated()
+                                .requestMatchers("/","/files/**", "/signup", "/login", "/css/**", "/js/**", "/images/**", "/error").permitAll()
+                                .requestMatchers("/home", "/groups", "/group","/invite").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
@@ -35,8 +35,17 @@ public class SecurityConfig {
                 .logout(logout ->
                         logout
                                 .logoutUrl("/logout")
+                                .invalidateHttpSession(true) // Invalidate session
+                                .clearAuthentication(true)   // Clear authentication
+                                .deleteCookies("JSESSIONID")
                                 .logoutSuccessUrl("/login")
+                                 // Delete session cookie
                                 .permitAll()
+                ).exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .authenticationEntryPoint((request, response, authException) -> {
+                                    response.sendRedirect("/error");
+                                })
                 );
 
         return http.build();

@@ -2,28 +2,31 @@ package com.example.multimodule.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "\"Group\"")
-
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "group")
-    private List<UserGroupRole> userGroups;
-
+    @Column(nullable = false)
     private String name;
 
-    @Column( length = 64)
-    private String token;
+    @Column(nullable = false, length = 32)
+    private UUID uuid;
+
+    @OneToMany(mappedBy = "group")
+    private Set<GroupAnnouncement> announcements = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -31,20 +34,18 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "chat_id")
     )
-    private Set<Chat> chats;
+    private Set<Chat> chats = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany
+    @JoinTable(
+            name = "User_Group",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private Set<UserGroupRole> userGroupRoles = new HashSet<>();
-
-    public Group( String name, String token) {
+    public Group(String name, UUID uuid) {
         this.name = name;
-        this.token = token;
-        this.chats = new HashSet<>();
-    }
-    public Group() {
-        this.chats = new HashSet<>();
+        this.uuid = uuid;
     }
 }

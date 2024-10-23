@@ -1,23 +1,31 @@
 package com.example.multimodule.contract;
 
 import com.example.multimodule.model.Group;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class InvitationTokenDTO {
-
 
     private Long id;
 
-    @Column(length = 64)
     private String token;
 
     private Group group;
+    private String expiryDate;
+    private LocalDate expiryDateTime;
 
-    private Timestamp expiryDate;
+    public InvitationTokenDTO(String token, Group group, LocalDate expiryDateTime) {
+        this.token = token;
+        this.group = group;
+        this.expiryDateTime = expiryDateTime;
+    }
+
 }

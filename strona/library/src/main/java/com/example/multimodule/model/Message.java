@@ -16,13 +16,17 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String content;
 
-    @ManyToOne
-    private Chat chat;
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
 
+    @Column(nullable = false)
     private String username;
 
-    private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
+
 }

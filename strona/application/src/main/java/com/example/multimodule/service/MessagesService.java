@@ -8,14 +8,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MessagesService {
     private final ICatalogData data;
 
-    public List<MessagesDTO> findGroupsMessagesByGroupToken(String token) throws MessagesNotFoundException {
-        List<Message> list = data.getMessageRepository().findAllByGroupToken(token);
+    public List<MessagesDTO> findGroupsMessagesByGroupToken(UUID uuid) throws MessagesNotFoundException {
+        List<Message> list = data.getMessageRepository().findAllByGroupToken(uuid);
         if (list.isEmpty()) {
             throw new MessagesNotFoundException("Brak wiadomości");
         }

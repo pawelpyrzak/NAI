@@ -19,5 +19,7 @@ public interface ICatalogData {
 
     InvitationTokenRepository getInvitationTokenRepository();
 
+    FileRepository getFileRepository();
+
 
 }

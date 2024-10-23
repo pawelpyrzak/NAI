@@ -9,21 +9,22 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "User_Group_role")
 public class UserGroupRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
     @ManyToOne
-    @JoinColumn(name = "User_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "Group_id")
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
     public UserGroupRole(Role role, User user, Group group) {

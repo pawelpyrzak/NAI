@@ -18,33 +18,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();;
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
+    @ManyToMany(mappedBy = "users")
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<UserGroupRole> userGroupRoles = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "users_role", // Nazwa tabeli łączącej
+            joinColumns = @JoinColumn(name = "user_id"), // Klucz obcy do `User`
+            inverseJoinColumns = @JoinColumn(name = "role_id") // Klucz obcy do `Role`
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User(String firstName, String lastName, String password, String email) {
         this.firstName = firstName;

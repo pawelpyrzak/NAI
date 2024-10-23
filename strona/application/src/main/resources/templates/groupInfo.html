@@ -1,39 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>UserInfo</title>
+    <style>
+        /* General styling for the body */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Styling for the error message */
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Styling for headers */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for content areas */
+        .content {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for form elements */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <title>UserInfo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
 </head>
 <body>
 <div th:if="${error}">
-  <p class="error" th:text="${error}"></p>
+    <p class="error" th:text="${error}"></p>
+</div>
+<div th:if="${success}">
+    <p class="success" th:text="${success}"></p>
 </div>
 <h1>Info</h1>
 
-<!-- If the token is not empty, display the token and expiry date -->
-<div th:if="${invitationToken.getToken()}">
-  <div class="content" th:text="${invitationToken.getToken()}"></div>
-  <div class="content" th:text="${invitationToken.getExpiryDate()}"></div>
-</div>
-
 <!-- If the token is empty, display the form to create a new token -->
-<div th:if="${invitationToken.getToken()} == null || ${invitationToken.getToken()} == ''">
-  <form th:action="@{/create-token}" method="post">
+<form method="post" th:action="@{'/group/{uuid}/admin/info'(uuid=${uuid})}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div>
-      <label for="expiryDate">Expiry Date:</label>
-      <input type="date" id="expiryDate" name="expiryDate" required>
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="date" id="expiryDate" name="expiryDate" required>
     </div>
-    <input type="hidden" name="groupId" th:value="${invitationToken.getGroup().getId()}">
     <div>
-      <button type="submit">Generate Token</button>
+        <button type="submit">Generate Token</button>
     </div>
-  </form>
-</div>
+</form>
 
 <!-- Display the group information -->
-<div class="content" th:text="${invitationToken.getGroup().getId()}"></div>
-<div class="content" th:text="${invitationToken.getGroup().getName()}"></div>
-<div class="content" th:text="${invitationToken.getGroup().getToken()}"></div>
+<div th:if="${group}">
+    <div class="content" th:text="${group.name}"></div>
+    <div class="content" th:text="${group.uuid}"></div>
+    <div class="content">Users:</div>
 
+    <div th:each="user : ${group.getUsers()}" class="content">
+        <div class="content" th:text="${user.firstName}"></div>
+        <div class="content" th:text="${user.lastName}"></div>
+        <div class="content" th:text="${user.email}"></div>
+    </div>
+</div>
+
+<h2>Zaproszenia</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Token</th>
+        <th>Grupa</th>
+        <th>Data ważności</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invitation : ${invitations}" class="content">
+        <td th:text="${invitation.token}">Token</td>
+        <td th:text="${invitation.group.name}">Group Name</td>
+        <td th:text="${invitation.expiryDateTime}">Date</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Dodaj jQuery UI dla wyboru daty -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(function () {
+        $("#expiryDate").datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>
 </body>
 </html>

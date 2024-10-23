@@ -1,9 +1,12 @@
 package com.example.multimodule.contract;
 
 import com.example.multimodule.model.User;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,11 +20,11 @@ public class GroupDTO {
 
     private User user;
 
-    private String token;
+    private UUID uuid;
 
-    public GroupDTO(Long id, String name, String token) {
+    public GroupDTO(Long id, String name, UUID uuid) {
         this.id = id;
         this.name = name;
-        this.token = token;
+        this.uuid = uuid;
     }
 }

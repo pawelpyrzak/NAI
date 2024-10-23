@@ -26,5 +26,6 @@ public class BotsDataCatalog implements ICatalogData {
     private final GroupAnnouncementRepository groupAnnouncementRepository;
 
     private final InvitationTokenRepository invitationTokenRepository;
+    private final FileRepository fileRepository;
 
 }

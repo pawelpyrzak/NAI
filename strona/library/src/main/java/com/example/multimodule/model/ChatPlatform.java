@@ -5,16 +5,18 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "Chat_Platform")
 @Getter
 @Setter
+@Table(name = "chatplatform")
 public class ChatPlatform {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(length = 100)
+    @Column(nullable = false)
     private String name;
 }
