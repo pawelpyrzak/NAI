@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kalendarz Miesięczny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .other-month {
+            color: #aaa;
+        }
+
+        .popup-button {
+            font-size: 18px;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .popup-overlay {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Sprawia, że popup wyświetla się nad innymi elementami */
+        }
+
+        /* Styl dla okna popup */
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Styl dla przycisku zamknięcia */
+        .close-button {
+            margin-top: 10px;
+            color: white;
+            background-color: red;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="calendar">
+    <h2>Miesiąc: [[${month}]] / Rok: [[${year}]]</h2>
+    <div class="navigation">
+        <input type="date" id="datePicker" value="[[${year}}]-[[${month}]]-01"/>
+        <button class="button" onclick="navigateToSelectedDate()">Wybierz Miesiąc</button>
+        <button class="button"
+                onclick="window.location.href='/calendar/week?date=' + new Date(currentYear, currentMonth - 1, 1).toISOString().split('T')[0]">
+            Widok tygodnia
+        </button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Poniedziałek</th>
+            <th>Wtorek</th>
+            <th>Środa</th>
+            <th>Czwartek</th>
+            <th>Piątek</th>
+            <th>Sobota</th>
+            <th>Niedziela</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="week : ${weeks}">
+            <td th:each="day : ${week}"
+                th:classappend="${day.monthValue != month ? 'other-month' : ''}">
+                <div th:text="${day.dayOfMonth}"></div>
+                <div th:each="task : ${tasksByDate.get(day)}">
+
+                    <p th:text="${task.name}" style="color: blue;" class="popup-button"
+                       onclick="openPopup(this)"
+                       th:attr="data-task-name=${task.name},
+                       data-task-description=${task.description},
+                       data-task-date=${day.dayOfMonth + '.' + day.monthValue + '.' + day.year},
+                       data-task-status=${task.status},data-task-user=${task.user},data-task-priority=${task.priority}">
+                    </p>
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="popup-overlay" id="popup" style="display: none;">
+        <div class="popup-content">
+            <p><strong>Nazwa:</strong> <span id="popup-task-name"></span></p>
+            <p><strong>Opis:</strong> <span id="popup-task-description"></span></p>
+            <p><strong>Data:</strong> <span id="popup-task-date"></span></p>
+            <p><strong>Status:</strong> <span id="popup-task-status"></span></p>
+            <p><strong>User:</strong> <span id="popup-task-priority"></span></p>
+
+            <p><strong>User:</strong> <span id="popup-task-user"></span></p>
+
+            <button class="close-button" onclick="closePopup()">Zamknij</button>
+        </div>
+    </div>
+    <div class="navigation">
+        <button class="button" onclick="navigate(-1)">Poprzedni</button>
+        <button class="button" onclick="navigateToCurrent()">Aktualny</button>
+        <button class="button" onclick="navigate(1)">Następny</button>
+
+    </div>
+</div>
+
+<script>
+    const currentYear = [[${year}]];
+    const currentMonth = [[${month}]];
+
+    function navigate(offset) {
+        let month = currentMonth + offset;
+        let year = currentYear;
+
+        if (month < 1) {
+            month = 12;
+            year -= 1;
+        } else if (month > 12) {
+            month = 1;
+            year += 1;
+        }
+
+        window.location.href = `/calendar?year=${year}&month=${month}`;
+    }
+
+    function navigateToCurrent() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+
+        window.location.href = `/calendar?year=${year}&month=${month}`;
+    }
+
+    function navigateToSelectedDate() {
+        const selectedDate = document.getElementById('datePicker').value;
+        if (selectedDate) {
+            const [year, month] = selectedDate.split('-');
+            window.location.href = `/calendar?year=${year}&month=${month}`;
+        }
+    }
+</script>
+<script>
+    function openPopup(element) {
+        document.getElementById('popup-task-name').textContent = element.getAttribute('data-task-name');
+        document.getElementById('popup-task-description').textContent = element.getAttribute('data-task-description');
+        document.getElementById('popup-task-date').textContent = element.getAttribute('data-task-date');
+        document.getElementById('popup-task-status').textContent = element.getAttribute('data-task-status');
+        document.getElementById('popup-task-user').textContent = element.getAttribute('data-task-user');
+        document.getElementById('popup-task-priority').textContent = element.getAttribute('data-task-priority');
+
+
+        // Show popup
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        // Hide popup
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
+</body>
+</html>

@@ -1,4 +1,3 @@
 rootProject.name = 'strona'
+include("application","library")
 
-include 'library'
-include 'application'

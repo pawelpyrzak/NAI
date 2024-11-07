@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/","/files/**", "/signup", "/login", "/css/**", "/js/**", "/images/**", "/error").permitAll()
+                                .requestMatchers("/","/tasks","/create-task","/files/**", "/signup", "/login", "/css/**", "/js/**", "/images/**", "/error","/api/**","/issues","/calendar","/calendar/week").permitAll()
                                 .requestMatchers("/home", "/groups", "/group","/invite").authenticated()
                                 .anyRequest().authenticated()
                 )

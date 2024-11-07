@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tygodniowy Kalendarz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div class="calendar">
+    <div class="navigation">
+
+        <input type="date" id="datePicker" value="[[${currentDate}]]"/>
+        <button class="button" onclick="navigateToSelectedDate()">Wybierz Tydzień</button>
+        <button class="button" onclick="navigateToMonth()">Widok Miesięczny</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Poniedziałek</th>
+            <th>Wtorek</th>
+            <th>Środa</th>
+            <th>Czwartek</th>
+            <th>Piątek</th>
+            <th>Sobota</th>
+            <th>Niedziela</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:each="day : ${days}">
+                <p  th:text="${day.dayOfMonth}"></p>
+                <p th:each="task : ${tasksByDate.get(day)}"
+                   th:text="${task.name}"
+                   style="color: blue;"></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="navigation">
+        <button class="button" onclick="navigate(-7)">Poprzedni tydzień</button>
+        <button class="button" onclick="navigateToCurrent()">Aktualny tydzień</button>
+        <button class="button" onclick="navigate(7)">Następny tydzień</button>
+    </div>
+</div>
+
+<script>
+    const currentDate = new Date('[[${currentDate}]]');
+
+    function navigate(offset) {
+        const nextWeek = new Date(currentDate);
+        nextWeek.setDate(currentDate.getDate() + offset);
+
+        window.location.href = `/calendar/week?date=${nextWeek.toISOString().split('T')[0]}`;
+    }
+
+    function navigateToCurrent() {
+        window.location.href = `/calendar/week?date=${new Date().toISOString().split('T')[0]}`;
+    }
+
+    function navigateToSelectedDate() {
+        const selectedDate = document.getElementById('datePicker').value;
+        if (selectedDate) {
+            window.location.href = `/calendar/week?date=${selectedDate}`;
+        }
+    }
+
+    function navigateToMonth() {
+        const month = currentDate.getMonth() + 1; // +1, ponieważ miesiące są zero-indeksowane
+        const year = currentDate.getFullYear();
+        window.location.href = `/calendar?year=${year}&month=${month}`;
+    }
+</script>
+</body>
+</html>

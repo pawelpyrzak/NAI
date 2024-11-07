@@ -1,7 +1,5 @@
 package com.example.multimodule;
 
-import io.micrometer.common.util.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,13 +1,11 @@
 package com.example.multimodule.contract;
 
 import com.example.multimodule.model.Group;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

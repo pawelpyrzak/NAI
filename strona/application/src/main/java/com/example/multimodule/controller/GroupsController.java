@@ -1,6 +1,5 @@
 package com.example.multimodule.controller;
 
-import com.example.multimodule.Validator;
 import com.example.multimodule.contract.GroupDTO;
 import com.example.multimodule.model.Group;
 import com.example.multimodule.service.GroupService;

@@ -4,17 +4,14 @@ import com.example.multimodule.model.User;
 import com.example.multimodule.repositories.ICatalogData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +26,8 @@ public class UserService implements UserDetailsService {
         User user;
         user = data.getUserRepository().findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
         // Initialize roles collection
-        user.getRoles().size(); // Force initialization
-
+        var size = user.getRoles().size(); // Force initialization
+        System.out.println(size);
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
