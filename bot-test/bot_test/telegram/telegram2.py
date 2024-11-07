@@ -17,7 +17,9 @@ from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes, ApplicationBuilder, MessageHandler, filters, CallbackContext
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, M2M100ForConditionalGeneration, M2M100Tokenizer, pipeline
 
-from db_config import get_db_connection
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from conf.db_config import get_db_connection
 
 forbidden_words = ["spam", "kurde", "ban", "blocked", "test", "cat"]
 user_violations = defaultdict(int)

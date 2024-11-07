@@ -55,7 +55,7 @@ def send_message(update, context, text):
 
 def save_all_messages(update, context):
     context.user_data.setdefault('all_messages', []).append(update.message.text)
-    block_words(update, context)  # sprawdzenie słów blokowanych po zapisaniu wiadomości    
+    block_words(update, context)  # sprawdzenie słów blokowanych po zapisaniu wiadomości
 
 
 # funkcja generująca streszczenie za pomocą transformers
@@ -750,7 +750,7 @@ def main():
     # obsługa streszczenia wszystkich zapisane wiadomości
     dp.add_handler(CommandHandler("summary_all", summary_all))
 
-    # obsługa streszczenia wszystkich zapisanych wiadomości i zwaracanie ich w formie głosówki 
+    # obsługa streszczenia wszystkich zapisanych wiadomości i zwaracanie ich w formie głosówki
     dp.add_handler(CommandHandler("summary_all_speech", summary_all_speech))
 
     # obsługa streszczenia ostatniej wiadomości

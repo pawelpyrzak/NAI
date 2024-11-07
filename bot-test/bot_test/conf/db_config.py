@@ -1,7 +1,6 @@
 import psycopg2
 from psycopg2 import OperationalError
 
-
 def get_db_connection():
     try:
         return psycopg2.connect(
