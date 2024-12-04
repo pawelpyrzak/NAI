@@ -1,0 +1,146 @@
+
+
+.header {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    gap: 40px; 
+    width: 100%; 
+    height: 80px; 
+    background: #232222; 
+    position: fixed; 
+    top: 50px; 
+    left: 0; 
+    border-bottom: 1px solid #424244;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px; 
+}
+
+.header h1{
+    color:#f5f4f3;
+    margin-left: 40px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.create-team button{
+    padding: 10px 22px; 
+    margin-right: 20px; 
+    width: auto; 
+    background-color: #3e4575; 
+    color: #fff; 
+    font-size: 13px; 
+    font-weight: 200; 
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+.header {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    gap: 40px; 
+    width: 100%; 
+    height: 80px; 
+    background: #232222; 
+    position: fixed; 
+    top: 50px; 
+    left: 0; 
+    border-bottom: 1px solid #424244;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px; 
+}
+
+.header h1{
+    color:#f5f4f3;
+    margin-left: 40px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.create-team button{
+    padding: 10px 22px; 
+    margin-right: 20px; 
+    width: auto; 
+    background-color: #3e4575; 
+    color: #fff; 
+    font-size: 13px; 
+    font-weight: 200; 
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+.header {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start; 
+    gap: 40px; 
+    width: 100%; 
+    height: 80px; 
+    background: #232222; 
+    position: fixed; 
+    top: 50px; 
+    left: 0; 
+    border-bottom: 1px solid #424244;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px; 
+}
+
+.header h1{
+    color:#f5f4f3;
+    margin-left: 40px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.create-team button{
+    padding: 10px 22px; 
+    margin-right: 20px; 
+    width: auto; 
+    background-color: #3e4575; 
+    color: #fff; 
+    font-size: 13px; 
+    font-weight: 200; 
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+.team-container {
+    width: 100vw; /* Szerokość całego widoku przeglądarki */
+    height: calc(100vh - 130px); /* Cała wysokość widoku minus wysokość nagłówka */
+    background: #232222;
+    position: absolute; /* Aby odnieść się do układu całej strony */
+    top: 130px; /* Przesunięcie poniżej nagłówka */
+    left: 0;
+    overflow: auto; /* Dla przewijania, jeśli zawartość przekracza dostępne miejsce */
+}
+
+.team{
+    border: 1px solid #424244;
+    width: 300px;
+    height: 150px;
+    border-radius: 10px;
+    margin-left: 40px;
+    margin-top: 60px;
+    background-color: #3e4575be;
+}

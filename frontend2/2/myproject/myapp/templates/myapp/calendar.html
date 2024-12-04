@@ -1,0 +1,14 @@
+{% extends 'myapp/base.html' %}  
+
+{% block title %} Kalendarz {% endblock %}
+
+{% block content %}
+<div class="main-content">
+<div class= 'content'>
+{% include 'myapp/calendarRaw.html' %}
+</div>
+</div>
+{% endblock %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}">

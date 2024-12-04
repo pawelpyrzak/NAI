@@ -1,0 +1,15 @@
+
+.home-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 0;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background: linear-gradient(rgb(46, 46, 48), rgba(18, 18, 44, 0.81));
+
+
+}

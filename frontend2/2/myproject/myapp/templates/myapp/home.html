@@ -1,0 +1,15 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %} Moje zadania {% endblock %}
+
+
+
+{% block content %}
+<div class="main-content">
+    <div class="content">
+        <h1 class="current-date">Witaj, {{ user.first_name }}!</h1>
+        <p>Oto Twoja strona główna.</p>
+        
+    </div>
+</div>
+{% endblock %}

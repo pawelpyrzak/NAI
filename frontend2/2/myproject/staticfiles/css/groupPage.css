@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.topbar-header {
+    background: rgba(26, 26, 26, 0.67);
+    color: #f5f4f3;
+    text-align: left; /* Wyrównanie tekstu do lewej */
+    height: 105px;
+    border-bottom: 1px solid #424244;
+    width: 100%;
+    top: 0; /* Ustawienie elementu na dole */
+    left: 0; /* Ustawienie elementu po lewej stronie */
+    display: flex; /* Użycie flexbox do układania elementów */
+    align-items: center; /* Wyrównanie elementów w pionie */
+    padding-left: 20px; /* Padding od lewej */
+
+
+}
+
+.topbar-header h1 {
+    align-items: center;
+    font-size: 18px; /* Rozmiar czcionki nagłówka */
+    color: #ffffff; /* Kolor czcionki nagłówka */
+    margin-right: 20px; /* Odstęp między nagłówkiem a linkami */
+
+}
+
+.topbar-header a {
+    font-size: 14px;
+    display: inline-block; /* Blokowanie linków */
+    margin: 0 10px; /* Odstępy między linkami */
+    color: #ffffff; /* Kolor tekstu */
+    text-decoration: none; /* Bez podkreślenia */
+    transition: background-color 0.3s; /* Płynna zmiana koloru tła */
+}
+
+.topbar-header a:hover {
+    background-color: #0056b3; /* Kolor tła przy najechaniu */
+}

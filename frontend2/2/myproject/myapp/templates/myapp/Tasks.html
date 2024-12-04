@@ -1,0 +1,14 @@
+{% extends 'myapp/base.html' %}  
+
+{% block title %} Moje zadania {% endblock %}
+
+{% block content %}
+<div class="main-content">
+<div class= 'content'>
+    <div class = task-container>
+{% include 'myapp/tasksRaw.html' %}
+</div>
+</div>
+</div>
+{% endblock %}
+

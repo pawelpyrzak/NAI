@@ -1,0 +1,184 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Wyłącza przewijanie globalne */
+    height: 100%; /* Ustawia pełną wysokość dla widoku */
+}
+
+/* Kontener z zadaniami */
+.task-container {
+    padding-top: 50px;
+}
+
+/* Nagłówek sekcji z zadaniami */
+.header {
+    display: flex;
+    align-items: center; /* Wyrównanie elementów w pionie */
+    justify-content: flex-start; /* Wszystkie elementy headera blisko siebie po lewej stronie */
+    gap: 40px; /* Odstępy między sekcjami */
+    width: 100%; /* Header na pełną szerokość strony */
+    height: 80px; /* Ustalona wysokość headera */
+    background: #232222; /* Tło */
+    position: fixed; /* Przyklejenie headera do góry */
+    top: 50px; /* Ustawienie na górze */
+    left: 0; /* Przy lewej krawędzi */
+    border-bottom: 1px solid #424244;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px; /* Odstępy między przyciskiem i wyszukiwarką */
+}
+
+.header h1{
+    color:#f5f4f3;
+    margin-left: 40px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.header user-avatar{
+    padding-left: 20px;
+     display: inline-block;
+}
+
+
+.create-task button{
+    padding: 10px 22px; 
+    margin-right: 20px; 
+    width: auto; 
+    background-color: #3e4575; 
+    color: #fff; 
+    font-size: 13px; 
+    font-weight: 200; 
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+.search-engine input {
+    width: 600px;
+    padding: 10px 15px; 
+    border-radius: 20px; 
+    border: 1px solid #424244;
+    background-color:#232222;  
+    color: #f0f0f0; 
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+}
+
+.search-engine input:focus {
+    outline: none; 
+    border: 1px solid #424244;
+    background-color:#23222233;  
+    box-shadow: 0 5px 10px #3e45754f; 
+}
+.task-group{
+    padding-top: 40px;
+}
+
+.task-group-last{
+    
+
+}
+
+.task-group-last h3{
+    color:#f5f4f3;
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 40px; 
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* Kontener tabeli */
+.table-container {
+    position: absolute; /* Pozycjonowanie absolutne */
+    top: 130px; /* Odstęp od góry równy wysokości headera (jeśli to odpowiada jego wysokości) */
+    left: 0; /* Pozycja od lewej */
+    width: 100%; /* Pełna szerokość strony */
+    height: calc(100% - 50px); /* Wysokość tabeli pomniejszona o wysokość headera */
+    margin: 0; /* Brak marginesów */
+    box-sizing: border-box; /* Uwzględnia padding w wymiarach */
+    border: none; /* Usunięcie obramowania */
+    overflow: auto; /* Dodanie przewijania, jeśli treść tabeli przekracza stronę */
+    background: #232222;
+    
+}
+
+/* Tabela */
+table {
+    width: 100%; /* Pełna szerokość kontenera */
+    height: 80%; /* Tabela zajmuje całą wysokość kontenera */
+    border-collapse: collapse; /* Usunięcie odstępów między komórkami */
+    
+}
+
+.table-header {
+    position: fixed; 
+    width: 100%;
+
+}
+/* Nagłówki tabeli */
+.table-header th {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f5f4f3;
+    padding: 12px 10px; /* Większy padding */
+}
+.table-row{
+    
+}
+
+/* Komórki tabeli */
+table th, table td {
+    padding: 10px 8px; /* Odstępy w komórkach */
+    text-align: left; /* Tekst wyrównany do lewej */
+    border-bottom: 1px solid #424244; /* Linie między wierszami */
+    color: #f5f4f3; /* Kolor tekstu */
+    padding-left: 65px;
+    font-size: 14px;
+}
+
+.created-by-item-avatar{
+    border-radius: 50px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    align-items: center;
+    background: #3e4575;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.asignee-item-avatar{
+    border-radius: 50px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    align-items: center;
+    background: #649678;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+/* Responsywność */
+@media screen and (max-width: 768px) {
+    .table-container {
+        top: 50px; /* Zachowanie odpowiedniego odstępu */
+        height: calc(100% - 50px); /* Dostosowana wysokość tabeli */
+    }
+
+    table th, table td {
+        padding: 8px 5px; /* Zmniejszone odstępy w komórkach na małych ekranach */
+        font-size: 13px; /* Mniejsza czcionka */
+    }
+}
+
+

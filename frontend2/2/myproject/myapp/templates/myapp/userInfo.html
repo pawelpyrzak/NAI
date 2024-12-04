@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>UserInfo</title>
+</head>
+<body>
+<div th:if="${error}">
+  <p class="error" th:text="${error}"></p>
+</div>
+<h1>Info</h1>
+<div class="content" th:text="${user.getEmail()}"></div>
+<div class="content" th:text="${user.getFirstname()}"></div>
+<div class="content" th:text="${user.getLastname()}"></div>
+<div class="content" th:text="${user.getId()}"></div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .message {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .author {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .content {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${error}">
+    <p class="error" th:text="${error}"></p>
+</div>
+<h1>Messages</h1>
+
+<div th:if="${#lists.isEmpty(messages)}">
+    <p class="no-messages">No messages available.</p>
+</div>
+
+<div th:each="message : ${messages}" class="message">
+    <div class="author" th:text="${message.author}">Autor</div>
+    <div class="content" th:text="${message.content}">content</div>
+    <div class="timestamp" th:text="${#temporals.format(message.timestamp, 'HH:mm dd-MM-yyyy')}">Timestamp</div>
+    <div class="chat" th:text="${message.getChatName()}">Autor</div>
+
+</div>
+
+</body>
+</html>

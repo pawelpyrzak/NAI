@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Group Announcement</title>
+</head>
+<body>
+<div th:if="${error}">
+  <p class="error" th:text="${error}"></p>
+</div>
+
+<div th:if="${success}">
+  <p class="success" th:text="${success}"></p>
+</div>
+<div>
+  <h1>Create Group Announcement</h1>
+  <form th:action="@{/group/{token}/announcement(token=${announcement.group.token})}" th:object="${announcement}" method="post">
+    <input type="hidden" name="group" th:value="${announcement.group}"/>
+
+    <!-- Start Time -->
+    <div class="form-field">
+      <label for="startTime">Start Time:</label>
+      <input type="datetime-local" id="startTime" name="startTime" th:field="*{startTime}" required>
+      <div class="error-message" th:if="${errors?.fieldError('startTime')}" th:text="${errors.fieldError('startTime').defaultMessage}"></div>
+    </div>
+
+    <!-- End Time -->
+    <div class="form-field">
+      <label for="endTime">End Time:</label>
+      <input type="datetime-local" id="endTime" name="endTime" th:field="*{endTime}" required>
+      <div class="error-message" th:if="${errors?.fieldError('endTime')}" th:text="${errors.fieldError('endTime').defaultMessage}"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="form-field">
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" rows="4" cols="50" th:field="*{content}" required></textarea>
+      <div class="error-message" th:if="${errors?.fieldError('content')}" th:text="${errors.fieldError('content').defaultMessage}"></div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Submit Announcement</button>
+  </form>
+</div>
+</body>
+</html>
