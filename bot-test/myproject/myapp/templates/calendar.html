@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %} Kalendarz {% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class='content'>
+        {% include 'calendarRaw.html' %}
+    </div>
+</div>
+{% endblock %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <script src="{% static 'js/calendar.js' %}"></script>
+
+    <title>Kalendarz</title>
+</head>
+<body>
+<div class="calendar-container">
+    <div class="header">
+        <h1>Kalendarz</h1>
+    </div>
+    <div class="header-bottom">
+        <div class="navigation">
+            <button class="button" id="btn-today" onclick="goToCurrentMonth()">Dzisiaj</button>
+            <button class="button" id="btn-prev" onclick="changeMonth(-1)">
+                <img src="{% static 'images/left-calendar.svg' %}" alt="Poprzedni" class="icon">
+            </button>
+            <button class="button" id="btn-next" onclick="changeMonth(1)">
+                <img src="{% static 'images/right-calendar.svg' %}" alt="Następny" class="icon">
+            </button>
+        </div>
+        <div class="date">
+            <h2 id="calendar-title">Miesiąc / Rok</h2>
+        </div>
+    </div>
+    <table class="calendar-table">
+        <thead class="calendar-header">
+        <tr>
+            <th class="day-mon">Pon.</th>
+            <th class="day-thu">Wt.</th>
+            <th class="day-wed">Śr.</th>
+            <th class="day-thu">Czw.</th>
+            <th class="day-fri">Pt.</th>
+            <th class="day-sat">Sb.</th>
+            <th class="day-sun">Ndz.</th>
+        </tr>
+        </thead>
+        <tbody id="calendar-body">
+        <!-- Dynamicznie generowane dni kalendarza -->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

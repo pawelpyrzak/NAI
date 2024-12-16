@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Domyślny tytuł{% endblock %}</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/panel.js' %}"></script>
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/bot.js' %}"></script>
+    <script src="{% static 'js/chatWithBot.js' %}"></script>
+</head>
+<body>
+
+<header id="top-bar" class="top-bar">
+    <div class="hamburger" onclick="toggleSidebar()">
+        <img src="../static/images/menu.svg"/>
+    </div>
+    <div class="notifications">
+        <div class="notification-icon" onclick="toggleNotifications()">
+            <img src="../static/images/bell.svg"/>
+        </div>
+
+        <div class="notification-box">
+            <div class="notification-first-section">
+                <h2>Powiadomienia</h2>
+            </div>
+            <div class="notification-item">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="panel">
+
+
+       <img class="profile-icon" src="{{ user.profile.profile_image.url }}" alt="Profile Image" onclick="togglePanel()">
+        <div class="dropdown-settings">
+            <div class="first-section-settings">
+               <img class="user-avatar" src="{{ user.profile.profile_image.url }}" alt="Avatar Image">
+                <h1 class="user-id">{{ user.profile.first_name }} {{ user.profile.last_name }}</h1>
+                <h2 class="user-id">@{{ user.username }} </h2>
+            </div>
+            <div class="second-section-settings">
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+            </div>
+            <div class="third-section-settings">
+                <a href="#">Profil</a>
+                <a href="#">Ustawienia</a>
+                <a href="#">Link</a>
+            </div>
+            <div class="fourth-section-settings">
+                <a href="{% url 'logout' %}">Wyloguj się</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="sidebar" class="sidebar">
+    <nav class="first-section">
+        <a href="{% url 'homepage' %}"><img src="../static/images/homee.svg" class="icon"> Strona główna</a>
+        <a href="{% url 'tasks' %}"><img src="../static/images/check-circle.svg" class="icon"> Moje zadania</a>
+        <a href="{% url 'calendar' %}"><img src="../static/images/calendar.svg" class="icon"> Kalendarz</a>
+        <a href="#"><img src="../static/images/alert-circle.svg" class="icon"> Przypomnienia</a>
+    </nav>
+
+    <div class="second-section">
+        <h2 class="menu-title">
+            <img src="../static/images/chevron-down.svg" class="icon-down" onclick="toggleSection('section1')">
+            Moje zespoły
+        </h2>
+        <div id="section1" class="dropdown-content">
+            <a href="{% url 'teams' %}"><img src="../static/images/create-team.svg" class="icon"> Utwórz zespół</a>
+            <a href="#"><img src="../static/images/icon2.svg" class="icon"> Lorem ipsum1</a>
+            <a href="#"><img src="../static/images/icon3.svg" class="icon"> Lorem ipsum2</a>
+        </div>
+
+        <h2 class="menu-title">
+            <img src="../static/images/chevron-down.svg" class="icon-down" onclick="toggleSection('section2')">
+            Lorem ipsum
+        </h2>
+        <div id="section2" class="dropdown-content">
+            <a href="#"><img src="../static/images/icon1.svg" class="icon"> Lorem ipsum1</a>
+            <a href="#"><img src="../static/images/icon2.svg" class="icon"> Lorem ipsum2</a>
+            <a href="#"><img src="../static/images/icon3.svg" class="icon"> Lorem ipsum3</a>
+        </div>
+
+        <h2 class="menu-title">
+            <img src="../static/images/chevron-down.svg" class="icon-down" onclick="toggleSection('section3')">
+            Lorem ipsum
+        </h2>
+        <div id="section3" class="dropdown-content">
+            <a href="#"><img src="../static/images/icon1.svg" class="icon"> Lorem ipsum1</a>
+            <a href="#"><img src="../static/images/icon2.svg" class="icon"> Lorem ipsum2</a>
+            <a href="#"><img src="../static/images/icon3.svg" class="icon"> Lorem ipsum3</a>
+        </div>
+    </div>
+</div>
+</body>
+<body class="{% block body_class %}home{% endblock %}">
+<div class="main-content">
+    {% block content %}
+
+
+    {% endblock %}
+    </section>
+</div>
+<div id="ai-bot" onclick="toggleChatBotPopup('chatbot-box')">
+    <div class="drag">
+        <img src="../static/images/drag.svg" id="drag">
+    </div>
+    <div class="bot-avatar">
+        <img src="../static/images/bot-image.svg" id="bot-av">
+    </div>
+    <div class="chat-box" id="chatbot-box">
+        <div class="chat-header">
+            <span>ChatBot</span>
+            <div>
+                <img src="../static/images/minus.svg" class="chabot-header-icons" alt="Minimalizuj">
+                <img src="../static/images/x.svg" class="chabot-header-icons" alt="Zamknij">
+            </div>
+        </div>
+
+        <div class="chat-content">
+            <div class="user-messages">
+                <div class="user-avatar"></div>
+                <div class="outgoing-msg">
+                    <div class="outgoing-chats-msg" style="color: #3a12ff">
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="bot-messages">
+                <div class="bot-avatar"></div>
+                <div class="received-msg">
+                    <div class="received-msg-inbox">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="chat-bottom">
+                <div class="input-group">
+                    <input type="text" id="chat-input" placeholder="Write message..." style="color: white;">
+                    <div class="input-icons">
+                        <img src="../static/images/arrow-up-circle%20(1).svg" id="send-button" alt="Wyślij">
+                        <img src="../static/images/mic%20(3).svg" alt="Mikrofon">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<input type="hidden" id="current-user" value="{{ user.profile.first_name }} {{ user.profile.last_name }}">
+</body>
+</html>

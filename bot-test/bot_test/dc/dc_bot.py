@@ -6,15 +6,13 @@ import sys
 from decouple import config
 from discord.ext import commands
 from discord.ui import Button, View
-from docx import Document
 from psycopg2 import OperationalError
 from psycopg2.extras import RealDictCursor
 from transformers import BartForConditionalGeneration, BartTokenizer
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from conf.db_config import get_db_connection
-from conf.methods import *
+from bot_test.bot_config.methods import *
 
 BOT_TOKEN = config("DISCORD_TOKEN")
 

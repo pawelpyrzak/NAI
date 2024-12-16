@@ -1,0 +1,52 @@
+<h1>Wyszukiwanie plików w grupie: {{ group.name }}</h1>
+
+<a href="{% url 'upload_file' group.id %}">
+    <button type="button">Dodaj plik</button>
+</a>
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Szukaj</button>
+</form>
+{% if results %}
+{% if all_files %}
+<h3>Wszystkie pliki</h3>
+<ul>
+    {% for result in results %}
+    <li>
+        <strong>{{ result.payload.file_name }}</strong> -
+        <a href="{% url 'download_file' qdrant_id=result.id %}">Pobierz plik</a>
+        {% if group_member.role == "admin" %}
+        <a href="{% url 'delete_file' group_id=group.id file_uuid=result.id %}">Usuń</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<h3>Wyniki wyszukiwania</h3>
+<form method="get" action=".">
+    <button type="submit">Wyczyść wyszukiwanie</button>
+</form>
+<ul>
+    {% for result in results %}
+    <li>
+        <strong>{{ result.payload.file_name }}</strong> -
+        Dopasowanie: {{ result.score|floatformat:2 }}%
+        <a href="{% url 'download_file' qdrant_id=result.id %}">Pobierz plik</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% else %}
+<p>Brak wyników do wyświetlenia.</p>
+{% endif %}

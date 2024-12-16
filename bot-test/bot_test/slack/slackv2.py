@@ -1,6 +1,5 @@
 import logging
 import os
-import pyjokes
 import re
 import requests
 import sys
@@ -13,11 +12,11 @@ from slack_sdk.errors import SlackApiError
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from conf.db_config import get_db_connection
-from conf.methods import *
+from bot_test.bot_config.methods import *
 
 SLACK_APP_TOKEN = config("SLACK_APP_TOKEN")
 SLACK_BOT_TOKEN = config("SLACK_BOT_TOKEN")
+
 
 app = App(token=SLACK_BOT_TOKEN, name="Joke Bot")
 logger = logging.getLogger(__name__)

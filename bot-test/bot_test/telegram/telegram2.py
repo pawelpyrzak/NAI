@@ -15,12 +15,15 @@ from pathlib import Path
 from psycopg2.extras import RealDictCursor
 from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes, ApplicationBuilder, MessageHandler, filters, CallbackContext
+from tornado.gen import sleep
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, M2M100ForConditionalGeneration, M2M100Tokenizer, pipeline
+import requests
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from conf.db_config import get_db_connection
+from bot_test.bot_config.db_config import get_db_connection
 
+WEBHOOK_URL = "https://angry-melons-crash.loca.lt/weebhook"
 forbidden_words = ["spam", "kurde", "ban", "blocked", "test", "cat"]
 user_violations = defaultdict(int)
 last_messages = deque(maxlen=5)
@@ -433,7 +436,7 @@ def get_help_commands() -> str:
 async def gen_speech_openAi(update: Update, text: str) -> None:
     response = openai_client.audio.speech.create(model="tts-1", voice="alloy", input=text)
     response.stream_to_file(speech_file_path)
-    update.message.reply_voice(voice=open(speech_file_path, 'rb'))
+    await update.message.reply_voice(voice=open(speech_file_path, 'rb'))
 
 
 async def gen_speech_gTTS(update: Update, text: str) -> None:
@@ -459,6 +462,14 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
 
+def set_webhook():
+    sleep(1)
+    url = f"https://api.telegram.org/bot{telegram_bot_token}/setWebhook?url={WEBHOOK_URL}"
+    response = requests.get(url)
+    json_response = response.json()
+    print(json_response)
+
+
 def signal_handler(sig, frame):
     print('Zatrzymanie bota...')
     sys.exit(0)
@@ -479,6 +490,5 @@ app.add_handler(CommandHandler("send_voice", send_voice_message))
 
 signal.signal(signal.SIGINT, signal_handler)
 app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), get_words))
-
 print("start")
 app.run_polling()

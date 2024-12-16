@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twoja Strona</title>
+</head>
+<body>
+    <header>
+        <h1>Witaj na stronie!</h1>
+        {% if user.is_authenticated %}
+            <p>Zalogowany jako: <strong>{{ user.username }}</strong></p>
+            <a href="{% url 'homepage' %}">home</a><br>
+            <a href="{% url 'logout' %}">Wyloguj się</a>
+        {% else %}
+            <p>Nie jesteś zalogowany.</p>
+            <a href="{% url 'login' %}">Zaloguj się</a>
+        {% endif %}
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
