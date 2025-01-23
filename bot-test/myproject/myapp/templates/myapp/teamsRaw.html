@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/mainPageTeams.css' %}">
+</head>
+<body>
+    <div class="teams-container">
+        <div class="header">
+            <h1>Moje zespoły</h1>
+        </div>
+        <div class="header-divider"></div>
+        <div class="teams">
+            <div class="team">
+                <div class="team-options">
+                    <img src="{% static 'images/more-horizontal.svg' %}" id="team-options-icon" />
+                </div>
+                <div class="team-container">
+                    <div class="team-header">
+                        <div class="team-profile-image">
+                            <span class="team-initial">A</span>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-name">
+                                <h2>Zespół asdasdsa</h2>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="activity-summary">
+                        <div class="about-team-participants">
+                            <div class="about-team-participants-avatars">
+                                <img src="../static/images/person1.jpg" />
+                                <img src="../static/images/person2.jpg" />
+                                <img src="../static/images/person3.jpg" />
+                                <img src="../static/images/person3.jpg" />
+                                <div class="about-team-more-participants">+2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

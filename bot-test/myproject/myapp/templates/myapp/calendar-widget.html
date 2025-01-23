@@ -1,0 +1,112 @@
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/calendar-widget.css' %}">
+    <script src="{% static 'js/calendarWeekWidget.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar full">
+            <div class="calendar-header">
+                    <div class="calendar-title">
+                        <h2>Kalendarz</h2>
+                    </div>
+                <div class="calendar-options">
+                    <img src="{% static 'images/more-horizontal.svg' %}" id="calendar-options-icon">
+                    <div id="calendar-options-menu" class="hidden">
+                        <ul>
+                            <li><div id="calendar-resize-small" class="resize-option">Pomniejsz</div></li>
+                            <li><div id="calendar-resize-full" class="resize-option">Pełny rozmiar</div></li>
+                            <li><div id="calendar-delete-widget" class="delete-widget">Usuń widżet</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="calendar-content">
+                <div class="left-side-of-widget">
+                    <div class="top-row">
+                    <div class="calendar-item">
+                            <div class="date-box">
+                                <div class="date-info-container">
+                                    <div class="date-info">
+                                        <div class="date-day">
+                                            <h2 id="selected-day">28</h2>
+                                        </div>
+                                        <div class="date-details">
+                                            <div class="date-weekday">
+                                                <p id="selected-weekday">Piątek</p>
+                                            </div>
+                                            <div class="date-month">
+                                                <p id="selected-month">Styczeń</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="events">
+                                    <h2>4 wydarzenia</h2>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="to-do-list">
+                            <h2>Tego dnia: </h2>
+                            <ul>
+                                <li>Spotkanie z zespołem Spotkanie z zespołem Spotkanie z zespołemSpotkanie z zespołem</li>
+                                <li>Przygotowanie raportu</li>
+                                <li>Wysłanie e-maila</li>
+                                <li>Przegląd projektu</li>
+                            </ul>
+                        </div>
+                        <div class="reminder-container">
+
+                        </div>
+                    </div>
+                </div>
+            
+            
+        
+            
+                <!-- Divider -->
+                <div class="divider"></div>
+            
+                <div class="right-side-of-widget">
+                    <div class= "navigation">
+                    <div class="date">
+                            <h2 id="calendar-date">Tydzień / Rok</h2>
+                        </div>
+                        <div class = "calendar-buttons">
+                            <button class="button" id="btn-prev">
+                                <img src="{% static 'images/left-calendar.svg' %}" alt="Poprzedni" class="icon">
+                            </button>
+                            <button class="button" id="btn-next">
+                                <img src="{% static 'images/right-calendar.svg' %}" alt="Następny" class="icon">
+                            </button>
+                            <button class="button" id="btn-today">Dzisiaj</button>
+                        </div>
+                    </div>
+             
+                    <table class="calendar-table">
+                        <thead class="calendar-table-header">
+                            <tr>
+                                <th class="day-mon">Pon.</th>
+                                <th class="day-tue">Wt.</th>
+                                <th class="day-wed">Śr.</th>
+                                <th class="day-thu">Czw.</th>
+                                <th class="day-fri">Pt.</th>
+                                <th class="day-sat">Sb.</th>
+                                <th class="day-sun">Ndz.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body">
+                            <tr id="calendar-week"></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+{% endblock %}

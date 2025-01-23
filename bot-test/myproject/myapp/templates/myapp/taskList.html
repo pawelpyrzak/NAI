@@ -1,0 +1,225 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %} Moje zadania {% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/taskList.css' %}">
+    <script src="{% static 'js/checkbox.js' %}"></script>
+    <title>Moje zadania</title>
+</head>
+<body>
+    
+
+        <main class="table-container">
+            <table class="task-table">
+                <thead class="table-header">
+                    <tr class="header-row">
+                        <th class="task-name">Nazwa zadania</th>
+                        <th class="date-added">Data dodania</th>
+                        <th class="deadline">Termin ostateczny</th>
+                        <th class="created-by">Stworzone przez</th>
+                        <th class="assigned-user">Przypisany użytkownik</th>
+                        <th class="status">Status</th>
+                        <th class="priority">Priorytet</th>
+                    </tr>
+                </thead>
+                <div class="today">
+                <tbody class="table-body">
+                    <tr class="task-row">
+                       
+                        <td class="task-name">  <img src="{% static 'images/check-circle.svg' %}" alt="checkbox" class="checkbox-icon" onclick="toggleCheck(this)"> Zadanie 1</td>
+                        <td class="date-added">01-01-2024</td>
+                        <td class="deadline">05-01-2024</td>
+                        <td class="created-by">
+                            <div class="created-by-avatar"></div>
+                            Jan Kowalski
+                        </td>
+                        <td class="assigned-user">
+                            <div class="assignee-avatar"></div>
+                            Anna Nowak
+                        </td>
+                        <td class="status">W trakcie</td>
+                        <td class="priority">Wysoki</td>
+                    </tr>
+                    <!-- Przykładowy drugi wiersz -->
+                    <tr class="task-row">
+                        <td class="task-name">Zadanie 2</td>
+                        <td class="date-added">02-01-2024</td>
+                        <td class="deadline">06-01-2024</td>
+                        <td class="created-by">
+                            <div class="created-by-avatar"></div>
+                            Piotr Wiśniewski
+                        </td>
+                        <td class="assigned-user">
+                            <div class="assignee-avatar"></div>
+                            Katarzyna Kowalczyk
+                        </td>
+                        <td class="status">Zakończone</td>
+                        <td class="priority">Średni</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tommorow">
+            <tbody class="table-body">
+                <tr class="task-row">
+                   
+                    <td class="task-name">  <img src="{% static 'images/check-circle.svg' %}" alt="checkbox" class="checkbox-icon" onclick="toggleCheck(this)"> Zadanie 1</td>
+                    <td class="date-added">01-01-2024</td>
+                    <td class="deadline">05-01-2024</td>
+                    <td class="created-by">
+                        <div class="created-by-avatar"></div>
+                        Jan Kowalski
+                    </td>
+                    <td class="assigned-user">
+                        <div class="assignee-avatar"></div>
+                        Anna Nowak
+                    </td>
+                    <td class="status">W trakcie</td>
+                    <td class="priority">Wysoki</td>
+                </tr>
+                <!-- Przykładowy drugi wiersz -->
+                <tr class="task-row">
+                    <td class="task-name">Zadanie 2</td>
+                    <td class="date-added">02-01-2024</td>
+                    <td class="deadline">06-01-2024</td>
+                    <td class="created-by">
+                        <div class="created-by-avatar"></div>
+                        Piotr Wiśniewski
+                    </td>
+                    <td class="assigned-user">
+                        <div class="assignee-avatar"></div>
+                        Katarzyna Kowalczyk
+                    </td>
+                    <td class="status">Zakończone</td>
+                    <td class="priority">Średni</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="this-week">
+        <tbody class="table-body">
+            <tr class="task-row">
+               
+                <td class="task-name">  <img src="{% static 'images/check-circle.svg' %}" alt="checkbox" class="checkbox-icon" onclick="toggleCheck(this)"> Zadanie 1</td>
+                <td class="date-added">01-01-2024</td>
+                <td class="deadline">05-01-2024</td>
+                <td class="created-by">
+                    <div class="created-by-avatar"></div>
+                    Jan Kowalski
+                </td>
+                <td class="assigned-user">
+                    <div class="assignee-avatar"></div>
+                    Anna Nowak
+                </td>
+                <td class="status">W trakcie</td>
+                <td class="priority">Wysoki</td>
+            </tr>
+            <!-- Przykładowy drugi wiersz -->
+            <tr class="task-row">
+                <td class="task-name">Zadanie 2</td>
+                <td class="date-added">02-01-2024</td>
+                <td class="deadline">06-01-2024</td>
+                <td class="created-by">
+                    <div class="created-by-avatar"></div>
+                    Piotr Wiśniewski
+                </td>
+                <td class="assigned-user">
+                    <div class="assignee-avatar"></div>
+                    Katarzyna Kowalczyk
+                </td>
+                <td class="status">Zakończone</td>
+                <td class="priority">Średni</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="overdue">
+    <tbody class="table-body">
+        <tr class="task-row">
+           
+            <td class="task-name">  <img src="{% static 'images/check-circle.svg' %}" alt="checkbox" class="checkbox-icon" onclick="toggleCheck(this)"> Zadanie 1</td>
+            <td class="date-added">01-01-2024</td>
+            <td class="deadline">05-01-2024</td>
+            <td class="created-by">
+                <div class="created-by-avatar"></div>
+                Jan Kowalski
+            </td>
+            <td class="assigned-user">
+                <div class="assignee-avatar"></div>
+                Anna Nowak
+            </td>
+            <td class="status">W trakcie</td>
+            <td class="priority">Wysoki</td>
+        </tr>
+        <!-- Przykładowy drugi wiersz -->
+        <tr class="task-row">
+            <td class="task-name">Zadanie 2</td>
+            <td class="date-added">02-01-2024</td>
+            <td class="deadline">06-01-2024</td>
+            <td class="created-by">
+                <div class="created-by-avatar"></div>
+                Piotr Wiśniewski
+            </td>
+            <td class="assigned-user">
+                <div class="assignee-avatar"></div>
+                Katarzyna Kowalczyk
+            </td>
+            <td class="status">Zakończone</td>
+            <td class="priority">Średni</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="today">
+    <tbody class="table-body">
+        <tr class="task-row">
+           
+            <td class="task-name">  <img src="{% static 'images/check-circle.svg' %}" alt="checkbox" class="checkbox-icon" onclick="toggleCheck(this)"> Zadanie 1</td>
+            <td class="date-added">01-01-2024</td>
+            <td class="deadline">05-01-2024</td>
+            <td class="created-by">
+                <div class="created-by-avatar"></div>
+                Jan Kowalski
+            </td>
+            <td class="assigned-user">
+                <div class="assignee-avatar"></div>
+                Anna Nowak
+            </td>
+            <td class="status">W trakcie</td>
+            <td class="priority">Wysoki</td>
+        </tr>
+        <!-- Przykładowy drugi wiersz -->
+        <tr class="task-row">
+            <td class="task-name">Zadanie 2</td>
+            <td class="date-added">02-01-2024</td>
+            <td class="deadline">06-01-2024</td>
+            <td class="created-by">
+                <div class="created-by-avatar"></div>
+                Piotr Wiśniewski
+            </td>
+            <td class="assigned-user">
+                <div class="assignee-avatar"></div>
+                Katarzyna Kowalczyk
+            </td>
+            <td class="status">Zakończone</td>
+            <td class="priority">Średni</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+        </main>
+    </div>
+</body>
+</html>
+{% endblock %}

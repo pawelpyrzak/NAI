@@ -1,0 +1,47 @@
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/teams-widget.css' %}">
+</head>
+<body>
+    <div class="teams-container">
+    <div class="teams small">
+        <div class="teams-header">
+            <div class="teams-title">
+                <h2>Zespoły</h2>
+            </div>
+            <div class="teams-options">
+                <img src="{% static 'images/more-horizontal.svg' %}" id="teams-options-icon">
+                <div id="teams-options-menu" class="hidden">
+                    <ul>
+                        <li><div id="teams-resize-small" class="resize-option">Pomniejsz</div></li>
+                        <li><div id="teams-resize-full" class="resize-option">Pełny rozmiar</div></li>
+                        <li><div id="teams-delete-widget" class="delete-widget">Usuń widżet</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="teams-board">
+        <div class="create-team">
+            <div class="create-team-icon">
+                <img src="../static/images/plus.svg">
+            </div>
+            <div class="create-team-txt">
+                <p>Utwórz projekt </p> 
+            </div>
+        </div>
+        <div class="team">
+           
+        </div>
+       
+            
+
+
+        </div>
+    </div>
+    </div>
+</body>
+
+{% endblock %}

@@ -1,146 +1,306 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html,
+body {
+    overflow: hidden;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(to bottom, rgb(35, 35, 39), rgba(35, 35, 39, 0.877));
+}
+
+.teams-scrollable {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.teams-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.teams-scrollable::-webkit-scrollbar-track {
+    margin: 0.25vh;
+}
+
+.teams-scrollable::-webkit-scrollbar-thumb {
+    background-color: rgb(70, 70, 75);
+    border-radius: 50px;
+    border: 1px solid rgb(35, 35, 39);
+}
+
+.teams-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(60, 60, 65);
+}
 
 .header {
-    display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
-    gap: 40px; 
-    width: 100%; 
-    height: 80px; 
-    background: #232222; 
-    position: fixed; 
-    top: 50px; 
-    left: 0; 
-    border-bottom: 1px solid #424244;
+    display: block;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    height: 80px;
+    position: sticky;
+    top: 0;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px; 
+    gap: 10px;
 }
 
-.header h1{
-    color:#f5f4f3;
+.header h1 {
+    color: #f5f4f3;
     margin-left: 40px;
     font-size: 20px;
     font-weight: 300;
+    padding-top: 20px;
+    margin-bottom: 10px;
 }
 
-.create-team button{
-    padding: 10px 22px; 
-    margin-right: 20px; 
-    width: auto; 
-    background-color: #3e4575; 
-    color: #fff; 
-    font-size: 13px; 
-    font-weight: 200; 
+.create-team button {
+    padding: 10px 22px;
+    margin-right: 20px;
+    width: auto;
+    background-color: #3e4575;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 200;
     border: none;
-    border-radius: 10px; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.header {
+.create-team button {
+    padding: 10px 22px;
+    margin-right: 20px;
+    width: auto;
+    background-color: #3e4575;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 200;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.create-team button {
+    padding: 10px 22px;
+    margin-right: 20px;
+    width: auto;
+    background-color: #3e4575;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 200;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.teams-container {
+    padding-top: 50px;
+    margin: 0 auto;
     display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
-    gap: 40px; 
-    width: 100%; 
-    height: 80px; 
-    background: #232222; 
-    position: fixed; 
-    top: 50px; 
-    left: 0; 
-    border-bottom: 1px solid #424244;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
 }
 
-.header-actions {
+.teams {
+    margin-top: 40px;
+    margin-left: 40px;
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+    align-items: flex-start;
+    border-radius: 10px;
+
+    position: relative;
+
+    font-family: 'Nunito', sans-serif;
+
+}
+
+.team {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+
+    gap: 2px;
+    background-color: rgb(35, 35, 39);
+
+    padding: 10px;
+    border-radius: 10px;
+
+    border: 1px solid #424244;
+    width: 310px;
+    height: 115px;
+    cursor: pointer;
+    position: relative;/
+}
+
+.team:hover{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72; 
+}
+
+.header-divider {
+    width: 100%;
+    border-bottom: 1px solid #353536;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 10px; 
+    justify-content: center;
+    margin: 0 auto;
 }
 
-.header h1{
-    color:#f5f4f3;
-    margin-left: 40px;
-    font-size: 20px;
-    font-weight: 300;
-}
-
-.create-team button{
-    padding: 10px 22px; 
-    margin-right: 20px; 
-    width: auto; 
-    background-color: #3e4575; 
-    color: #fff; 
-    font-size: 13px; 
-    font-weight: 200; 
-    border: none;
-    border-radius: 10px; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-}
-.header {
+.team-header {
     display: flex;
-    align-items: center; 
-    justify-content: flex-start; 
-    gap: 40px; 
-    width: 100%; 
-    height: 80px; 
-    background: #232222; 
-    position: fixed; 
-    top: 50px; 
-    left: 0; 
-    border-bottom: 1px solid #424244;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    top: 0;
+
+    margin-bottom: 10px;
+
 }
 
-.header-actions {
+.team-name {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+    text-align: left;
+
+    margin-bottom: 2px;
+
+    font-family: 'Nunito', sans-serif;
+    color: #d0d0d0;
+}
+
+.team-name h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.activity-summary {
+    position: absolute;
+
+    bottom: 10px;
+    left: 3px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 10px; 
 }
 
-.header h1{
-    color:#f5f4f3;
-    margin-left: 40px;
-    font-size: 20px;
-    font-weight: 300;
+.about-team-participants {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 5px;
 }
 
-.create-team button{
-    padding: 10px 22px; 
-    margin-right: 20px; 
-    width: auto; 
-    background-color: #3e4575; 
-    color: #fff; 
-    font-size: 13px; 
-    font-weight: 200; 
-    border: none;
-    border-radius: 10px; 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
+.about-team-participants img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    margin-left: -10px;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.about-team-participants-avatars {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.about-team-participants img:hover {
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.about-team-more-participants {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #424244;
+    margin-left: -10px;
+    font-size: 11px;
+    color: #424244;
+    background-color: #d0d0d0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+.team-profile-image {
+    width: 50px;  
+    height: 50px; 
+    background-color: #3f5e3e; 
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #4242445d;
+    margin: 0; 
+}
+.team-options {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute; /* Pozycjonowanie względem rodzica */
+    right: 0; /* Wyrównanie do prawej krawędzi rodzica */
+}
+
+.team-options img {
+    width: 18px;
+    height: 18px;
+}
+
+.team-options img:hover{
+    transform: scale(1.2);
+    opacity: 0.8;
+    transition: transform 0.2s ease; 
+}
+
+.team-card {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    margin: 0; 
 }
 
 .team-container {
-    width: 100vw; /* Szerokość całego widoku przeglądarki */
-    height: calc(100vh - 130px); /* Cała wysokość widoku minus wysokość nagłówka */
-    background: #232222;
-    position: absolute; /* Aby odnieść się do układu całej strony */
-    top: 130px; /* Przesunięcie poniżej nagłówka */
-    left: 0;
-    overflow: auto; /* Dla przewijania, jeśli zawartość przekracza dostępne miejsce */
-}
-
-.team{
-    border: 1px solid #424244;
-    width: 300px;
-    height: 150px;
-    border-radius: 10px;
-    margin-left: 40px;
-    margin-top: 60px;
-    background-color: #3e4575be;
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    margin: 0; 
 }

@@ -1,0 +1,405 @@
+.projects {
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px;
+    background-color: rgb(35, 35, 39); 
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    position: relative; 
+    font-family: 'Nunito', sans-serif;
+}
+
+.projects:hover{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72; 
+}
+
+.projects.small{
+    width: 600px; 
+    height: 47vh;
+
+}
+.projects.full{
+    width: 1220px;
+    height: 47vh;
+}
+
+.projects-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 10px;
+}
+
+.header-right{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 10px;
+}
+
+.projects-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-start; 
+    flex-grow: 1;
+    text-align:left; 
+    margin-bottom: 5px; 
+    font-family: 'Nunito', sans-serif;
+    color: #d0d0d0; 
+    padding-left: 10px;
+}
+
+.projects-title h2 {
+    font-size: 18px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+    font-family: 'Nunito', sans-serif;
+}
+
+.projects-options {
+    display: flex;
+    align-items: center;  
+    cursor: pointer; 
+    padding: 10px;
+}
+
+.projects-options img {
+    width: 18px;
+    height: 18px;
+}
+
+.projects-options img:hover{
+    transform: scale(1.2);
+    opacity: 0.8;
+    transition: transform 0.2s ease; 
+}
+
+.hidden {
+    display: none;
+}
+
+#projects-options-menu {
+    position: absolute; 
+    top: 50px; 
+    transform: translateX(-3%);
+    width: 240px; 
+    background-color:rgb(35, 35, 39); ; 
+    border: 1px solid #424244; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+    z-index: 10;
+}
+
+#projects-options-menu ul {
+    list-style-type: none;  
+    margin: 0;
+    padding: 0;
+}
+
+.resize-option {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; 
+    color: #d0d0d0; 
+    padding: 8px 10px; 
+    cursor: pointer;  
+    display: block;  
+
+}
+
+.delete-widget{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; 
+    color: #d0d0d0; 
+    padding: 8px 10px; 
+    cursor: pointer;  
+    display: block; 
+}
+
+.add-project {
+    display: flex;
+    align-items: center; 
+    background-color: transparent;
+    color: #d0d0d0;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    border: 1px solid #424244;
+    padding: 4px 12px; 
+    font-size: 11px; 
+    border-radius: 16px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-project:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.add-project img.icon {
+    width: 12px; 
+    height: 12px; 
+    margin-right: 5px; 
+    display: block; 
+    margin-top: 5px;
+}
+
+.add-project span {
+    display: inline-block; 
+    vertical-align: middle; 
+}
+
+.project-board{
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    overflow: hidden;
+
+}
+
+.project-scrollable {
+      flex-grow: 1; 
+    overflow-y: auto;
+    transition: overflow 0.3s ease;
+}
+
+.project-board:hover .project-scrollable {
+    overflow-y: auto; 
+}
+
+.project-scrollable::-webkit-scrollbar {
+    width: 7px; 
+}
+
+.project-scrollable::-webkit-scrollbar-track {
+    margin: 0.1vh; 
+}
+
+.project-scrollable::-webkit-scrollbar-thumb {
+    background-color: rgb(70, 70, 75);
+    border-radius: 50px; 
+    border: 1px solid rgb(35, 35, 39); 
+}
+
+.project-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(60, 60, 65);
+}
+
+.project{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 2px;
+    background-color: rgb(35, 35, 39); 
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height:160px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.project-header{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+}
+.project-title{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    flex-grow: 1;
+    text-align:left; 
+    margin-bottom: 2px; 
+    font-family: 'Nunito', sans-serif;
+    color: #d0d0d0; 
+}
+
+.project-title h2{
+    font-size: 14px; 
+    font-weight: 600; 
+    margin: 0;
+
+}
+
+.activity-summary{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+    padding: 10px 0; 
+}
+
+.attachment{
+    padding-left: 10px;
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+
+}
+
+.attachment img{
+    width: 14px;
+    height: 14px;
+
+}
+
+.attachment p{
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    color: #b0b0b0;
+    margin: 0;
+}
+
+.about-project-participants{
+    display: flex;
+    align-items: center; 
+    position: relative;
+}
+
+.about-project-participants-avatars{
+    margin-left: 50px;
+    display: flex; 
+    align-items: center;
+}
+
+.about-project-participants img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+    margin-left: -10px;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.about-project-participants img:hover{
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.about-project-more-participants{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+    margin-left: -10px;
+    font-size: 11px;
+    color: #424244;
+    background-color: #d0d0d0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+.project-progress {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items:flex-end;      
+    width: auto;
+    height: 60px;
+    padding-top: 10px;
+}
+
+.project-progress p {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    font-size: 16px;
+    color: rgba(85, 85, 90, 0.9);
+
+    line-height: 1.6;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.progress-bar__container {
+    width: 100%;
+    height: 12px;
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(50, 50, 55, 0.9), rgba(70, 70, 75, 0.9)); 
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); 
+}
+
+.progress-bar {
+    position: absolute;
+    height: 100%;
+    width: 0%; 
+    background: linear-gradient(90deg, #80e1b7, #55b79f); 
+    border-radius: inherit;
+    animation: progress-glow 2s infinite alternate;
+    transition: width 0.5s ease-in-out;
+}
+
+@keyframes progress-glow {
+    0% {
+        box-shadow: 0 0 10px rgba(179, 136, 255, 1), 0 0 20px rgba(179, 136, 255, 0.5); 
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(179, 136, 255, 1), 0 0 30px rgba(179, 136, 255, 0.7);
+    }
+}
+
+.project:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.project:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.project:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.project-select {
+    width: fit-content; 
+    max-width: 80px; 
+    background-color: transparent;
+    padding: 8px; 
+    font-size: 12px; 
+    color: #d0d0d0; 
+    font-weight: bold;
+    border: none;
+    outline: none; 
+    cursor: pointer; 
+}
+
+.project-select option {
+    background-color: #232327; 
+    color: #fff; 
+}

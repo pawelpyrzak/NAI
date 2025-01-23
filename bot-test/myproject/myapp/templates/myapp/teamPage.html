@@ -1,0 +1,29 @@
+{% extends 'myapp/base.html' %}  
+
+{% block title %} Zespół {% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/teamPage.css' %}">
+  <script src="{% static 'js/newPost.js' %}"></script>
+  <script src="{% static 'js/teamPage.js' %}"></script>
+</head>
+<body>
+  <div class="team-container">
+    <div class="header">
+        <h1>Zespół adasdasd</h1>
+    <nav class="team-nav">
+        <a href="#">Przegląd</a>
+        <a href="#">Projekty</a>
+        <a href="#">Kalendarz</a>
+        <a href="#">Pliki</a>
+    </nav>
+    <div class="header-divider"></div>
+</div>
+</body>
+</html>
+
+{% endblock %}
+

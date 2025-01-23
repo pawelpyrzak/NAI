@@ -1,0 +1,972 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; 
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(to bottom, rgb(35, 35, 39) , rgba(35, 35, 39, 0.877) );
+}
+
+.project-container {
+    padding-top: 50px; 
+    margin: 0 auto; 
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+.header {
+    display: block;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    height: 90px;
+    position: sticky; 
+    top: 0;
+}
+
+.header h1 {
+    color: #f5f4f3;
+    margin-left: 40px;
+    font-size: 20px;
+    font-weight: 300;
+    padding-top: 20px;
+}
+
+.project-nav {
+    margin-top: 10px; 
+    display: flex;
+    gap:40px;
+    margin-left: 40px;
+
+}
+.project-nav a {
+    display: block; 
+    text-decoration: none;
+    color: #b0b0b0;
+    margin: 5px 0;
+    font-size: 13px;
+    font-weight: bold;
+    transition: color 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.header-divider{
+    width: 100%;
+    border-bottom: 1px solid #353536;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.layout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative; 
+}
+
+.add-project-section {
+    width: 81vw;
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center; 
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+
+.add-project {
+    display: flex;
+    align-items: center; 
+    background-color: transparent;
+    color: #d0d0d0;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    border: 1px solid #424244;
+    padding: 5px 12px;
+    font-size: 11px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-project:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.add-project img.icon {
+    width: 12px; 
+    height: 12px; 
+    margin-right: 5px; 
+    display: block; 
+    margin-top: 5px;
+}
+
+.add-project span {
+    display: inline-block; 
+    vertical-align: middle; 
+}
+
+.project-list {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;  
+    gap: 18px; 
+    margin: 0 auto; 
+    flex-wrap: wrap; 
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.project-list-title h2 {
+    margin: 0;
+}
+
+.project-list-options {
+    display: flex;
+    align-items: center;  
+}
+
+.project-list-options img {
+    width: 18px;
+    height: 18px;
+}
+
+.projects-in-progress, .pending-projects, .completed-projects, .at-risk-projects{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 2px;
+    background-color: rgb(35, 35, 39); 
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 300px;
+    max-height:71vh;
+    height:auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: hidden;
+}
+
+.projects-in-progress h2{
+    font-size: 16px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.project-scrollable {
+    max-height: 100%; 
+    width: 274px;
+    overflow: hidden;
+    transition: overflow 0.3s ease;
+}
+
+.projects-in-progress:hover .project-scrollable {
+    overflow-y: auto; 
+}
+
+.project-scrollable::-webkit-scrollbar {
+    width: 7px; 
+}
+
+.project-scrollable::-webkit-scrollbar-track {
+    margin: 0.1vh; 
+}
+
+.project-scrollable::-webkit-scrollbar-thumb {
+    background-color: rgb(70, 70, 75);
+    border-radius: 50px; 
+    border: 1px solid rgb(35, 35, 39); 
+}
+
+.project-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(60, 60, 65);
+}
+
+.element-container {
+    flex-direction: column;
+    display: flex; 
+    justify-content: center; 
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.element-container, .pending-item, .completed-item, .at-risk-item {
+    transition: transform 0.3s ease; 
+}
+
+.no-projects{
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    color: #b0b0b0; 
+}
+
+.no-projects h2{
+    margin: 0;
+    font-size: 12px; 
+    letter-spacing: 0.5px;
+}
+
+.pending-item, .at-risk-item, .completed-item, .in-progress-item{
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    background-color: hsl(240, 5%, 15%);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    width: 260px; 
+    height: auto;
+    border: 1px solid #424244;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: flex 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.in-progress-item.fade {
+    opacity: 0.6; 
+}
+
+.pending-item:hover, 
+.at-risk-item:hover, 
+.completed-item:hover, 
+.in-progress-item:hover {
+    background-color: hsl(240, 5%, 18%); 
+    border-color: hsl(240, 5%, 35%); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); 
+    transition: all 0.3s ease; 
+}
+
+.pending-item:active, 
+.at-risk-item:active, 
+.completed-item:active, 
+.in-progress-item:active {
+    background-color: hsl(240, 5%, 22%); 
+    border-color: hsl(240, 5%, 40%); 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
+    transition: all 0.2s ease-out; 
+}
+
+.in-progress-item.selected, 
+.pending-item.selected, 
+.at-risk-item.selected, 
+.completed-item.selected {
+    background-color: hsl(240, 8%, 18%); 
+    border-color: hsl(240, 8%, 35%); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    transition: all 0.3s ease; 
+}
+
+.pending-projects h2{
+    font-size: 16px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.completed-projects h2{
+    font-size: 16px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.at-risk-projects h2{
+    font-size: 16px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.project-options{
+    display: flex; 
+    align-items: center; 
+}
+
+.project-options img{
+    width: 16px;
+    height: 16px;
+}
+
+.project-header{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+}
+.project-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    flex-grow: 1;
+    text-align:left; 
+    margin-bottom: 2px; 
+    font-family: 'Nunito', sans-serif;
+    color: #d0d0d0; 
+}
+
+.project-title h2{
+    font-size: 14px; 
+    font-weight: bold; 
+    margin: 0;
+}
+
+.description{
+    text-align:left; 
+    margin-bottom: 5px; 
+    font-family: 'Nunito', sans-serif;
+    color: #b0b0b0; 
+    padding-left: 10px; 
+}
+
+.description p{
+    font-size: 12px; 
+    margin: 0;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+}
+
+.activity-summary{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+    padding: 10px 0; 
+}
+
+.attachment{
+    padding-left: 10px;
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+
+}
+
+.attachment img{
+    width: 14px;
+    height: 14px;
+
+}
+
+.attachment p{
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    color: #b0b0b0;
+    margin: 0;
+}
+
+.about-project-participants{
+    display: flex;
+    align-items: center; 
+    position: relative;
+}
+
+.about-project-participants-avatars{
+    margin-left: 50px;
+    display: flex; 
+    align-items: center;
+}
+
+.about-project-participants img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+    margin-left: -10px;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.about-project-participants img:hover{
+    transform: scale(1.2);
+    z-index: 1;
+}
+
+.about-project-more-participants{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+    margin-left: -10px;
+    font-size: 11px;
+    color: #424244;
+    background-color: #d0d0d0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+.details-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 300px;
+    transform: translateX(100%); 
+    transition: transform 0.4s ease-in-out;
+
+}
+
+.details-panel.active {
+    transform: translateX(0);
+}
+
+.layout.details-active .project-list {
+    margin-right: 300px;
+    flex: 0 0 calc(100% - 300px);
+    transform: scale(0.96);  
+}
+
+
+.layout.details-active .details-panel {
+    transform: none !important; 
+}
+
+
+.details-panel.active {
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.details-panel:not(.active) {
+    animation: slideOut 0.4s ease-in-out;
+}
+
+.details {
+    position: fixed; 
+    top: 136px;
+    right: 0; 
+    width: 300px;
+    height: 100vh;
+    background: rgb(36, 36, 39);
+    border-left: 1px solid #424244;
+    margin: 0;
+}
+
+.details h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    color: #ffffff;
+}
+
+.details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.details ul li {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #d0d0d0;
+}
+
+.details ul li strong {
+    color: #f5f4f3;
+}
+
+.close-panel {
+    position: absolute; 
+    top: 2px; 
+    right: 2px; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    z-index: 100; 
+    padding: 5px; 
+    transition: transform 0.3s ease, opacity 0.3s ease; 
+}
+
+.close-panel img{
+    width: 16px;
+    height: 16px;
+}
+
+.close-panel img:hover{
+    transform: scale(1.2);
+    opacity: 0.8;
+    transition: transform 0.2s ease; 
+}
+
+.pm-avatar img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+}
+
+.pm-avatar{
+    display: flex;
+}
+
+.user-container {
+    display: flex; 
+    flex-wrap: nowrap; 
+    gap: 20px; 
+    align-items: center; 
+    padding-bottom: 10px;
+  }
+
+  .manager-container {
+    margin-top: 46px;
+    padding-left: 20px;
+  }
+
+  .pm-info {
+    display: flex;
+    align-items: center;
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .pm-info h2{
+    color:#f5f4f3;
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .pm-details {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+}
+  .position p {
+    font-family: 'Nunito', sans-serif;
+    margin-left: 10px;
+    font-size: 11px; 
+    color: #b0b0b0;
+    font-weight: 500; 
+    padding-top: 2px;
+}
+
+.created-tasks {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #424244;
+    width: 260px;
+    height: 52px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.created-tasks h2{
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding-right: 30px;
+    flex-grow: 1; 
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.completed-tasks{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height: 52px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.completed-tasks h2{
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding-right: 30px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.tasks-in-progress{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height: 52px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.tasks-in-progress h2{
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding-right: 30px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.upcoming-tasks{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+    gap: 2px;
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height: 52px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.upcoming-tasks h2{
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding-right: 30px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.project-progress{
+    display: flex; 
+    flex-direction: column;
+    gap: 5px;
+    background: rgb(40, 40, 43);
+    padding: 10px;
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    width: 260px;
+    height: 70px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.project-progress h2 {
+    font-family: 'Nunito', sans-serif;
+    margin: 0; 
+    font-size: 16px;
+    color: #f5f4f3;
+}
+
+.project-progress p {
+    font-family: 'Nunito', sans-serif;
+    margin: 0; 
+    font-size: 20px;
+    color: #7cebff;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+}
+
+.project-statistics {
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.project-statistics h2 {
+    font-size: 13px; 
+    font-weight: 300;
+    color: #C0C0C0;
+    margin: 0; 
+    font-weight: 400; 
+}
+
+.project-details{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 260px;
+    padding-left: 26px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.divider {
+    width: 100%;
+    height: 1px; 
+    width: 90%;
+    background: linear-gradient(to right, transparent, rgb(95, 95, 100)  , transparent); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; 
+    margin-top: 5px;
+}
+
+.project-details div {
+    display: flex; 
+    align-items: center; 
+    gap:5px;
+}
+
+.project-details h2{
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    color: #8A8A8A;
+    margin: 0;
+    font-weight: 700;
+}
+
+.project-details p {
+    margin: 0; 
+    font-size: 12px;
+    color: #C0C0C0;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+
+}
+
+.created-tasks p, .completed-tasks p, .tasks-in-progress p, .upcoming-tasks p {
+    display: flex; 
+    align-items: center; 
+    gap: 30px; 
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: bold;
+    color:#a0a0a0;
+    margin: 0; 
+    text-align: right;
+    font-family: 'Nunito', sans-serif;
+}
+
+.start-date{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.deadline{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px; 
+}
+
+.project-status{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px; 
+}
+
+.priority{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;  
+}
+
+.days-left{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;   
+}
+.project-participants{
+    display: flex;
+}
+
+.project-participants-avatars{
+    margin-left: 50px;
+}
+
+.project-participants img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:1px solid #424244;
+    margin-left: -15px;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+  }
+
+.project-participants img:hover {
+    transform: scale(1.2);
+    z-index: 1; 
+}
+
+.created-icon {
+    width: 25px;  
+    height: 25px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    border-radius: 100%; 
+    box-shadow: 0 4px 30px rgba(83, 122, 213, 0.4); 
+}
+
+.completed-icon {
+    width: 25px;  
+    height: 25px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    border-radius: 100%; 
+    box-shadow: 0 4px 20px rgba(157, 255, 135, 0.4); 
+}
+
+.in-progress-icon {
+    width: 25px;  
+    height: 25px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 20px rgba(233, 222, 95, 0.4); 
+}
+
+.upcoming-icon {
+    width: 25px;  
+    height: 25px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 20px rgba(190, 150, 235, 0.4); 
+}
+
+.progress-bar__container {
+    width: 100%;
+    height: 10px;
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s;
+    will-change: transform;
+    box-shadow: 0 0 5px #7cebff;
+  }
+
+  .progress-bar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    content: "";
+    background-color: #6481cf;
+    top:0;
+    bottom: 0;
+    left: -100%;
+    border-radius: inherit;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .progress-bar__text {
+    display: none;
+  }
+
+  .button-project {
+    width: 200px;
+    height: 45px;
+    background-color: rgb(50, 50, 60);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-project:hover {
+    background-color: rgb(70, 70, 90);
+    transform: scale(1.05);
+}
+
+.button-project:active {
+    background-color: rgb(30, 30, 40);
+    transform: scale(0.98);
+}
+
+.go.to.project {
+    text-align: center;
+    margin-top: 22px;
+}
+
+.go.to.project button {
+    width: 180px;
+    background: rgb(39, 39, 42);
+    color: #C0C0C0;
+    border: 1px solid #424244;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.go.to.project button:hover {
+    background-color: rgb(50, 48, 58);
+    transform: scale(1.05);
+}
+
+.go.to.project button:active {
+    background-color: rgb(30, 28, 36);
+    transform: scale(0.98);
+}

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOGOUT_REDIRECT_URL = '/'
@@ -21,7 +21,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-nz-%o9n^vln1gyh5yj**7hxc#nmn(n#!nt@zuvs_bd-a)9xa)&'
-
+SECRET_KEY_JIRA ='Ekw6qdUNoXJlfaBGH4na2qnG_BI3AiqHh2we5XXy2og='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -34,11 +34,13 @@ LOGIN_REDIRECT_URL = '/'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'myapp',
 ]
 
@@ -60,7 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,20 +77,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'boty-db',  # Nazwa Twojej bazy danych
-        'USER': 'postgres',         # Nazwa użytkownika PostgreSQL
-        'PASSWORD': 'postgres',          # Hasło użytkownika
-        'HOST': 'localhost',          # Adres serwera bazy danych (np. localhost)
-        'PORT': '5433',               # Port PostgreSQL (domyślnie 5432)
-    }
-}
+# DATABASES = {
+   # 'default': {
+       # 'ENGINE': 'django.db.backends.postgresql',
+      #  'NAME': 'boty-db',  # Nazwa Twojej bazy danych
+      #  'USER': 'postgres',  # Nazwa użytkownika PostgreSQL
+      #  'PASSWORD': 'postgres',  # Hasło użytkownika
+      #  'HOST': 'localhost',  # Adres serwera bazy danych (np. localhost)
+      #  'PORT': '5433',  # Port PostgreSQL (domyślnie 5432)
+  #  }
+#}
 
 
 # Password validation
@@ -109,13 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
@@ -123,11 +123,48 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'myapp/static', 
+    BASE_DIR / 'myapp/static',
 ]
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'scheduler.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'scheduler': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

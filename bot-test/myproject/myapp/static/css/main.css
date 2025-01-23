@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -14,7 +14,7 @@ body {
     display: none;
 }
 .top-bar {
-    background: #2e2e30;
+    background: rgb(35, 35, 39);
     color: #f5f4f3;
     padding: 10px 20px;
     text-align: center;
@@ -32,36 +32,39 @@ body {
     margin-left: 0;
 }
 
-
-
 .hamburger {
-    width: 11px;
-    height: 16px;
+    
     display: flex;
     position: fixed;
     top: 18px;
-    left: 0;
+    left: 6px;
     margin-left: 25px;
     justify-content: center;
     align-items: center;
     border: none;
     background: none;
     cursor: pointer;
-    border-radius: 50px;
+
 }
-
-
 
 .hamburger:hover{
-    border-radius: 10px;
-    background-color: #424244;
-
+    transform: scale(1.1);
+    opacity: 0.9;
+    transition: transform 0.3s ease; 
 }
 
-/* Domyślnie wąski pasek boczny */
+.hamburger img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: -10px;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
 .sidebar {
-    background: #2e2e30;
-    width: 70px; /* Początkowa szerokość wąskiego paska */
+    background: rgb(35, 35, 39);
+    width: 70px; 
     height: 100vh;
     position: fixed;
     top: 50px;
@@ -71,22 +74,29 @@ body {
     opacity: 1;
     z-index: 9;
     transition: width 0.5s ease;
-    overflow: hidden;
 }
 
-/* Rozszerzony pasek boczny */
 .sidebar.expanded {
-    width: 240px; /* Szerokość po rozszerzeniu */
+    width: 240px; 
 }
 
-/* Sekcje paska bocznego */
 .first-section {
-    padding-top: 8px;
-    justify-content: space-between;
+    padding-top: 15px;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    transition: width 0.5s ease;
-    border-bottom: 1px solid #424244;
+    transition: opacity 0.5s ease;
+}
+
+.section-divider {
+    height: 1px; 
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(to right, transparent, rgb(95, 95, 100)  , transparent); 
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .second-section{
@@ -97,13 +107,11 @@ body {
     transition: width 0.5s ease;
 }
 
-/* Rozszerzone sekcje paska bocznego */
 .sidebar.expanded .first-section,
 .sidebar.expanded .second-section {
     padding-left: 14px;
 }
 
-/* Linki i ikonki w rozwiniętym stanie */
 .sidebar a {
     display: block;
     margin-bottom: 10px;
@@ -115,29 +123,24 @@ body {
     padding-top: 3px;
 }
 
-/* Ukrywanie tekstu w linkach, gdy pasek jest wąski */
 .sidebar a {
-    font-size: 0px; /* Ukrywa tekst w wąskim stanie */
+    font-size: 0px; 
 }
 
-/* Pokazywanie tekstu w linkach, gdy pasek jest rozszerzony */
 .sidebar.expanded a {
-    font-size: 14px; /* Pokazuje tekst po rozszerzeniu */
+    font-size: 14px; 
     padding-left: 6px;
     padding-top: 3px;
     display: block;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     align-items: center;
 }
 
 .sidebar.expanded a:hover{
-    border-radius: 10px;
-    background-color: #424244;
+    color:#d0d0d0;
 
 }
 
-/* Pokazywanie tytułów w rozwiniętym stanie */
 .sidebar.expanded h2 {
     display: block;
     padding-left: 15px;
@@ -145,31 +148,24 @@ body {
     font-weight: 500;
     line-height: 20px;
     color: #f5f4f3;
-    font-family: 'Roboto', sans-serif;
     cursor: default;
 }
 
-/* Ukrywanie tytułów w wąskim stanie */
 .sidebar h2 {
     display: none;
 }
 
-/* Margines głównej treści strony przy zwiniętym pasku */
 .sidebar ~ .main-content {
-    margin-left: 70px; /* Początkowy margines */
+    margin-left: 70px; 
 }
 
-/* Główna treść strony przesunięta w prawo po rozszerzeniu paska */
 .sidebar.expanded ~ .main-content {
-    margin-left: 240px; /* Główna treść przesunięta w prawo po rozszerzeniu paska */
+    margin-left: 240px; 
 }
 
-/* Animacja przejścia dla zawartości */
 .main-content {
     transition: margin-left 0.5s ease;
 }
-
-
 
 .dropdown-content {
     margin-top: 10px;
@@ -184,7 +180,7 @@ body {
 }
 
 .dropdown-content a:hover {
-    color: #007bff;
+    color:#a0a0a0;
 }
 .icon {
     width: 19px;
@@ -220,7 +216,6 @@ body {
     align-items: center;
     background: #3e4575;
     cursor: pointer;
-
 
 }
 
@@ -261,7 +256,6 @@ border-bottom: 1px solid #424244;
     padding-top: 10px;
     padding-bottom: 10px;
     display: block;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     align-items: center;
@@ -286,19 +280,14 @@ border-bottom: 1px solid #424244;
     flex-direction: column;
     align-items: center;
 
-
-
 }
 .first-section-settings h2{
     font-size: 13px;
     padding: 5px 14px;
     display: block;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     align-items: center;
-
-
 
 }
 
@@ -306,12 +295,9 @@ border-bottom: 1px solid #424244;
     font-size: 15px;
     padding-top: 7px;
     display: block;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     align-items: center;
-
-
 
 }
 .second-section-settings{
@@ -325,7 +311,6 @@ border-bottom: 1px solid #424244;
 .second-section-settings a{
     font-size: 14px;
     padding: 5px 14px;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     align-items: center;
@@ -345,7 +330,6 @@ border-bottom: 1px solid #424244;
 .third-section-settings a{
     font-size: 14px;
     padding: 5px 14px;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     color: #f5f4f3;
@@ -364,7 +348,6 @@ border-bottom: 1px solid #424244;
 .fourth-section-settings a{
     font-size: 14px;
     padding: 5px 14px;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     border-radius: 0px;
     color: #f5f4f3;
@@ -389,6 +372,7 @@ border-bottom: 1px solid #424244;
     background-color: #424244;
 }
 #ai-bot{
+    display: none;
     bottom: 30px;
     right: 70px;
     width: 70px;
@@ -402,7 +386,6 @@ border-bottom: 1px solid #424244;
     cursor: pointer;
 
 }
-
 
 #drag {
     width: 40px;
@@ -431,32 +414,30 @@ border-bottom: 1px solid #424244;
 }
 
 .bot-avatar {
-    position: absolute; /* lub relative, w zależności od układu strony */
-    top: 50%; /* Wyśrodkowanie w pionie */
-    left: 50%; /* Wyśrodkowanie w poziomie */
-    transform: translate(-50%, -50%); /* Przesunięcie o połowę szerokości i wysokości */
-    width: 70px; /* Rozmiar kontenera (dostosuj do potrzeb) */
-    height: 70px; /* Rozmiar kontenera */
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 70px; 
+    height: 70px; 
     display: flex;
-    justify-content: center; /* Wyśrodkowanie obrazka w poziomie */
-    align-items: center; /* Wyśrodkowanie obrazka w pionie */
+    justify-content: center; 
+    align-items: center; 
     margin-top: 7px;
 
 }
 
 #bot-av {
-    width: 80px; /* Rozmiar obrazka (dostosuj) */
-    height: auto; /* Zachowaj proporcje */
+    width: 80px; 
+    height: auto; 
 }
-
-
 
 .chat-box {
     position: relative;
     width: 690px;
     height: 630px;
     border: 1px solid #424244;
-    margin: 0 auto; /* Wyśrodkowanie */
+    margin: 0 auto; 
     background: rgba(99, 99, 129, 0.8);
     border-radius: 10px;
     display: flex;
@@ -464,7 +445,6 @@ border-bottom: 1px solid #424244;
     overflow: hidden;
     cursor: auto;
     z-index: 1;
-   
 
 }
 
@@ -492,7 +472,7 @@ border-bottom: 1px solid #424244;
     padding: 15px;
     overflow-y: auto;
     background:#252525;
-    color: white;
+    color: #333;
 }
 
 .chat-bottom {
@@ -587,6 +567,3 @@ border-bottom: 1px solid #424244;
 p {
     overflow-wrap: break-word;
 }
-
-
-

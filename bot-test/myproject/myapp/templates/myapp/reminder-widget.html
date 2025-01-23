@@ -1,0 +1,43 @@
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/reminder-widget.css' %}">
+    <script src="{% static 'js/reminderWidgetNav.js' %}"></script>
+</head>
+<body>
+    <div class ="reminder-container">
+    <div class="reminder small">
+        <div class="reminder-header">
+            <div class="reminder-title">
+                <h2>Przypomnienia</h2>
+            </div>
+            <div class="reminder-options">
+                <img src="{% static 'images/more-horizontal.svg' %}" id="reminder-options-icon">
+                <div id="reminder-options-menu" class="hidden">
+                    <ul>
+                        <li><div id="reminder-resize-small" class="resize-option">Pomniejsz</div></li>
+                        <li><div id="reminder-resize-full" class="resize-option">Pełny rozmiar</div></li>
+                        <li><div id="reminder-delete-widget" class="delete-widget">Usuń widżet</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav class="reminder-nav">
+            <a role="button" id="today-link" class="active">Dziś</a>
+            <a role="button" id="tomorrow-link">Jutro</a>
+            <a role="button" id="week-link">W tym tygodniu</a>
+            <a role="button" id="all-link">Wszystkie</a>
+        </nav>        
+        <div class="reminder-content" id="reminder-content">
+            
+        </div>
+
+   
+    </div>
+</div>
+</body>
+
+{% endblock %}

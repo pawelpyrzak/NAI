@@ -1,0 +1,110 @@
+.reminder{
+    display: flex; /* Używamy Flexbox */
+    flex-direction: column; /* Układ kolumnowy dla całości */
+    gap: 2px;
+    background-color: rgb(35, 35, 39); /* Tło sekcji członków */
+    padding: 10px;
+    border-radius: 10px; /* Zaokrąglone rogi */
+    border: 1px solid #424244;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: relative;
+}
+
+.reminder:hover{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.reminder.small{
+    width: 600px; 
+    height: 44vh;
+}
+
+.reminder.full{
+    width: 1220px;
+    height: 44vh;
+}
+
+.reminder-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.reminder-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-start; 
+    flex-grow: 1;
+    text-align:left; /* Wyśrodkowanie tekstu tytułu */
+    margin-bottom: 5px; /* Odstęp poniżej tytułu */
+    font-family: 'Arial', sans-serif; /* Ustawienie czcionki */
+    color: #d0d0d0; /* Kolor tekstu */
+}
+
+.reminder-title h2 {
+    font-size: 16px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+}
+
+.reminder-options {
+    display: flex;
+    align-items: center;  
+    cursor: pointer; 
+}
+
+.reminder-options img {
+    width: 18px;
+    height: 18px;
+}
+
+.reminder-options img:hover{
+    transform: scale(1.2);
+    opacity: 0.8;
+    transition: transform 0.2s ease; 
+}
+
+.hidden {
+    display: none;
+}
+
+#reminder-options-menu {
+    position: absolute; /* Pozycjonowanie względem rodzica .calendar */
+    top: 50px; /* Wysokość od góry */
+    transform: translateX(-3%);
+    width: 240px; /* Szerokość menu */
+    background-color: #232222; /* Tło menu */
+    border: 1px solid #424244; /* Obramowanie */
+    border-radius: 5px; /* Zaokrąglenie */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Cień dla lepszego wyglądu */
+    z-index: 10;
+}
+
+#reminder-options-menu ul {
+    list-style-type: none;  
+    margin: 0;
+    padding: 0;
+}
+
+.resize-option {
+    font-family: 'Arial', sans-serif; 
+    font-size: 14px; 
+    color: #d0d0d0; 
+    padding: 8px 20px; 
+    cursor: pointer;  
+    display: block;  
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.resize-option:hover {
+    background-color: #f0f0f0; 
+    color: #232222; 
+}
+

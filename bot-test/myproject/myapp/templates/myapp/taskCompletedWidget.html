@@ -1,0 +1,40 @@
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/reminder-widget.css' %}">
+</head>
+<body>
+    <div class="tasks-list">
+        <ul>
+            <li class="task-item create-task-item">
+                <div class="create-task-container">
+                    <img src="{% static 'images/plus (4).svg' %}" alt="Dodaj" class="create-task-icon">
+                    <label for="create-task" class="create-task-label">Utwórz zadanie</label>
+                </div>
+            </li>
+            <li class="task-item task-with-date">
+                <div class="task-container">
+                    <label for="task-1" class="task-label">Przygotować raport na spotkanie</label>
+                </div>
+                <span class="task-date">Jutro</span>
+            </li>
+            <li class="task-item task-with-date">
+                <div class="task-container">
+                    <label for="task-2" class="task-label">Zaktualizować dokumentację projektu</label>
+                </div>
+                <span class="task-date">Pojutrze</span>
+            </li>
+            <li class="task-item task-with-date">
+                <div class="task-container">
+                    <label for="task-3" class="task-label">Wysłać e-mail do klienta</label>
+                </div>
+                <span class="task-date">Za 2 dni</span>
+            </li>
+        </ul>
+    </div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %} Bieżące zadania {% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+    <script src="{% static 'js/tasksPanel.js' %}"></script>
+</head>
+<body>
+    <div class="task-container">
+        <div class="header">
+            <h1>Moje zadania</h1>
+        <nav class="task-nav">
+            <a href="#">Tablica</a>
+            <a href="#">Lista</a>
+        </nav>
+        <div class="header-divider"></div>
+    </div>
+        <div class="layout">
+        <div class="task-list">
+            <div class="today-tasks">
+                <div class="task-list-header">
+                    <div class="task-list-title">
+                        <h2>Dzisiejsze</h2>
+                    </div>
+                    <div class="task-list-options">
+                        <img src="../static/images/more-horizontal.svg">
+                    </div>
+                </div>
+                <!-- Pierwszy element in-progress-item -->
+                <div class="element-container">
+                <div class="today-item">
+                    <div class="task-header">
+                        <div class="task-title">
+                            <h2>Richard McClintock -a Latin...</h2>
+                        </div>
+                        <div class="task-options">
+                            <img src="../static/images/more-vertical.svg">
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+                            making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney...</p>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="attachment">
+                            <img src="../static/images/paperclip (1).svg">
+                            <p>3</p>
+                        </div>
+                        <div class="about-task-participants">
+                            <div class="about-task-participants-avatars">
+                                <img src="../static/images/person1.jpg">
+                                <img src="../static/images/person2.jpg">
+                                <img src="../static/images/person3.jpg">
+                                <img src="../static/images/person4.jpg">
+                                <div class="about-task-more-participants">+3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Drugi element in-progress-item -->
+                <div class="today-item">
+                    <div class="task-header">
+                        <div class="task-title">
+                            <h2>Cicero's writings on ethics...</h2>
+                        </div>
+                        <div class="task-options">
+                            <img src="../static/images/more-vertical.svg">
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Cicero's writings, particularly his works on ethics, have inspired countless scholars throughout history. His profound insights remain relevant...</p>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="attachment">
+                            <img src="../static/images/paperclip (1).svg">
+                            <p>5</p>
+                        </div>
+                        <div class="about-task-participants">
+                            <div class="about-task-participants-avatars">
+                                <img src="../static/images/person5.jpg">
+                                <img src="../static/images/person6.jpg">
+                                <img src="../static/images/person7.jpg">
+                                <div class="about-task-more-participants">+2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trzeci element in-progress-item -->
+                <div class="today-item">
+                    <div class="task-header">
+                        <div class="task-title">
+                            <h2>Exploring the origins of Ipsum...</h2>
+                        </div>
+                        <div class="task-options">
+                            <img src="../static/images/more-vertical.svg">
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>The origins of Lorem Ipsum can be traced back to ancient manuscripts and texts that shaped the foundation of modern literature...</p>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="attachment">
+                            <img src="../static/images/paperclip (1).svg">
+                            <p>2</p>
+                        </div>
+                        <div class="about-task-participants">
+                            <div class="about-task-participants-avatars">
+                                <img src="../static/images/person8.jpg">
+                                <img src="../static/images/person9.jpg">
+                                <div class="about-task-more-participants">+1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Czwarty element in-progress-item -->
+                <div class="today-item">
+                    <div class="task-header">
+                        <div class="task-title">
+                            <h2>Modern adaptations of Ipsum...</h2>
+                        </div>
+                        <div class="task-options">
+                            <img src="../static/images/more-vertical.svg">
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Modern uses of Lorem Ipsum show how timeless this placeholder text has become, influencing design and typography for decades...</p>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="attachment">
+                            <img src="../static/images/paperclip (1).svg">
+                            <p>8</p>
+                        </div>
+                        <div class="about-task-participants">
+                            <div class="about-task-participants-avatars">
+                                <img src="../static/images/person10.jpg">
+                                <img src="../static/images/person11.jpg">
+                                <div class="about-task-more-participants">+4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                    
+                    
+            <div class="tommorow-tasks">
+                <div class="task-list-header">
+                    <div class= "task-list-title">
+                        <h2>Na jutro</h2>
+                    </div>
+                <div class="task-list-options">
+                    <img src="../static/images/more-horizontal.svg">
+                </div>
+            </div>
+                <div class="tommorow-item">
+                    <div class ="task-header">
+                    <div class="task-title">
+                        <h2>Richard McClintock -a Latin...</h2>
+                    </div>
+                        <div class="task-options">
+                            <img src="../static/images/more-vertical.svg">
+                        </div>
+                </div>
+                    <div class="description">
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+                            making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney...</p>
+                    </div>
+                    <div class="activity-summary">
+                        <div class="attachment">
+                            <img src="../static/images/paperclip (1).svg">
+                            <p>3</p>
+                        </div>
+                        <div class="about-task-participants">
+                            <div class="about-task-participants-avatars">
+                                <img src="../static/images/person1.jpg">
+                                <img src="../static/images/person2.jpg">
+                                <img src="../static/images/person3.jpg">
+                                <img src="../static/images/person4.jpg">
+                                <div class="about-task-more-participants">+3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+                <div class="this-week-tasks">
+                    <div class="task-list-header">
+                        <div class= "task-list-title">
+                            <h2>W tym tygodniu</h2>
+                        </div>
+                        <div class="task-list-options">
+                            <img src="../static/images/more-horizontal.svg">
+                        </div>
+                    </div>
+                    <div class="this-week-item">
+                        <div class ="task-header">
+                            <div class="task-title">
+                                <h2>Richard McClintock -a Latin...</h2>
+                            </div>
+                                <div class="task-options">
+                                    <img src="../static/images/more-vertical.svg">
+                                </div>
+                        </div>
+                            <div class="description">
+                                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+                                    making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney...</p>
+                            </div>
+                            <div class="activity-summary">
+                                <div class="attachment">
+                                    <img src="../static/images/paperclip (1).svg">
+                                    <p>3</p>
+                                </div>
+                                <div class="about-task-participants">
+                                    <div class="about-task-participants-avatars">
+                                        <img src="../static/images/person1.jpg">
+                                        <img src="../static/images/person2.jpg">
+                                        <img src="../static/images/person3.jpg">
+                                        <img src="../static/images/person4.jpg">
+                                        <div class="about-task-more-participants">+3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="overdue-tasks">
+                <div class="task-list-header">
+                    <div class= "task-list-title">
+                        <h2>Przeterminowane</h2>
+                    </div>
+                    <div class="task-list-options">
+                        <img src="../static/images/more-horizontal.svg">
+                    </div>
+                </div>
+                <!--przeterminowane zadania
+                <div class="overdue-item">
+                </div>
+                 -->  
+                 <div class ="no-tasks">
+                    <h2>Brak zadań</h2>
+                 </div>
+    </div>
+</div>
+    <div id="details-panel" class="details-panel">
+        <div class="details">
+            <div class="close-panel">
+                <img src="../static/images/x (2).svg">
+            </div>
+            <div class="manager-container">
+                <div class="pm-info">
+                    <div class ="pm-avatar">
+                        <img src="../static/images/person4.jpg">
+                    </div>
+                    <div class = "pm-details">
+                    <h2>Jan Jankowski</h2>
+                    <div class="user-container">
+                        <div class="position">
+                            <p>Menadżer zadania</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <div class="task-details">
+            <div class="start-date">
+                <h2>Data rozpoczęcia <h2>
+                   <p>2024-01-01</p> 
+                </div>
+            <div class="deadline">
+                <h2>Termin ukończenia</h2> 
+                    <p>2024-12-31</p>
+            </div>
+            <div class="task-status">
+                <h2>Status</h2>
+                <p>W toku</p>
+            </div>
+            <div class="priority">
+                <h2>Priorytet</h2> 
+                <p>Wysoki</p>
+            </div>
+            <div class="days-left">
+                <h2>Pozostało dni</h2>
+                <p> 120</p>
+                </div>
+            <div class="task-participants">
+                <h2>Uczestnicy zadania</h2>
+                <div class = "task-participants-avatars">
+                <img src="../static/images/person1.jpg">
+                <img src="../static/images/person2.jpg">
+                <img src="../static/images/person3.jpg">
+                <img src="../static/images/person4.jpg">
+                </div>
+            </div>
+        </div>
+        <div class ="divider"></div>
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>
+{% endblock %}

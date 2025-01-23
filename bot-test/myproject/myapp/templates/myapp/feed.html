@@ -1,0 +1,55 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/teamPage.css' %}">
+  <script src="{% static 'js/newPost.js' %}"></script>
+</head>
+<body>
+  <div class="feed-content">
+    <!-- Formularz do dodawania postów -->
+    <div class="post-form">
+      <div id="new-post" contenteditable="true" class="editable" placeholder="Napisz coś..."></div>
+      <div class="toolbar">
+        <button class="post-icon">📷</button>
+        <button class="post-icon">📁</button>
+      </div>
+    </div>
+
+    <!-- Sekcja wyświetlająca posty -->
+    <div class="feed">
+      <div class="post">
+        <div class="post-user-container">
+          <div class="post-user-avatar"></div>
+          <div class="post-user-details">
+            <p class="post-user-name">Jan Kowalski</p>
+            <p class="post-date"></p>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+        </div>
+        <div class="post-reaction">
+          <p>Lubię to</p>
+          <p>Odpowiedz</p>
+        </div>
+        <div class="comments">
+          <div class="comment-form">
+            <div class="comment-user-avatar"></div>
+            <textarea placeholder="Napisz komentarz..." class="comment-input"></textarea>
+            <button class="submit-comment">Komentuj</button>
+          </div>
+          <div class="comment">
+            <p><strong>Jan Kowalski:</strong> Świetny post! :)</p>
+          </div>
+          <div class="comment">
+            <p><strong>Anna Nowak:</strong> Zgadzam się, bardzo interesujące.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}

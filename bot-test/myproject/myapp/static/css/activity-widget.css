@@ -1,0 +1,116 @@
+.activity{
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px;
+    background-color: rgb(35, 35, 39); 
+    border-radius: 10px; 
+    border: 1px solid #424244;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+}
+
+.activity:hover{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
+    border-color: #6E6E72;
+}
+
+.activity.small{
+    width: 600px; 
+    height: 47vh;
+}
+
+.activity.full{
+    width: 1220px;
+    height: 47vh;
+}
+
+.activity-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 10px;
+}
+
+.activity-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-start; 
+    flex-grow: 1;
+    text-align:left; 
+    margin-bottom: 5px; 
+    font-family: 'Nunito', sans-serif;
+    color: #d0d0d0; 
+    padding-left: 10px;
+}
+
+.activity-title h2 {
+    font-size: 18px;
+    color: #d0d0d0;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    flex-grow: 1; 
+    font-family: 'Nunito', sans-serif;
+}
+
+.activity-options {
+    display: flex;
+    align-items: center;  
+    cursor: pointer; 
+    padding: 10px;
+}
+
+.activity-options img {
+    width: 18px;
+    height: 18px;
+}
+
+.activity-options img:hover{
+    transform: scale(1.2);
+    opacity: 0.8;
+    transition: transform 0.2s ease; 
+}
+
+.hidden {
+    display: none;
+}
+
+#activity-options-menu {
+    position: absolute; 
+    top: 50px; 
+    transform: translateX(-3%);
+    width: 240px; 
+    background-color:rgb(35, 35, 39); ; 
+    border: 1px solid #424244; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+    z-index: 10;
+}
+
+#activity-options-menu ul {
+    list-style-type: none;  
+    margin: 0;
+    padding: 0;
+}
+
+.resize-option {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; 
+    color: #d0d0d0; 
+    padding: 8px 10px; 
+    cursor: pointer;  
+    display: block;  
+
+}
+
+.delete-widget{
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; 
+    color: #d0d0d0; 
+    padding: 8px 10px; 
+    cursor: pointer;  
+    display: block; 
+}

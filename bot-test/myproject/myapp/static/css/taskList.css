@@ -1,0 +1,145 @@
+/* task.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.task-container {
+    margin: 20px auto;
+    max-width: 1200px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f1f1f1;
+}
+
+.create-task button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-task button:hover {
+    background-color: #45a049;
+}
+
+.search-engine input {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.table-container {
+    padding: 20px;
+}
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table-header {
+    background-color: #f1f1f1;
+    text-align: left;
+}
+
+.header-row th {
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.table-body .task-row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.table-body .task-row td {
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.task-row:hover {
+    background-color: #f9f9f9;
+}
+
+.checkbox-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.created-by-avatar, 
+.assignee-avatar {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.status {
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #4CAF50;
+}
+
+.status:contains('Zakończone') {
+    color: #2196F3;
+}
+
+.status:contains('W trakcie') {
+    color: #FF9800;
+}
+
+.priority {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.priority:contains('Wysoki') {
+    color: #e53935;
+}
+
+.priority:contains('Średni') {
+    color: #fbc02d;
+}
+
+.priority:contains('Niski') {
+    color: #4CAF50;
+}
