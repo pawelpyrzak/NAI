@@ -1,0 +1,17 @@
+{% block extra_head %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Twoje przypomnienia</title>
+{% endblock %}
+{% block content %}
+    <h1>Twoje przypomnienia</h1>
+    <ul>
+        {% for reminder in reminders %}
+            <li>{{ reminder.content }} - {{ reminder.target }} - {{ reminder.platform }} - {{ reminder.time }}</li>
+        {% empty %}
+            <li>Brak przypomnień.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_reminder' %}">Dodaj nowe przypomnienie</a>
+{% endblock %}
+

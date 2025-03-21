@@ -242,6 +242,9 @@ table {
 .day-sat {
     width: 15%;
 }
+.hidden {
+    display: none;
+}
 
 tbody td {
     width: calc(100% / 7);

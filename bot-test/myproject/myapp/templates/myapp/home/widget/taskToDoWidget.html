@@ -1,0 +1,20 @@
+{% load static %}
+ <div class="tasks-list">
+        <ul>
+            <li class="task-item create-task-item">
+                <div class="create-task-container">
+                    <img src="{% static 'images/plus (4).svg' %}" alt="Dodaj" class="create-task-icon">
+                    <label for="create-task" class="create-task-label">Utwórz zadanie</label>
+                </div>
+            </li>
+            {% for task in tasks %}
+            <li class="task-item task-with-date">
+                <div class="task-container">
+                    <img src="{% static 'images/play.svg' %}" alt="Dodaj" class="start-task-icon">
+                    <label for="task-1" class="task-label">{{task.title}}</label>
+                </div>
+                <span class="task-date">Jutro</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>

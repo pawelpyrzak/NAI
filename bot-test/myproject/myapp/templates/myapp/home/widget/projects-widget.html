@@ -1,0 +1,53 @@
+{% load static %}
+<div class="projects-container">
+    <div class="projects small">
+        <div class="projects-header">
+            <div class="header-left">
+                <div class="projects-title">
+                    <h2>Projekty</h2>
+                </div>
+                <div class="project-options" id="project-options-menu">
+                    <select class="project-select" id="project-options-select">
+                        <option value="in_progres">W toku</option>
+                        <option value="pending">Oczekujące na rozpoczęcie</option>
+                        <option value="at_risk">Zagrożone</option>
+                        <option value="completed">Zakończone</option>
+                    </select>
+                </div>
+            </div>
+            <div class="header-right">
+                <div id="create-project-section">
+                    <button class="add-project">
+                        <div class="add-project-icon">
+                            <img alt="Dodaj" class="icon" src="../static/images/plus (1).svg">
+                        </div>
+                        <div class="add-project-span">
+                            <span>Utwórz projekt</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="projects-options">
+                    <img id="projects-options-icon" src="{% static 'images/more-horizontal.svg' %}">
+                    <div class="hidden" id="projects-options-menu">
+                        <ul>
+                            <li>
+                                <div class="resize-option" id="projects-resize-small">Pomniejsz</div>
+                            </li>
+                            <li>
+                                <div class="resize-option" id="projects-resize-full">Pełny rozmiar</div>
+                            </li>
+                            <li>
+                                <div class="delete-widget" id="projects-delete-widget">Usuń widżet</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-scrollable">
+            <div id="dynamic-project-board">
+            </div>
+        </div>
+    </div>
+</div>

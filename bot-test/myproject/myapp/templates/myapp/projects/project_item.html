@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="{{ project_type }}-item">
+    <div class="project-header">
+        <div class="project-title">
+            <h2>{{project.name}}</h2>
+        </div>
+        <div class="project-options">
+            <img src="{% static 'images/more-vertical.svg' %}"></div>
+    </div>
+    <div class="description">
+        <p>{{ project.description }}</p>
+    </div>
+    <div class="activity-summary">
+        <div class="attachment">
+            <img src="{% static 'images/paperclip (1).svg' %}">
+            <p>{{ project.attachments_count }}</p>
+        </div>
+        <div class="about-project-participants">
+            <div class="about-project-participants-avatars">
+                <div class="about-project-more-participants"></div>
+            </div>
+        </div>
+    </div>
+</div>

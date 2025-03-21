@@ -1,0 +1,149 @@
+{% load static %}
+{% load humanize %}
+<div class="comments">
+    <div class="comment-header">
+        <div class="comment-section-title">
+            <h2>Komentarze</h2>
+        </div>
+        <div class="comment-counter">
+            <p>10</p>
+        </div>
+    </div>
+    <div class="new-comment-section">
+        <form action="{% url 'add_comment' task.id %}" method="POST">
+            {% csrf_token %}
+
+            <div class="comment-input-section">
+                <div class="user-comment">
+                    <img alt="" src="{{ user.profile.profile_image.url }}">
+                </div>
+                <div class="comment-form">
+                    <textarea id="comment-text" name="content" placeholder="Dodaj komentarz" onclick="expandTextarea(this)"></textarea>
+                </div>
+            </div>
+
+            <div class="form-button-container">
+                <button class="cancel-button" onclick="resetCommentForm()" type="button">
+                    <p>Anuluj</p>
+                </button>
+                <button class="comment-button" type="submit">
+                    <p>Skomentuj</p>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="comments-section">
+        {% for comment in comments %}
+        <div class="commenting-user">
+            <div class="commenting-user-avatar">
+                <img src="{{ comment.author.profile.profile_image.url }}">
+            </div>
+            <div class="comment-container">
+                <div class="name-of-commenting-user-and-date">
+                    <div class="name-of-commenting-user">
+                        <p>{{comment.author.profile.full_name}}</p>
+                    </div>
+                    <div class="date-of-comment">
+                        <p class="comment-time">{{ comment.created_at|naturaltime }}</p>
+                    </div>
+                </div>
+                <div class="comment-content">
+                    <p>{{ comment.content }}</p>
+                </div>
+                <div class="comment-actions">
+                    <div class="likes">
+                        <div class="likes-icon">
+                            <img src="{% static 'images/arrow-up.svg' %}">
+                        </div>
+                        <div class="likes-counter">
+                            <p>2</p>
+                        </div>
+                    </div>
+                    <div class="dislikes">
+                        <div class="dislikes-icon">
+                            <img src="{% static 'images/arrow-down (1).svg' %}">
+                        </div>
+                    </div>
+                    <div class="reply">
+                        <div class="reply-icon">
+                            <img src="{% static 'images/message-circle (2).svg' %}">
+                        </div>
+                        <div class="reply-txt">
+                            <h2>Odpowiedz</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reply-form-container hidden">
+                    <form action="{% url 'add_reply' task.id comment.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="reply-user-avatar">
+                            <img src="{{user.profile.profile_image.url}}">
+                        </div>
+                        <div class="reply-form">
+                            <textarea id="content" name="content" onclick="expandTextarea(this)"
+                                      placeholder="Napisz odpowiedź"></textarea>
+
+                        </div>
+
+                        <div class="reply-button-container">
+                            <button class="reply-cancel-button" onclick="resetReplyForm(this)" type="button">
+                                <p>Anuluj</p>
+                            </button>
+                            <button class="reply-comment-button" type="submit">
+                                <p>Skomentuj</p>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="replies-section">
+            {% for reply in comment.replies.all %}
+            <div class="replying-user">
+                <div class="replying-user-avatar">
+                    <img src="{{reply.author.profile.profile_image.url}}">
+                </div>
+                <div class="reply-container">
+                    <div class="name-of-replying-user-and-date">
+                        <div class="name-of-replying-user">
+                            <p>{{reply.author.profile.full_name}}</p>
+                        </div>
+                        <div class="date-of-reply">
+                            <p class="reply-time">{{ reply.created_at|naturaltime }}</p>
+                        </div>
+                    </div>
+                    <div class="reply-content">
+                        <p>{{ reply.content }}</p>
+                    </div>
+                    <div class="reply-actions">
+                        <div class="likes">
+                            <div class="likes-icon">
+                                <img src="{% static 'images/arrow-up.svg' %}">
+                            </div>
+                            <div class="likes-counter">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="dislikes">
+                            <div class="dislikes-icon">
+                                <img src="{% static 'images/arrow-down (1).svg' %}">
+                            </div>
+                        </div>
+                        <div class="reply">
+                            <div class="reply-icon">
+                                <img src="{% static 'images/message-circle (2).svg' %}">
+                            </div>
+                            <div class="reply-txt">
+                                <h2>Odpowiedz</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>

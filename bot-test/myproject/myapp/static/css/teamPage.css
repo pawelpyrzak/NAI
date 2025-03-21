@@ -1,61 +1,451 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden; 
-  height: 100%; 
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Wyłącza przewijanie globalne */
+    height: 100%; /* Ustawia pełną wysokość dla widoku */
 }
 
 .team-container {
-padding-top: 50px; 
-margin: 0 auto; 
-width: 100%;
-height: 100%;
-overflow: hidden;
-background-color: rgb(34, 34, 39);
-}
-
-.header {
-  display: block;
+    padding-top: 50px;
+ }
+ .header {
+  display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 40px;
   width: 100%;
-  height: 90px;
-  position: sticky; 
-  top: 0;
+  height: 60px;
+  background: #232222;
+  border-bottom: 1px solid #424244;
+  position: sticky; /* Ustawienie nagłówka na przyklejony */
+  top: 0; /* Przykleja nagłówek do góry */
+ }
+
+.header h1{
+    color:#f5f4f3;
+    margin-left: 40px;
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.header h1 {
-color: #f5f4f3;
-margin-left: 40px;
-font-size: 20px;
-font-weight: 300;
-padding-top: 20px;
+.header-actions {
+    display: flex;
+    align-items: center; /* Wyrównanie elementów w pionie */
 }
 
-.team-nav {
-margin-top: 10px; 
-display: flex;
-gap:40px;
-margin-left: 40px;
+.header-actions h2{
+    color:#f5f4f3;
+    margin-left: 20px;
+    font-size: 15px;
+    font-weight: 300;
 
 }
 
-.team-nav a {
-display: block; 
-text-decoration: none;
-color: #b0b0b0;
-margin: 5px 0;
-font-size: 13px;
-font-weight: bold;
-transition: color 0.3s;
-letter-spacing: 0.5px;
+/* Styl dla kontenera całej strony */
+.team-container {
+    display: flex; /* Flexbox dla układu poziomego */
+    height: 100vh; /* Wysokość pełnego okna przeglądarki */
+    background-color: #f4f4f4; /* Tło dla lepszej widoczności układu */
+  }
+
+  /* Sekcja boczna (side) */
+  .side {
+    width: 20%; /* 25% szerokości na boczną sekcję */
+    background-color:#232222; /* Ciemne tło, jak w podglądzie */
+    color: #fff; /* Jasny tekst na ciemnym tle */
+    padding: 20px; /* Odstępy wewnętrzne */
+    box-sizing: border-box; /* Uwzględnij padding w szerokości */
+    overflow-y: auto; /* Pionowy scroll w przypadku dużej zawartości */
+    border-right: 1px solid #424244;
+  }
+
+  /* Główna sekcja (feed) */
+  .feed-container {
+    flex: 1; /* Wypełnia resztę dostępnej szerokości */
+    background-color:#232222; /* Jasne tło */
+    padding: 20px; /* Odstępy wewnętrzne */
+    box-sizing: border-box; /* Uwzględnij padding w szerokości */
+    overflow-y: auto; /* Pionowy scroll */
+
+  }
+
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+
+  .show-all-teams {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 1px;
+    padding-bottom: 25px;
 }
 
-.header-divider{
-width: 100%;
-border-bottom: 1px solid #353536;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0 auto;
+  .show-all-teams h2{
+    color:#f5f4f3;
+    margin-left: 3px;
+    font-size: 14px;
+    font-weight: 530;
+  }
+
+  .team-avatar{
+    padding-top: 40px;
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+    background-color:#3e4575;
+    border-radius: 10px;
+  }
+
+  .members-container {
+    margin-top: 20px;
+  }
+  .members h2{
+    color:#f5f4f3;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .projects-container{
+    margin-top: 20px;
+  }
+
+  .projects h2{
+    color:#f5f4f3;
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .projects{
+    background-color: #272727; /* Tło sekcji członków */
+    padding: 10px;
+    border-radius: 5px; /* Zaokrąglone rogi */
+    border: 1px solid #424244;
+  }
+
+  .projects-header{
+    gap:140px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #424244;
+  }
+
+  .projects-header h2{
+    color: #676768;
+    padding-top: 20px;
+    font-size: 12px;
+    padding-bottom: 5px;
+
+  }
+
+  .name-of-team{
+
+  }
+
+  .name-of-team h3{
+    color:#f5f4f3;
+    padding-top: 20px;
+    padding-left: 10px;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .members {
+    background-color: #272727; /* Tło sekcji członków */
+    padding: 10px;
+    border-radius: 5px; /* Zaokrąglone rogi */
+    border: 1px solid #424244;
+  }
+
+  .user {
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background-color: #056b52;
+    display: flex;
+    align-items: center;
+  }
+
+
+  .first-user, .second-user, .third-user, .fourth-user {
+    display: flex;
+    flex-direction: column; /* Układa avatar i nazwę w pionie */
+
+  }
+
+  .name-of-project{
+    color:#f5f4f3;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    padding-top: 5px;
+  }
+
+  .name p {
+    margin: 0;
+    font-size: 11px;
+    color: #f5f4f3;
+    font-weight: 500;
+    padding-top: 3px;
+}
+
+.all-members {
+  padding: 8px 15px; /* Zmniejszone wewnętrzne odstępy (mniejsza wysokość i szerokość) */
+  margin-right: auto; /* Przesunięcie na prawą stronę */
+  font-size: 11px; /* Rozmiar tekstu */
+  color: #f5f4f3; /* Kolor tekstu */
+  cursor: pointer; /* Wskaźnik kursora */
+  border: 1px solid #424244; /* Obwódka */
+  border-radius: 15px; /* Zaokrąglenie rogów */
+  white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+  max-width: fit-content; /* Dopasowanie do treści */
+
+}
+
+.user-container {
+  display: flex; /* Ustawia układ w rzędzie */
+  flex-wrap: nowrap; /* Zapobiega zawijaniu wierszy */
+  gap: 20px; /* Odstęp między użytkownikami */
+  align-items: center; /* Wyrównanie w pionie */
+  padding-bottom: 10px;
+}
+
+.arrow-left {
+  width: 20px;
+  height: auto;
+}
+
+.feed-content {
+  margin-top: 60px;
+  padding: 20px;
+
+}
+
+.post{
+  width: 80%; /* Szerokość względna (np. 80% kontenera) */
+  max-width: 900px; /* Maksymalna szerokość, jeśli wymagana */
+  margin: 20px auto; /* Wyśrodkowanie posta z marginesami od góry/dół */
+  padding: 20px; /* Wewnętrzne odstępy */
+  border: 1px solid #424244; /* Obrys */
+  border-radius: 20px; /* Zaokrąglone rogi */
+  background-color: #252525; /* Kolor tła */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtelny cień */
+  height: auto;
+}
+
+.post-form {
+  width: 80%; /* Szerokość względna (np. 80% kontenera) */
+  max-width: 900px; /* Maksymalna szerokość, jeśli wymagana */
+  margin: 20px auto; /* Wyśrodkowanie posta z marginesami od góry/dół */
+  padding: 20px; /* Wewnętrzne odstępy */
+  height: auto;
+  overflow: hidden;
+}
+
+#new-post {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 900px;
+  height: 50px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 1px solid #424244;
+  background-color: #2b2b2b;
+  color: white;
+  overflow-y: auto;
+  transition: height 0.3s ease;
+  outline: none;
+  margin: 20px auto;
+}
+
+#new-post:focus{
+  height: 220px;
+}
+
+
+.toolbar {
+  display: none;
+  background-color: #3b3b3b;
+  padding: 10px;
+  border-top: 1px solid #424244;
+  text-align: center;
+}
+
+
+
+.submit-post {
+  align-self: flex-start;
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #232222;
+  color: #fff;
+  border: 1px solid #424244;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-post:hover {
+  background-color: #424244;
+}
+
+/* Sekcja wyświetlająca posty */
+.feed {
+  margin-top: 20px;
+}
+
+
+.post h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.post p {
+  font-size: 16px;
+  color:#f5f4f3;
+}
+
+
+/* Sekcja komentarzy */
+.comments {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-left: -15px; /* Ustawienie na lewą krawędź kontenera */
+  padding-left: 0; /* Usuwa wszelkie wewnętrzne odstępy po lewej stronie */
+}
+
+
+.comment-input {
+  width: 600px; /* Stała szerokość pola tekstowego */
+  background-color: #2b2b2b;
+  padding: 8px 12px; /* Wewnętrzne odstępy (8px góra/dół, 12px lewa/prawa) */
+  border: 1px solid #424244;
+  border-radius: 50px; /* Zaokrąglone rogi */
+  resize: none; /* Wyłączenie możliwości zmiany rozmiaru */
+  height: 40px; /* Dopasowanie wysokości do avatara */
+}
+
+
+
+.submit-comment {
+  align-self: flex-start;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #232222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+}
+
+.submit-comment:hover {
+  background-color: #424244;
+}
+
+/* Stylizacja dla pojedynczego komentarza */
+.comment {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.comment p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.comment strong {
+  font-weight: bold;
+}
+
+.comments .comment:hover {
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-user-avatar{
+    margin-left: 10px;
+    height: 35px;
+    width: 35px;
+    border-radius: 20px;
+    background-color: #056b52;
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.comment-user-container {
+  display: flex; /* Układ poziomy dla dzieci elementów */
+  align-items: flex-start; /* Wyrównanie w pionie do góry */
+  gap: 10px; /* Odstęp między zdjęciem, polem tekstowym i przyciskiem */
+  justify-content: flex-start; /* Wyrównanie do lewej */
+  height: auto; /* Usuwa nadmiarową wysokość */
+}
+
+.post-user-avatar{
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  background-color: #056b52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-user-container {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-bottom: 3px;
+}
+
+.post-user-details {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 300;
+}
+
+.post-content p{
+  padding-top: 12px;
+  padding-left: 14px;
+  padding-right: 10px;
+  font-size: 14px;
+  font-weight: 200;
+}
+.post-reaction{
+  padding-left: 15px;
+  padding-top: 20px;
+  display: flex; /* Układa elementy w poziomie (w rzędzie) */
+  gap: 15px; /* Odstęp między elementami */
+  align-items: center; /* Wyrównuje elementy w pionie */
+}
+
+.post-reaction p{
+  font-size: 13px;
+  color: #7f7f80;
+}
+.post-user-name p{
+  font-size: 15px;
 }

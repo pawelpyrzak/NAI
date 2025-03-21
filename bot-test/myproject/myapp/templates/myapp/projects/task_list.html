@@ -1,0 +1,67 @@
+{% load static %}
+{% load humanize %}
+ <style>
+        .task-category {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .task-category h2 {
+            color: green;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .delayed {
+            color: red;
+            font-weight: bold;
+        }
+        .task-category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-category li {
+            color: white;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .task-category li:last-child {
+            border-bottom: none;
+        }
+        .task-category img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+    </style>
+<h1>Zadania dla projektu: {{ project.name }}</h1>
+
+{% for category, tasks in task_groups.items %}
+<div class="task-category">
+    <h2>{{ category }}</h2>
+    {% if tasks %}
+    <ul>
+        {% for task in tasks %}
+        <li>
+
+            {{ task.title }} -
+            <img alt="{{ task.assigned_to.full_name }}" height="30" src="{{ task.assignee.profile.profile_image.url }}" width="30">
+            {{ task.assignee.profile.full_name }} (Termin: {{ task.due_date|naturalday }},
+            {% if category == "Przeterminowane" %}
+            <span class="delayed">
+            Opóźnienie: {{ task.days_left }} dni
+            </span>)
+            {% else %}
+            Pozostało: {{ task.days_left }} dni)
+            {% endif %}
+
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Brak zadań</p>
+    {% endif %}
+</div>
+{% endfor %}

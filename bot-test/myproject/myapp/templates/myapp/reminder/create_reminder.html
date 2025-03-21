@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Stwórz przypomnienie</title>
+</head>
+<body>
+    <h1>Utwórz nowe przypomnienie</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Wyświetlenie formularza -->
+        <button type="submit">Utwórz przypomnienie</button>
+    </form>
+</body>
+</html>

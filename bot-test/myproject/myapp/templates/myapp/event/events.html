@@ -1,0 +1,33 @@
+{% block extra_head %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista wydarzeń - {{ group.name }}</title>
+{% endblock %}
+{% block content %}
+    <h1>Wydarzenia grupy: {{ group.name }}</h1>
+
+    {% if events %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong><br>
+                    Data rozpoczęcia: {{ event.start_date }}<br>
+                    Data zakończenia: {{ event.end_date }}<br>
+                    Opis: {{ event.description }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak wydarzeń w tej grupie.</p>
+    {% endif %}
+
+    <h1>Utwórz nowe wydarzenie w grupie: {{ group.name }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz</button>
+    </form>
+
+{% endblock %}
+

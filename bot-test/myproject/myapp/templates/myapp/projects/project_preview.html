@@ -1,0 +1,216 @@
+{% load static %}
+{% load humanize %}
+<div class="button-container">
+    <button class="share-link-button">
+        <img alt="Share Link" src="{% static 'images/link-2.svg' %}">
+    </button>
+</div>
+<div class="project-description">
+    <div class="project-description-title">
+        <div class="edit-project">
+            <img alt="Edit" class="edit-icon"
+                 src="{% static 'images/edit (1).svg' %}">
+        </div>
+        <h2>Opis projektu</h2>
+    </div>
+    <div class="project-title">
+        <h2>{{project.name}}</h2>
+    </div>
+    <div class="about-project">
+        <p>{{ project.description|default:'opis' }}</p>
+    </div>
+</div>
+<form action="{% url 'edit_project' project.id %}" class="edit-project-form" method="POST"
+      style="display: none;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zapisz</button>
+    <button class="cancel-edit-button" type="button">Anuluj</button>
+</form>
+<div class="attachments">
+    <div class="attachments-header">
+        <h2>Załączniki</h2>
+        <div class="files">
+            <div class="add-link">
+                <img alt="Add Attachment" src="{% static 'images/plus.svg' %}">
+            </div>
+            <div class="attachment"></div>
+        </div>
+    </div>
+</div>
+<div class="project-roles">
+    <div class="project-roles-title">
+        <h2>Role w projekcie</h2>
+    </div>
+    <div class="role-container">
+        <div class="add-user-container">
+            <div class="add-user">
+                <img alt="Add User" src="{% static 'images/plus.svg' %}">
+            </div>
+            <div class="add-user-txt">
+                <p>Dodaj użytkownika</p>
+            </div>
+        </div>
+        {% for member in project.participants %}
+        <!-- Użytkownik 1 -->
+        <div class="project-member">
+            <div class="user-info">
+                <div class="collaborator-user-avatar">
+                    <img alt="User Avatar" src="{{member.profile_image.url}}">
+                </div>
+
+                <div class="user-details">
+                    <h2>{{member.first_name}} {{member.last_name}}</h2>
+                    <div class="user-meta">
+                        <div class="user-position">
+                            <p>Menadżer projektu</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="timeline-container">
+    <div class="timeline-header">
+        <h2>Aktywność projektu</h2>
+    </div>
+    <div class="timeline">
+        <!-- Project Deadline -->
+        <div class="timeline-event project-deadline">
+            <div class="timeline-point">
+                <img alt="calendar icon" src="{% static 'images/calendar.svg' %}">
+            </div>
+            <div class="project-deadline-info">
+                <div class="action">
+                    <div class="deadline-of-project">
+                        <h2>{{project.due_date|naturalday}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-loop">
+            {% for task in task_list %}
+            <div class="timeline-test">
+                <div class="timeline-event task-creation task-creation-with-activity">
+                    <div class="timeline-point">
+                        <img alt="plus icon" src="{% static 'images/plus (3).svg' %}">
+                    </div>
+
+                    {% if task.changes.count > 0 %}
+                    <div class="timeline-line"></div>
+                    {% endif %}
+
+                    <div class="task-creation-info">
+                        <div class="user-action">
+                            <div class="user-action-avatar">
+                                <img alt="{{ task.created_by.profile.full_name }}"
+                                     src="{{ task.created_by.profile.profile_image.url }}">
+                            </div>
+                            <div class="user-action-name">
+                                <h2>{{ task.created_by.profile.full_name|default:"User" }}</h2>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <div class="type-of-action">
+                                <h2>utworzył(a) zadanie</h2>
+                            </div>
+                            <div class="name-of-task">
+                                <h2>{{ task.title }}</h2>
+                            </div>
+                        </div>
+                        <div class="action-date">
+                            <p>{{ task.created_at|naturalday }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if task.changes.count > 0 %}
+                <!-- Task Activity Expansion -->
+                <div class="task-activity">
+                    <div class="expand-tasks">
+                        <div class="expand-tasks-icon">
+                            <img alt="expand tasks icon"
+                                 src="{% static 'images/chevron-down (3).svg' %}">
+                        </div>
+                        <div class="expand-tasks-info">
+                            <h2>Pokaż aktywność zadania</h2>
+                        </div>
+                    </div>
+
+                    <div class="hidden-tasks" style="display: none;">
+                        {% for change in task.changes.all %}
+                        <div class="timeline-task-event task-deadline">
+                            <div class="timeline-point-task">
+                                <img alt="calendar change icon"
+                                     src="{% static 'images/calendar (4).svg' %}">
+                            </div>
+                            <div class="task-extended-deadline-info">
+                                <div class="user-extended-action">
+                                    <div class="user-extended-action-avatar">
+                                        <img alt="{{ change.author.profile.full_name }}"
+                                             src="{{ change.author.profile.profile_image.url }}">
+                                    </div>
+                                    <div class="user-extended-action-name">
+                                        <h2>{{ change.author.profile.full_name|default:"user" }}</h2>
+                                    </div>
+                                </div>
+                                <div class="extended-action">
+                                    <div class="extended-type-of-action">
+                                        <h2>zmienił(a) pole {{ change.filed }} zadania</h2>
+                                    </div>
+                                    <div class="extended-name-of-task">
+                                        <h2>{{ task.name }}</h2>
+                                    </div>
+                                    <div class="extended-change-of-deadline">
+                                        <h2>na {{ change.to_value }}</h2>
+                                    </div>
+                                </div>
+                                <div class="extended-action-date">
+                                    <p>{{ change.date_changed|naturalday }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Project Creation -->
+        <div class="timeline-event project-creation">
+            <div class="timeline-point">
+                <img alt="clipboard icon" src="{% static 'images/clipboard.svg' %}">
+            </div>
+            <div class="project-creation-info">
+                <div class="user-action">
+                    <div class="user-action-avatar">
+                        <img alt="{{ project.created_by.profile.full_name }}"
+                             src="{{ project.created_by.profile.profile_image.url }}">
+                    </div>
+                    <div class="user-action-name">
+                        <h2>{{ project.created_by.profile.full_name }}</h2>
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="type-of-action">
+                        <h2>utworzył(a) projekt</h2>
+                    </div>
+                    <div class="name-of-project">
+                        <h2>{{ project.name }}</h2>
+                    </div>
+                </div>
+                <div class="action-date">
+                    <p>{{ project.created_at|naturaltime }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>

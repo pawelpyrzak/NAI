@@ -1,6 +1,6 @@
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('expanded');
+    sidebar.classList.toggle('collapsed');
 }
 function toggleSection(sectionId) {
     const section = document.getElementById(sectionId);

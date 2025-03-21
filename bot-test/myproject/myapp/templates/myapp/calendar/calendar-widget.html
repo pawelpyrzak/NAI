@@ -1,0 +1,102 @@
+{% block extra_head %}
+{% load static %}
+<link href="{% static 'css/calendar-widget.css' %}" rel="stylesheet">
+<script src="{% static 'js/calendarMonth.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="calendar-container">
+    <div class="calendar small">
+        <div class="calendar-header">
+            <div class="calendar-title">
+                <h2>Kalendarz</h2>
+            </div>
+            <div class="calendar-options">
+                <img id="calendar-options-icon" src="{% static 'images/more-horizontal.svg' %}">
+                <div class="hidden" id="calendar-options-menu">
+                    <ul>
+                        <li>
+                            <div class="resize-option" id="calendar-resize-small">Pomniejsz</div>
+                        </li>
+                        <li>
+                            <div class="resize-option" id="calendar-resize-full">Pełny rozmiar</div>
+                        </li>
+                        <li>
+                            <div class="delete-widget" id="calendar-delete-widget">Usuń widżet</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="navigation">
+                <button class="button" id="btn-today">Dzisiaj</button>
+                <button class="button" id="btn-prev">
+                    <img alt="Poprzedni" class="icon" src="{% static 'images/left-calendar.svg' %}">
+                </button>
+                <button class="button" id="btn-next">
+                    <img alt="Następny" class="icon" src="{% static 'images/right-calendar.svg' %}">
+                </button>
+            </div>
+            <div class="date">
+                <h2 id="calendar-date">Miesiąc / Rok</h2>
+            </div>
+        </div>
+        <table class="calendar-table">
+            <thead class="calendar-table-header">
+            <tr>
+                <th class="day-sun">Pon.</th>
+                <th class="day-mon">Wt.</th>
+                <th class="day-tue">Śr.</th>
+                <th class="day-wed">Czw.</th>
+                <th class="day-thu">Pt.</th>
+                <th class="day-fri">Sb.</th>
+                <th class="day-sat">Ndz.</th>
+            </tr>
+            </thead>
+            <tbody id="calendar-body"></tbody>
+        </table>
+
+        <!-- Dodatkowa treść dla trybu pełnego -->
+        <div class="calendar full-content hidden">
+            <div class="full-view-container">
+                <div class="left-panel">
+                    <table class="calendar-table">
+                        <thead class="calendar-table-header">
+                        <tr>
+                            <th class="day-sun">Pon.</th>
+                            <th class="day-mon">Wt.</th>
+                            <th class="day-tue">Śr.</th>
+                            <th class="day-wed">Czw.</th>
+                            <th class="day-thu">Pt.</th>
+                            <th class="day-fri">Sb.</th>
+                            <th class="day-sat">Ndz.</th>
+                        </tr>
+                        </thead>
+                        <tbody id="calendar-body"></tbody>
+                    </table>
+                </div>
+                <div class="right-panel">
+                    <h3 id="selected-date">18 Wrz</h3>
+                    <p class="week-info">Tydzień 47</p>
+                    <div class="events">
+                        <div class="event">
+                            <span class="event-time">10:00 - 12:00</span>
+                            <span class="event-title">Design Meeting</span>
+                            <span class="event-location">Room 12</span>
+                        </div>
+                        <div class="event">
+                            <span class="event-time">13:00 - 14:00</span>
+                            <span class="event-title">Sales Meeting</span>
+                        </div>
+                        <div class="event-more">
+                            <button class="more-events">+ Zobacz więcej</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}

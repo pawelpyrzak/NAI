@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Strona Główna</title>
+    <style>
+        body {
+            background-color: rgb(35, 35, 39);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #1db954;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .buttons a {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #333;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buttons a:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <h1>Witaj w aplikacji!</h1>
+        {% if user.is_authenticated %}
+
+        <p>Zalogowany jako: <strong>{{ user.username }}</strong></p>
+        <div class="buttons">
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'logout' %}">Wyloguj się</a>
+        </div>
+        {% else %}
+        <p>Proszę wybierz jedną z opcji:</p>
+        <div class="buttons">
+            <a href="{% url 'register' %}">Rejestracja</a>
+            <a href="{% url 'login' %}">Logowanie</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

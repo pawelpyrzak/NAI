@@ -1,0 +1,21 @@
+{% load humanize %}
+{% load static %}
+<div class="reminder-list">
+    <ul>
+        <li class="reminder-item create-reminder-item">
+            <div class="create-reminder-container">
+                <img src="{% static 'images/plus (4).svg' %}" alt="Dodaj" class="create-reminder-icon">
+                <label for="create-reminder" class="create-reminder-label">Utwórz przypomnienie</label>
+            </div>
+        </li>
+        {% for reminder in reminders %}
+        <li class="reminder-item reminder-with-date">
+            <div class="reminder-list-container">
+                <img src="{% static 'images/check (1).svg' %}" alt="Dodaj" class="start-reminder-icon">
+                <label class="reminder-label">{{reminder.title}}</label>
+            </div>
+            <span class="reminder-date">{{reminder.time|naturaltime}}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

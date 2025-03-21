@@ -1,0 +1,24 @@
+{% block title %} Group Info {% endblock %}
+
+{% block extra_head %}
+    {% load static %}
+    <title>Group Info</title>
+{% endblock %}
+{% block content %}
+    <h1>{{ group.name }}</h1>
+    <p><strong>Kod do dołączenia:</strong> {{ group.join_code }}</p>
+
+    <h2>Lista użytkowników:</h2>
+    <ul>
+        {% for member in users %}
+            <li>{{ member.user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        {% if is_member %}
+            <button type="submit" name="leave_group">Opuszcz grupę</button>
+        {% endif %}
+    </form>
+{% endblock %}

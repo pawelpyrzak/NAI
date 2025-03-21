@@ -1,0 +1,37 @@
+{% load static %}
+<div class="reminder-container">
+    <div class="reminder small">
+        <div class="reminder-header">
+            <div class="reminder-title">
+                <h2>Przypomnienia</h2>
+            </div>
+            <div class="reminder-options">
+                <img id="reminder-options-icon" src="{% static 'images/more-horizontal.svg' %}">
+                <div class="hidden" id="reminder-options-menu">
+                    <ul>
+                        <li>
+                            <div class="resize-option" id="reminder-resize-small">Pomniejsz</div>
+                        </li>
+                        <li>
+                            <div class="resize-option" id="reminder-resize-full">Pełny rozmiar</div>
+                        </li>
+                        <li>
+                            <div class="delete-widget" id="reminder-delete-widget">Usuń widżet</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav class="reminder-nav">
+            <a class="active" id="today-link" role="button">Dziś</a>
+            <a id="tomorrow-link" role="button">Jutro</a>
+            <a id="week-link" role="button">W tym tygodniu</a>
+            <a id="all-link" role="button">Wszystkie</a>
+        </nav>
+        <div class="reminder-content" id="reminder-content">
+
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Rejestracja</title>
+    <style>
+        /* Globalne ustawienia */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f7;
+            padding: 50px;
+            margin: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .form-container h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Stylizacja formularza */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input, button {
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border 0.3s ease;
+        }
+
+        input:focus, button:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            background-color: #fafafa;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .errorlist {
+            color: #e74c3c;
+            background-color: #f8d7da;
+            border: 1px solid #e74c3c;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 14px;
+            list-style-type: none;
+        }
+
+        .errorlist li {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Wyróżnienie błędów na polach formularza */
+        .form-error {
+            border-color: #e74c3c;
+            background-color: #f8d7da;
+        }
+
+        /* Przyciski z błędami */
+        button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        button:disabled {
+            background-color: #f2d7d5;
+            color: #d5a6a1;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    {% if step == 1 %}
+    <!-- Pierwszy formularz (Podstawowa rejestracja) -->
+    <h2>Rejestracja - Krok 1</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Nazwa użytkownika:</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="form-error">
+                {% for error in form.username.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">E-mail:</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="form-error">
+                {% for error in form.email.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Hasło:</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+            <div class="form-error">
+                {% for error in form.password1.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Powtórz hasło:</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+            <div class="form-error">
+                {% for error in form.password2.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <button name="basic_registration" type="submit">Dalej</button>
+    </form>
+    {% elif step == 2 %}
+    <!-- Drugi formularz (Aktualizacja profilu) -->
+    <h2>Rejestracja - Krok 2</h2>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ profile_form.first_name.id_for_label }}">Imię:</label>
+            {{ profile_form.first_name }}
+            {% if profile_form.first_name.errors %}
+            <div class="form-error">
+                {% for error in profile_form.first_name.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ profile_form.last_name.id_for_label }}">Nazwisko:</label>
+            {{ profile_form.last_name }}
+            {% if profile_form.last_name.errors %}
+            <div class="form-error">
+                {% for error in profile_form.last_name.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ profile_form.profile_image.id_for_label }}">Zdjęcie profilowe:</label>
+            {{ profile_form.profile_image }}
+            {% if profile_form.profile_image.errors %}
+            <div class="form-error">
+                {% for error in profile_form.profile_image.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <button name="profile_update" type="submit">Zakończ</button>
+    </form>
+    {% endif %}
+</div>
+</body>
+</html>

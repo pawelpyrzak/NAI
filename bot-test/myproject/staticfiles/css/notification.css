@@ -1,0 +1,111 @@
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.notification-icon{
+    width: 16px;
+    height: 16px;
+    display: flex;
+    position: fixed;
+    top: 19px;
+    right: 0;
+    margin-right: 100px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 50px;
+}
+.notification-box{
+    display: none;
+    top: 43px;
+    overflow: hidden;
+    width: 280px;
+    height: 460px;
+    border: 1px solid #424244;
+    right: 82px;
+    position: fixed;
+    background: #232222;
+    border-radius: 3%;
+
+}
+#notification-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 5px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+}
+
+.notification-first-section{
+border-bottom: 1px solid #424244;
+}
+
+.notification-first-section h2{
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    border-radius: 0px;
+    align-items: center;
+}
+
+
+.delete-button:hover {
+    background-color: darkred;
+}
+
+
+
+
+
+
+.notification-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.notification-message {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.notification-type,
+.notification-created-at {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.delete-button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}

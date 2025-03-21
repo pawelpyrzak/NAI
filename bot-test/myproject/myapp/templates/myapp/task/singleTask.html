@@ -1,0 +1,347 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Zadanie Test{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+{% load humanize %}
+
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="{% static 'css/task.css' %}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"
+      rel="stylesheet">
+<script src="{% static 'js/progressBar.js' %}"></script>
+<script src="{% static 'js/editModal.js' %}"></script>
+<script src="{% static 'js/commentForm.js' %}"></script>
+<script src="{% static 'js/replyForm.js' %}"></script>
+<script src="{% static 'js/task_edit.js' %}"></script>
+<style>
+    .edit-task-form {
+        display: none;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .edit-task-form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .edit-task-form input[type="text"],
+    .edit-task-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        background: white;
+    }
+
+    .edit-task-form textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    .edit-task-form button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .edit-task-form button:hover {
+        background-color: #45a049;
+    }
+
+    .cancel-edit-button {
+        background-color: #d9534f;
+    }
+
+    .cancel-edit-button:hover {
+        background-color: #c9302c;
+    }
+
+</style>
+<title>Zadanie Test</title>
+{% endblock %}
+
+{% block content %}
+<div class="task-container">
+    <div class="task-header">
+        <h1>Richard McClintock</h1>
+        <nav class="task-nav">
+            <a href="#">Przegląd zadania</a>
+            <a href="#">Pliki</a>
+        </nav>
+        <div class="header-divider"></div>
+    </div>
+    <div class="task-scrollable">
+        <div class="main-content-task">
+            <section class="task-information">
+                <div class="button-container">
+                    <button class="share-link-button">
+                        <img alt="Share Link" src="{% static 'images/link-2.svg' %}">
+                    </button>
+                </div>
+                <div class="task-description">
+                    <div class="task-description-title">
+                        <div class="message">
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% if can_edit %}
+                        <div class="edit-task">
+                            <img alt="Edit" class="edit-icon" onclick="openModal()"
+                                 src="{% static 'images/edit (1).svg' %}">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="task-title">
+                        <h2>{{task.title}}</h2>
+                    </div>
+                    <div class="about-task">
+                        <p>{{task.description}}</p>
+                    </div>
+                </div>
+                <form action="{% url 'edit_task' task.id %}" class="edit-task-form" method="POST"
+                      style="display: none;">
+
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Zapisz</button>
+                    <button class="cancel-edit-button" type="button">Anuluj</button>
+                </form>
+                <div class="attachments">
+                    <div class="attachments-header">
+                        <h2>Załączniki</h2>
+                        <div class="files">
+                            <div class="add-link">
+                                <img alt="Add Attachment" src="{% static 'images/plus.svg' %}">
+                            </div>
+                            <div class="attachment"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-divider"></div>
+                <div class="comments">
+                    <div class="comment-header">
+                        <div class="comment-section-title">
+                            <h2>Komentarze</h2>
+                        </div>
+                        <div class="comment-counter">
+                            <p>10</p>
+                        </div>
+                    </div>
+                    <div class="new-comment-section">
+                        <form action="{% url 'add_comment' task.id %}" method="POST">
+                            {% csrf_token %}
+
+                            <div class="comment-input-section">
+                                <div class="user-comment">
+                                    <img alt="" src="{{ user.profile.profile_image.url }}">
+                                </div>
+                                <div class="comment-form">
+                                    <textarea id="comment-text" name="content" onclick="expandTextarea(this)"
+                                              placeholder="Dodaj komentarz"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-button-container">
+                                <button class="cancel-button" onclick="resetCommentForm()" type="button">
+                                    <p>Anuluj</p>
+                                </button>
+                                <button class="comment-button" type="submit">
+                                    <p>Skomentuj</p>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="comments-section">
+                        {% for comment in comments %}
+                        <div class="commenting-user">
+                            <div class="commenting-user-avatar">
+                                <img src="{{ comment.author.profile.profile_image.url }}">
+                            </div>
+                            <div class="comment-container">
+                                <div class="name-of-commenting-user-and-date">
+                                    <div class="name-of-commenting-user">
+                                        <p>{{comment.author.profile.full_name}}</p>
+                                    </div>
+                                    <div class="date-of-comment">
+                                        <p class="comment-time">{{ comment.created_at|naturaltime }}</p>
+                                    </div>
+                                </div>
+                                <div class="comment-content">
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                                <div class="comment-actions">
+                                    <div class="likes">
+                                        <div class="likes-icon">
+                                            <img src="{% static 'images/arrow-up.svg' %}">
+                                        </div>
+                                        <div class="likes-counter">
+                                            <p>2</p>
+                                        </div>
+                                    </div>
+                                    <div class="dislikes">
+                                        <div class="dislikes-icon">
+                                            <img src="{% static 'images/arrow-down (1).svg' %}">
+                                        </div>
+                                    </div>
+                                    <div class="reply">
+                                        <div class="reply-icon">
+                                            <img src="{% static 'images/message-circle (2).svg' %}">
+                                        </div>
+                                        <div class="reply-txt">
+                                            <h2>Odpowiedz</h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="reply-form-container hidden">
+                                    <form action="{% url 'add_reply' task.id comment.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="reply-user-avatar">
+                                            <img src="{{user.profile.profile_image.url}}">
+                                        </div>
+                                        <div class="reply-form">
+                            <textarea id="content" name="content" onclick="expandTextarea(this)"
+                                      placeholder="Napisz odpowiedź"></textarea>
+
+                                        </div>
+
+                                        <div class="reply-button-container">
+                                            <button class="reply-cancel-button" onclick="resetReplyForm(this)"
+                                                    type="button">
+                                                <p>Anuluj</p>
+                                            </button>
+                                            <button class="reply-comment-button" type="submit">
+                                                <p>Skomentuj</p>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="replies-section">
+                            {% for reply in comment.replies.all %}
+                            <div class="replying-user">
+                                <div class="replying-user-avatar">
+                                    <img src="{{reply.author.profile.profile_image.url}}">
+                                </div>
+                                <div class="reply-container">
+                                    <div class="name-of-replying-user-and-date">
+                                        <div class="name-of-replying-user">
+                                            <p>{{reply.author.profile.full_name}}</p>
+                                        </div>
+                                        <div class="date-of-reply">
+                                            <p class="reply-time">{{ reply.created_at|naturaltime }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="reply-content">
+                                        <p>{{ reply.content }}</p>
+                                    </div>
+                                    <div class="reply-actions">
+                                        <div class="likes">
+                                            <div class="likes-icon">
+                                                <img src="{% static 'images/arrow-up.svg' %}">
+                                            </div>
+                                            <div class="likes-counter">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="dislikes">
+                                            <div class="dislikes-icon">
+                                                <img src="{% static 'images/arrow-down (1).svg' %}">
+                                            </div>
+                                        </div>
+                                        <div class="reply">
+                                            <div class="reply-icon">
+                                                <img src="{% static 'images/message-circle (2).svg' %}">
+                                            </div>
+                                            <div class="reply-txt">
+                                                <h2>Odpowiedz</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            <div class="details">
+                <div class="manager-container">
+                    <div class="pm-info">
+                        {%if task.assignee%}
+                        <div class="pm-avatar">
+                            <img alt="Manager Avatar" src={{task.assignee.profile.profile_image.url}}>
+                        </div>
+                        <div class="pm-details">
+                            <h2>{{task.assignee.profile.full_name}}</h2>
+                            <div class="user-container">
+                                <div class="position">
+                                    <p>Menadżer zadania</p>
+                                </div>
+                            </div>
+                        </div>
+                        {%else%}
+                        <div class="pm-details">
+                            <h2>Brak przypisanej osoby</h2>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="task-details">
+                    <div class="start-date">
+                        <h2>Data rozpoczęcia</h2>
+                        <p>{{task.start_date|naturalday}}</p>
+                    </div>
+                    <div class="deadline">
+                        <h2>Termin ukończenia</h2>
+                        <p>{{task.due_date|naturalday}}</p>
+                    </div>
+                    <div class="task-status">
+                        <h2>Status</h2>
+                        <p>{{task.status}}</p>
+                    </div>
+                    <div class="priority">
+                        <h2>Priorytet</h2>
+                        <p>{{task.priority}}</p>
+                    </div>
+                    <div class="days-left">
+                        {% if delay %}
+                        <h2>Opóźnienie</h2>
+                        {% else %}
+                        <h2>Pozostało dni</h2>
+                        {% endif %}
+                        <p>{{ task.days_left }} dni</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

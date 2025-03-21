@@ -1,0 +1,74 @@
+{% extends 'myapp/base.html' %}
+{% block extra_head %}
+{% load static %}
+<link href="{% static 'css/calendar-months.css' %}" rel="stylesheet">
+{% if calendar == 'Day' %}
+<script src="{% static 'js/calendar/calendarDay.js' %}"></script>
+{% elif calendar == 'Week' %}
+<script src="{% static 'js/calendar/calendarWeek.js' %}"></script>
+{% elif calendar == 'Month' %}
+<script src="{% static 'js/calendar/calendarMonth.js' %}"></script>
+{% endif %}
+<script src="{% static 'js/calendar/calendarView.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="calendar-container">
+    <div class="header">
+        <h1>Kalendarz</h1>
+    </div>
+    <div class="calendar-content">
+        <div class="header-bottom">
+            <div class="navigation">
+                <button class="button" id="btn-today">Dzisiaj</button>
+                <button class="button" id="btn-prev">
+                    <img alt="Poprzedni" class="icon" src="{% static 'images/left-calendar.svg' %}">
+                </button>
+                <button class="button" id="btn-next">
+                    <img alt="Następny" class="icon" src="{% static 'images/right-calendar.svg' %}">
+                </button>
+            </div>
+            <div class="date">
+                <h2 id="calendar-title"></h2>
+            </div>
+            <div class="search-engine">
+                <input id="search" placeholder="Szukaj zadania..." type="text">
+            </div>
+            <div class="view-switch">
+                <form action="{% url 'calendar' %}" id="view-form" method="POST">
+                    {% csrf_token %}
+                    <select id="view-selector" name="view-selector" onchange="document.getElementById('view-form').submit()">
+                        <option
+                        "{% if calendar == 'Day' %} selected {%endif%}" value="Day">Dzień</option>
+                        <option
+                        "{% if calendar == 'Week' %} selected {%endif%}" value="Week">Tydzień</option>
+                        <option
+                        "{% if calendar == 'Month' %} selected {%endif%}" value="Month">Miesiąc</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <table class="calendar-table">
+            {% if calendar == 'Month' or calendar == 'Week' %}
+            <thead class="calendar-header">
+
+            <tr>
+                <th class="day-mon">Pon.</th>
+                <th class="day-tue">Wt.</th>
+                <th class="day-wed">Śr.</th>
+                <th class="day-thu">Czw.</th>
+                <th class="day-fri">Pt.</th>
+                <th class="day-sat">Sb.</th>
+                <th class="day-sun">Ndz.</th>
+            </tr>
+            </thead>
+            {% endif %}
+            <tbody id="calendar-body">
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% block content %}
+<h2>Projekty w grupie: {{ group.name }}</h2>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li style="{% if message.tags == 'success' %} color: green;{% elif message.tags == 'error' %}color: red;{% endif %}">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<h3>Projekty w grupie</h3>
+<ul>
+    {% for project in group_projects %}
+        <li>
+            {{ project.name }}
+            {% if project.jira_key %}
+                <span style="color: green;">(Projekt Jira)</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+{% if jira_config %}
+    <h3>Projekty dostępne w Jira</h3>
+    {% if available_jira_projects %}
+        <ul>
+            {% for project in available_jira_projects %}
+                <li>
+                    {{ project.name }} (Klucz: {{ project.key }})
+                    <form method="post" action="{% url 'add_jira_project' group.id project.key %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Dodaj do grupy</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Wszystkie projekty Jira zostały już dodane do grupy.</p>
+    {% endif %}
+{% else %}
+    <p style="color: red;">Brak konfiguracji Jira dla tej grupy.</p>
+{% endif %}
+{% if trello_config %}
+    <h3>Projekty dostępne w Trello</h3>
+    {% if available_trello_projects %}
+        <ul>
+            {% for project in available_trello_projects %}
+                <li>
+                    {{ project.name }} (Klucz: {{ project.key }})
+                    <form method="post" action="{% url 'add_trello_project' group.id project.key %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Dodaj do grupy</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Wszystkie projekty Trello zostały już dodane do grupy.</p>
+    {% endif %}
+{% else %}
+    <p style="color: red;">Brak konfiguracji Trello dla tej grupy.</p>
+{% endif %}
+<a href="{% url 'teamPage' group.id %}">Powrót do listy grup</a>
+{% endblock %}

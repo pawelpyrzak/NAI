@@ -1,0 +1,257 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Zadanie Test{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/task.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="{% static 'js/progressBar.js' %}"></script>
+    <script src="{% static 'js/editModal.js' %}"></script>
+    <script src="{% static 'js/commentForm.js' %}"></script>
+    <script src="{% static 'js/replyForm.js' %}"></script>
+    <title>Zadanie Test</title>
+{% endblock %}
+
+{% block content %}
+    <div class="task-container">
+        <div class="task-header">
+            <h1>Richard McClintock</h1>
+            <nav class="task-nav">
+                <a href="#">Przegląd zadania</a>
+                <a href="#">Pliki</a>
+            </nav>
+            <div class="header-divider"></div>
+        </div>
+        <div class="task-scrollable">
+            <div class="main-content-task">
+                <section class="task-information">
+                    <div class="button-container">
+                        <button class="share-link-button">
+                            <img src="{% static 'images/link-2.svg' %}" alt="Share Link">
+                        </button>
+                    </div>
+                    <div class="task-description">
+                        <div class="task-description-title">
+                            <div class="edit-task">
+
+
+                                <img src="{% static 'images/edit (1).svg' %}" class="edit-icon" onclick="openModal()" alt="Edit">
+                            </div>
+                            <h2>Opis zadania</h2>
+                        </div>
+                        <div class="task-title">
+                            <h2>Richard McClintock - a Latin professor</h2>
+                        </div>
+                        <div class="about-task">
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+                                making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the
+                                more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,
+                                discovered the undoubtable source.</p>
+                        </div>
+                    </div>
+                    <div class="attachments">
+                        <div class="attachments-header">
+                            <h2>Załączniki</h2>
+                            <div class="files">
+                                <div class="add-link">
+                                  <img src="{% static 'images/plus.svg' %}" alt="Add Attachment">
+                                </div>
+                                <div class="attachment"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-divider"></div>
+                    <div class="comments">
+                        <div class="comment-header">
+                            <div class="comment-section-title">
+                                <h2>Komentarze</h2>
+                            </div>
+                            <div class="comment-counter">
+                                <p>10</p>
+                            </div>
+                        </div>
+                        <div class="new-comment-section">
+                            <div class="comment-input-section">
+                                <div class="user-comment">
+                                    <img src="../static/images/person4.jpg">
+                                </div>
+                                <div class="comment-form">
+                                    <textarea placeholder="Dodaj komentarz" id="comment-text"></textarea>
+                                </div>
+                                 </div>
+                                 <div class="form-button-container">
+                                <button class="cancel-button">
+                                    <p>Anuluj</p>
+                                </button>
+                                <button class="comment-button">
+                                    <p>Skomentuj</p>
+                                </button>
+                            </div>
+                            </div>
+                            <div class="comments-section">
+                                <div class="commenting-user">
+                                <div class="commenting-user-avatar">
+                                    <img src="../static/images/person4.jpg">
+                                </div>
+                                <div class="comment-container">
+                                    <div class="name-of-commenting-user-and-date">
+                                        <div class="name-of-commenting-user">
+                                            <p>Jan Kowalski</p>
+                                        </div>
+                                        <div class="date-of-comment">
+                                            <p class="comment-time">3 godziny temu</p>
+                                        </div>
+                                    </div>
+                                    <div class="comment-content">
+                                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+                                            making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the
+                                            more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,
+                                            discovered the undoubtable source.</p>
+                                    </div>
+                                    <div class="comment-actions">
+                                        <div class ="likes">
+                                            <div class="likes-icon">
+                                                <img src="../static/images/arrow-up.svg">
+                                            </div>
+                                            <div class="likes-counter">
+                                                <p>2</p>
+                                            </div>
+                                        </div>
+                                        <div class="dislikes">
+                                            <div class="dislikes-icon">
+                                                <img src="../static/images/arrow-down (1).svg">
+                                            </div>
+                                        </div>
+                                        <div class ="reply">
+                                            <div class="reply-icon">
+                                                <img src="../static/images/message-circle (2).svg">
+                                            </div>
+                                            <div class ="reply-txt">
+                                                <h2>Odpowiedz</h2>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="reply-form-container hidden">
+                                    <div class="reply-user-avatar">
+                                        <img src="../static/images/person4.jpg">
+                                    </div>
+                                    <div class="reply-form">
+                                        <textarea placeholder="Napisz odpowiedź" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="reply-button-container">
+                                    <button class="reply-cancel-button">
+                                        <p>Anuluj</p>
+                                    </button>
+                                    <button class="reply-comment-button">
+                                        <p>Skomentuj</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="replies-section">
+                                <div class="replying-user">
+                                    <div class="replying-user-avatar">
+                                        <img src="../static/images/person4.jpg">
+                                    </div>
+                                    <div class="reply-container">
+                                        <div class="name-of-replying-user-and-date">
+                                            <div class="name-of-replying-user">
+                                                <p>Anna Nowak</p>
+                                            </div>
+                                            <div class="date-of-reply">
+                                                <p class="reply-time">2 godziny temu</p>
+                                            </div>
+                                        </div>
+                                        <div class="reply-content">
+                                            <p>Dokładnie! Też o tym czytałam.</p>
+                                        </div>
+                                        <div class="reply-actions">
+                                            <div class ="likes">
+                                                <div class="likes-icon">
+                                                    <img src="../static/images/arrow-up.svg">
+                                                </div>
+                                                <div class="likes-counter">
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                            <div class="dislikes">
+                                                <div class="dislikes-icon">
+                                                    <img src="../static/images/arrow-down (1).svg">
+                                                </div>
+                                            </div>
+                                            <div class ="reply">
+                                                <div class="reply-icon">
+                                                    <img src="../static/images/message-circle (2).svg">
+                                                </div>
+                                                <div class ="reply-txt">
+                                                    <h2>Odpowiedz</h2>
+                                                </div>
+                                            </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>              
+                </section>  
+                <div class="details">
+                    <div class="manager-container">
+                        <div class="pm-info">
+                            <div class="pm-avatar">
+                                <img src="../static/images/person4.jpg" alt="Manager Avatar">
+                            </div>
+                            <div class="pm-details">
+                                <h2>Jan Jankowski</h2>
+                                <div class="user-container">
+                                    <div class="position">
+                                        <p>Menadżer zadania</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-details">
+                        <div class="start-date">
+                            <h2>Data rozpoczęcia</h2>
+                            <p>13 stycznia</p>
+                        </div>
+                        <div class="deadline">
+                            <h2>Termin ukończenia</h2>
+                            <p>30 stycznia</p>
+                        </div>
+                        <div class="task-status">
+                            <h2>Status</h2>
+                            <p>W toku</p>
+                        </div>
+                        <div class="priority">
+                            <h2>Priorytet</h2>
+                            <p>Wysoki</p>
+                        </div>
+                        <div class="days-left">
+                            <h2>Pozostało dni</h2>
+                            <p>120</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Edytuj zadanie</h2>
+            <p>Tu możesz wprowadzić zmiany w zadaniu.</p>
+            <div class="edit-title-of-task"></div>
+            <div class="edit-description-of-task"></div>
+            <div class="edit-end-date-of-task"></div>
+            <button onclick="closeModal()">Odrzuć</button>
+            <button onclick="closeModal()">Zapisz zmiany</button>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

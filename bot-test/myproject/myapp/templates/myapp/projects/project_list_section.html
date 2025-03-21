@@ -1,0 +1,48 @@
+{% load static %}
+{% load humanize %}
+
+{% if projects %}
+{% for project in projects %}
+<div class="{{ project_type }}-item"
+     data-completed_tasks="{{ project.completed_tasks|default:'0' }}"
+     data-created-tasks="{{ project.created_tasks|default:'0' }}"
+     data-days-left="{{ project.days_left }}"
+     data-deadline="{{ project.due_date|naturalday |default:'Brak terminu' }}"
+     data-manager-img="{{ project.managerImg}}"
+     data-manager-name="{{ project.managerName }}"
+     data-participants="{{ project.participants}}"
+     data-priority="{{ project.priority|default:'Brak priorytetu' }}"
+     data-progress="{{ project.progress|default:'0' }}"
+     data-project_url="{% url 'project' project.id %}"
+     data-start-date="{{ project.created_at|naturalday }}"
+     data-status="{{ project.status|default:'Brak statusu' }}"
+     data-tasks_in_progress="{{ project.tasks_in_progress|default:'0' }}"
+     data-upcomingTasks="{{ project.upcoming_tasks|default:'0' }}">
+    <div class="project-header">
+        <div class="project-title">
+            <h2>{{project.name}}</h2>
+        </div>
+        <div class="project-options">
+            <img src="{% static 'images/more-vertical.svg' %}"></div>
+    </div>
+    <div class="description">
+        <p>{{ project.description|default:'opis' }}</p>
+    </div>
+    <div class="activity-summary">
+        <div class="attachment">
+            <img src="{% static 'images/paperclip (1).svg' %}">
+            <p>{{ project.attachments_count }}</p>
+        </div>
+        <div class="about-project-participants">
+            <div class="about-project-participants-avatars">
+                <div class="about-project-more-participants"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="no-projects">
+    <h2>Brak projektów</h2>
+</div>
+{% endif %}

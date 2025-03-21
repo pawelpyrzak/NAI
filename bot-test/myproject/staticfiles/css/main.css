@@ -14,7 +14,7 @@ body {
     display: none;
 }
 .top-bar {
-    background: rgb(35, 35, 39);
+    background: #2e2e30;
     color: #f5f4f3;
     padding: 10px 20px;
     text-align: center;
@@ -60,7 +60,7 @@ body {
 
 /* Domyślnie wąski pasek boczny */
 .sidebar {
-    background: rgb(35, 35, 39);
+    background: #2e2e30;
     width: 70px; /* Początkowa szerokość wąskiego paska */
     height: 100vh;
     position: fixed;
@@ -71,6 +71,7 @@ body {
     opacity: 1;
     z-index: 9;
     transition: width 0.5s ease;
+    overflow: hidden;
 }
 
 /* Rozszerzony pasek boczny */
@@ -223,49 +224,6 @@ body {
 
 }
 
-.notification-icon{
-    width: 16px;
-    height: 16px;
-    display: flex;
-    position: fixed;
-    top: 19px;
-    right: 0;
-    margin-right: 100px;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background: none;
-    cursor: pointer;
-    border-radius: 50px;
-}
-.notification-box{
-    display: none;
-    top: 43px;
-    overflow: hidden;
-    width: 280px;
-    height: 460px;
-    border: 1px solid #424244;
-    right: 82px;
-    position: fixed;
-    background: #232222;
-    border-radius: 3%;
-
-}
-.notification-first-section{
-border-bottom: 1px solid #424244;
-}
-
-.notification-first-section h2{
-    font-size: 16px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    border-radius: 0px;
-    align-items: center;
-}
-
 .dropdown-settings{
     display: none;
     top: 43px;
@@ -388,7 +346,6 @@ border-bottom: 1px solid #424244;
     background-color: #424244;
 }
 #ai-bot{
-    display: none;
     bottom: 30px;
     right: 70px;
     width: 70px;
@@ -492,7 +449,7 @@ border-bottom: 1px solid #424244;
     padding: 15px;
     overflow-y: auto;
     background:#252525;
-    color: #333;
+    color: white;
 }
 
 .chat-bottom {
@@ -587,6 +544,4 @@ border-bottom: 1px solid #424244;
 p {
     overflow-wrap: break-word;
 }
-
-
 

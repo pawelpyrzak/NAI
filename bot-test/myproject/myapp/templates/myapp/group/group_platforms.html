@@ -1,0 +1,71 @@
+{% block content %}
+<h2>Grupa: {{ group.name }}</h2>
+
+<h3>Połączone platformy</h3>
+<h4>Kanały:</h4>
+<ul>
+    {% for channel in channels %}
+    <li>
+        <p>{{channel.platform.name}}: {{ channel.name }}</p>
+    </li>
+    {% empty %}
+    <li>Brak kanałów dla tego serwera.</li>
+    {% endfor %}
+</ul>
+
+<h4>Dodaj kanał</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ channel_form.as_p }}
+    <button name="add_channel" type="submit">Dodaj kanał</button>
+</form>
+<hr>
+<!-- Konfiguracja Jira -->
+<h3>Konfiguracja Jira</h3>
+{% if jira_config %}
+<ul>
+    <li>URL: {{ jira_config.jira_url }}</li>
+    <li>Email: {{ jira_config.jira_email }}</li>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button name="delete_jira" onclick="return confirm('Czy na pewno chcesz usunąć konfigurację Jira?');"
+                type="submit">Usuń konfigurację Jira
+        </button>
+    </form>
+</ul>
+{% else %}
+<p>Brak połączonej konfiguracji Jira.</p>
+<h4>Dodaj konfigurację Jira</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ jira_form.as_p }}
+    <button name="add_jira" type="submit">Dodaj konfigurację Jira</button>
+</form>
+{% endif %}
+
+<hr>
+
+<h3>Konfiguracja Trello</h3>
+{% if trello_config %}
+<ul>
+    <li>Trello conf1</li>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button name="delete_trello" onclick="return confirm('Czy na pewno chcesz usunąć konfigurację Trello?');"
+                type="submit">Usuń konfigurację Jira
+        </button>
+    </form>
+</ul>
+{% else %}
+<p>Brak połączonej konfiguracji Jira.</p>
+<h4>Dodaj konfigurację Jira</h4>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ trello_form.as_p }}
+    <button name="add_trello" type="submit">Dodaj konfigurację Trello</button>
+</form>
+{% endif %}
+
+<hr>
+<a href="{% url 'teamPage' group.id %}">Powrót do grupy</a>
+{% endblock %}

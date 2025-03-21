@@ -1,0 +1,37 @@
+{% load static %}
+<div class="tasks-container">
+    <div class="tasks small">
+        <div class="tasks-header">
+            <div class="tasks-title">
+                <h2>Zadania</h2>
+            </div>
+            <div class="tasks-options">
+                <img id="tasks-options-icon" src="{% static 'images/more-horizontal.svg' %}">
+                <div class="hidden" id="tasks-options-menu">
+                    <ul>
+                        <li>
+                            <div class="resize-option" id="tasks-resize-small">Pomniejsz</div>
+                        </li>
+                        <li>
+                            <div class="resize-option" id="tasks-resize-full">Pełny rozmiar</div>
+                        </li>
+                        <li>
+                            <div class="delete-widget" id="tasks-delete-widget">Usuń widżet</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav class="task-nav">
+            <a class="active" id="to-do" role="button">Nadchodzące</a>
+            <a id="in-progress" role="button">W trakcie</a>
+            <a id="overdue" role="button">Zaległe</a>
+            <a id="completed" role="button">Ukończone</a>
+        </nav>
+        <div class="task-content" id="task-content">
+
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,111 @@
+<style>
+/* Kontener dla wszystkich chatów */
+.chat-container {
+    display: flex;
+    flex-wrap: wrap; /* Aby chaty przechodziły do kolejnego wiersza, gdy brakuje miejsca */
+    gap: 20px; /* Odstępy między chatami */
+    padding: 20px;
+    justify-content: flex-start; /* Ustawienie chatów z lewej strony */
+}
+
+/* Pojedynczy chat */
+.chat-box {
+    border: 1px solid #ccc; /* Ramka */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    padding: 15px;
+    width: 300px; /* Stała szerokość dla każdego chatu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
+    background-color: #f9f9f9; /* Jasne tło */
+}
+
+/* Styl listy wiadomości */
+.chat-box ul {
+    list-style: none; /* Usuń kropki z listy */
+    padding: 0;
+    margin: 0;
+}
+
+/* Styl wiadomości */
+.chat-box li {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee; /* Oddzielenie wiadomości cienką linią */
+}
+
+.chat-box li:last-child {
+    border-bottom: none; /* Usuń dolną linię w ostatniej wiadomości */
+}
+
+/* Obrazki autorów */
+.chat-box img {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Tekst wiadomości */
+.chat-box p {
+    margin: 5px 0;
+}
+</style>
+
+<body>
+<h1>Wiadomości</h1>
+
+<div>
+    <label>
+        <input type="checkbox" class="platform-filter" value="Slack" checked> Slack
+    </label>
+    <label>
+        <input type="checkbox" class="platform-filter" value="Discord" checked> Discord
+    </label>
+</div>
+
+<div class="chat-container">
+    {% for channel in all_messages %}
+    <div class="chat-box" data-platform="{{ channel.platform_name }}">
+        <h2>Platforma: {{ channel.platform_name }}</h2>
+        <h4>Kanał: {{ channel.channel_name }}</h4>
+        <ul>
+            {% for message in channel.messages %}
+            <li>
+                <div>
+                    <img alt="Avatar" src="{{ message.author.avatar_url }}"
+                         style="width: 50px; height: 50px; border-radius: 50%;">
+                    <strong>{{ message.author.name }}</strong> napisał:
+                    <p>{{ message.content }}</p>
+                    <small>Wysłano: {{ message.timestamp }}</small>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll('.platform-filter');
+
+    function filterMessages() {
+        const selectedPlatforms = Array.from(checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+
+        // Ukryj/wyświetl chat-boxy na podstawie zaznaczonych platform
+        document.querySelectorAll('.chat-box').forEach(chatBox => {
+            const platform = chatBox.getAttribute('data-platform');
+            if (selectedPlatforms.includes(platform)) {
+                chatBox.style.display = 'block'; // Wyświetlaj
+            } else {
+                chatBox.style.display = 'none'; // Ukrywaj
+            }
+        });
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterMessages);
+    });
+
+    filterMessages();
+});
+</script>

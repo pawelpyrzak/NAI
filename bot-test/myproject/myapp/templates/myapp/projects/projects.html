@@ -1,0 +1,196 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %} Bieżące projekty {% endblock %}
+
+{% block extra_head %}
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'css/projects.css' %}">
+<script src="{% static 'js/projectsPanel.js' %}"></script>
+<script src="{% static 'js/scrollshadow.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="project-container">
+    <div class="header">
+        <h1>Moje projekty</h1>
+        <nav class="project-nav">
+            <a href="#">Lista</a>
+            <a href="#">Tablica</a>
+            <a href="#">Kalendarz</a>
+        </nav>
+        <div class="header-divider"></div>
+    </div>
+    <div class="add-project-section">
+        <button class="add-project">
+            <div class="add-project-icon">
+                <img src="{% static 'images/plus (1).svg' %}" alt="Dodaj" class="icon">
+            </div>
+            <div class="add-project-span">
+                <span>Dodaj projekt</span>
+            </div>
+        </button>
+    </div>
+    <div class="layout">
+        <section class="project-list">
+
+            <div class="pending-projects">
+                <div class="project-list-header">
+                    <div class="project-list-title">
+                        <h2>Oczekujące na rozpoczęcie</h2>
+                    </div>
+                    <div class="project-list-options">
+                        <img src="{% static 'images/more-vertical.svg' %}">
+                    </div>
+                </div>
+
+                <div class="project-scrollable">
+                    <div class="element-container">
+                        {% include './project_list_section.html' with projects=pending project_type='pending' %}
+                    </div>
+                </div>
+            </div>
+            <div class="projects-in-progress">
+                <div class="project-list-header">
+                    <div class="project-list-title">
+                        <h2>W toku</h2>
+                    </div>
+                    <div class="project-list-options">
+                        <img src="{% static 'images/more-vertical.svg' %}">
+                    </div>
+                </div>
+
+                <div class="project-scrollable">
+                    <div class="element-container">
+                        {% include './project_list_section.html' with project=in_progress project_type='in-progress' %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="completed-projects">
+                <div class="project-list-header">
+                    <div class="project-list-title">
+                        <h2>Zakończone</h2>
+                    </div>
+                    <div class="project-list-options">
+                        <img src="{% static 'images/more-vertical.svg' %}">
+                    </div>
+                </div>
+                <div class="project-scrollable">
+                    <div class="element-container">
+                        {% include './project_list_section.html' with project=completed project_type='completed' %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="at-risk-projects">
+                <div class="project-list-header">
+                    <div class="project-list-title">
+                        <h2>Zagrożony</h2>
+                    </div>
+                    <div class="project-list-options">
+                        <img src="{% static 'images/more-vertical.svg' %}">
+                    </div>
+                </div>
+                <div class="project-scrollable">
+                    <div class="element-container">
+                        {% include './project_list_section.html' with project=at_risk project_type='at-risk' %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="details-panel" class="details-panel">
+            <div class="details">
+                <div class="close-panel">
+                    <img src="../static/images/x (2).svg">
+                </div>
+                <div class="manager-container">
+                    <div class="pm-info">
+                        <div class="pm-avatar">
+                            <img src="../static/images/person4.jpg">
+                        </div>
+                        <div class="pm-details">
+                            <h2></h2>
+                            <div class="user-container">
+                                <div class="position">
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <div class="start-date">
+                        <h2>Data rozpoczęcia
+                        </h2>
+                        <p></p>
+                    </div>
+                    <div class="deadline">
+                        <h2>Termin ukończenia</h2>
+                        <p></p>
+                    </div>
+                    <div class="project-status">
+                        <h2>Status</h2>
+                        <p></p>
+                    </div>
+                    <div class="priority">
+                        <h2>Priorytet</h2>
+                        <p></p>
+                    </div>
+                    <div class="days-left">
+                        <h2>Pozostało dni</h2>
+                        <p></p>
+                    </div>
+                    <div class="project-participants">
+                        <h2>Uczestnicy projektu</h2>
+                        <div class="project-participants-avatars">
+                        </div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="project-statistics">
+                    <div class="project-progress">
+                        <div class="progress-info">
+                            <h2>Postępy projektu </h2>
+                            <p></p>
+                        </div>
+                        <div class="progress-bar__container">
+                            <div class="progress-bar" id="progress-bar">
+                                <span class="progress-bar__text">Uploaded Successfully!</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="created-tasks">
+                        <img src="{% static 'images/plus-circle.svg' %}" class="created-icon">
+                        <h2>Stworzone zadania</h2>
+                        <p></p>
+                    </div>
+                    <div class="completed-tasks">
+                        <img src="{% static 'images/check-circle (6).svg' %}" class="completed-icon">
+                        <h2>Zakończone zadania</h2>
+                        <p></p>
+                    </div>
+                    <div class="tasks-in-progress">
+                        <img src="{% static 'images/alert-circle (3).svg' %}" class="in-progress-icon">
+                        <h2>Zadania w toku</h2>
+                        <p></p>
+                    </div>
+                    <div class="upcoming-tasks">
+                        <img src="{% static 'images/clock (1).svg' %}" class="upcoming-icon">
+                        <h2>Nadchodzące zadania</h2>
+                        <p></p>
+                    </div>
+                    <button class="project-url-button">Przejdź do projektu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+{% endblock %}

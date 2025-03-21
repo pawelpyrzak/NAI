@@ -1,0 +1,275 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Moje zadania{% endblock %}
+
+{% block extra_head %}
+{{block.super}}
+<meta charset="UTF-8">
+{% load static %}
+{% load humanize %}
+
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/calendar-widget.css' %}" rel="stylesheet">
+<link href="{% static 'css/projects-widget.css' %}" rel="stylesheet">
+<link href="{% static 'css/activity-widget.css' %}" rel="stylesheet">
+<link href="{% static 'css/tasks-widget.css' %}" rel="stylesheet">
+<link href="{% static 'css/reminder-widget.css' %}" rel="stylesheet">
+<link href="{% static 'css/teams-widget.css' %}" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"
+      rel="stylesheet">
+<script src="{% static 'js/home/dragWidget.js' %}"></script>
+<script src="{% static 'js/home/widgetPanel.js' %}"></script>
+<script src="{% static 'js/home/sideOptionWidget.js' %}"></script>
+<script src="{% static 'js/home/addDeletedWidget.js' %}"></script>
+<script src="{% static 'js/home/userStatisticsPanel.js' %}"></script>
+<script src="{% static 'js/home/loadWidgetSettings.js' %}"></script>
+<script src="{% static 'js/home/sendWidgetUpdate.js' %}"></script>
+
+<script src="{% static 'js/home/calendarWeekWidget.js' %}"></script>
+<script src="{% static 'js/home/ProjectWidget.js' %}"></script>
+<script src="{% static 'js/home/reminderModal.js' %}"></script>
+<script src="{% static 'js/home/reminderDone.js' %}"></script>
+ <script src="{% static 'js/home/reminderWidgetNav.js' %}"></script>
+<script src="{% static 'js/home/taskWidgetNav.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="home-container">
+    <div class="home-scrollable">
+        <div class="layout">
+            <div class="home-content">
+                <div class="home-header">
+                    <div class="current-date">
+                        <h2>{{ now|date:"l, d F" }}</h2>
+                    </div>
+                    <div class="welcomer">
+                        <h2>{{greeting}}, {{user.profile.first_name}}</h2>
+                    </div>
+                    <div class="home-bottom-header">
+                        <div class="user-statistics">
+                            <div class="statistics-options" id="statistics-options-menu">
+                                <select class="user-statistics" id="statistics-options-select">
+                                    <option value="today">Dzisiaj</option>
+                                    <option value="this-week">W tym tygodniu</option>
+                                    <option value="this-month">W tym miesiącu</option>
+                                </select>
+                            </div>
+                            <div class="user-statistics-divider"></div>
+                            <div class="completed-tasks">
+                                <div class="completed-tasks-icon">
+                                    <img alt="Ukończone zadania" src="{% static 'images/check.svg' %}">
+                                </div>
+                                <div class="quantity-of-tasks">
+                                    <h2>1</h2>
+                                </div>
+                                <div class="task-label">
+                                    <p>ukończonych zadań</p>
+                                </div>
+                            </div>
+                            <div class="to-do">
+                                <div class="to-do-icon">
+                                    <img alt="Zadania do wykonania" src="../static/images/clock (2).svg">
+                                </div>
+                                <div class="quantity-of-tasks">
+                                    <h2>1</h2>
+                                </div>
+                                <div class="task-label">
+                                    <p>zadań do wykonania</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- Zamknięcie dla home-bottom-header -->
+                    <div class="add-widget">
+                        <button class="more-widgets">
+                            <div class="more-widgets-icon">
+                                <img alt="Dodaj" class="icon" src="../static/images/plus (1).svg">
+                            </div>
+                            <div class="more-widgets-span">
+                                <span>Dodaj widżet</span>
+                            </div>
+                        </button>
+                    </div>
+                </div> <!-- Zamknięcie dla home-header -->
+
+                <div class="widgets">
+                    <div class="dropzone" id="dropzone1">
+                        <div class="widget" draggable="true" id="calendar">
+                            {% include 'myapp/home/widget/calendar-widget.html' %}
+                        </div>
+                    </div>
+                    <div class="dropzone" id="dropzone2">
+                        <div class="widget" draggable="true" id="reminder">
+                            {% include 'myapp/home/widget/reminder-widget.html' %}
+                        </div>
+                    </div>
+                    <div class="dropzone" id="dropzone3">
+                        <div class="widget" draggable="true" id="projects">
+                            {% include 'myapp/home/widget/projects-widget.html' %}
+                        </div>
+                    </div>
+                    <div class="dropzone" id="dropzone4">
+                        <div class="widget" draggable="true" id="task">
+                            {% include 'myapp/home/widget/tasks-widget.html' %}
+                        </div>
+                    </div>
+                    <div class="dropzone" id="dropzone5">
+                        <div class="widget" draggable="true" id="teams">
+                            {% include 'myapp/home/widget/teams-widget.html' %}
+                        </div>
+                    </div>
+                    <div class="dropzone" id="dropzone6">
+                        <div class="widget" draggable="true" id="activity">
+                            {% include 'myapp/home/widget/activity-widget.html' %}
+                        </div>
+                    </div>
+                </div> <!-- Zamknięcie dla widgets -->
+            </div> <!-- Zamknięcie dla home-content -->
+        </div> <!-- Zamknięcie dla layout -->
+    </div> <!-- Zamknięcie dla home-scrollable -->
+
+    <div class="widget-panel" id="widget-panel">
+        <div class="widget-container">
+            <div class="close-panel">
+                <img alt="Zamknij" src="../static/images/x (2).svg">
+            </div>
+            <div class="widget-management">
+                <div class="widget-panel-title">
+                    <h2>Widżety</h2>
+                </div>
+                <div class="widget-panel-divider"></div>
+                <div class="panel-scrollable">
+                    <div class="available-widgets">
+                        <div class="calendar-widget-panel"
+                             style="background-image: url('../static/images/Kalendarz.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="calendar-panel-header">
+                                <div class="calendar-widget-panel-title">
+                                    <h2>Kalendarz</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reminder-widget-panel"
+                             style="background-image: url('../static/images/Przypomnienia.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="reminder-panel-header">
+                                <div class="reminder-widget-panel-title">
+                                    <h2>Przypomnienia</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tasks-widget-panel"
+                             style="background-image: url('../static/images/Zadania.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="tasks-panel-header">
+                                <div class="tasks-widget-panel-title">
+                                    <h2>Zadania</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="projects-widget-panel"
+                             style="background-image: url('../static/images/Projekty.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="projects-panel-header">
+                                <div class="projects-widget-panel-title">
+                                    <h2>Projekty</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="teams-widget-panel"
+                             style="background-image: url('../static/images/Zespoly.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="teams-panel-header">
+                                <div class="teams-widget-panel-title">
+                                    <h2>Zespoły</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="last-activity-widget-panel"
+                             style="background-image: url('../static/images/aktywnosc.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                            <div class="last-activity-panel-header">
+                                <div class="last-activity-widget-panel-title">
+                                    <h2>Aktywność</h2>
+                                </div>
+                                <div class="add-panel-widget">
+                                    <div class="add-panel-widget icon">
+                                        <img src="../static/images/plus (1).svg">
+                                    </div>
+                                    <div class="add-panel-txt">
+                                        <h2>Dodaj</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Zamknięcie dla widget-panel -->
+</div> <!-- Zamknięcie dla home-container -->
+{% endblock %}
+
+<div class="modal" id="createReminderModal">
+    <div class="modal-content">
+        <span class="close" id="close-modal">&times;</span>
+        <h2>Utwórz przypomnienie</h2>
+        <!-- Zawartość formularza modala -->
+        <input id="reminder-title" placeholder="Tytuł przypomnienia" type="text">
+        <button id="save-reminder">Zapisz przypomnienie</button>
+    </div>
+</div>
+<div class="modal" id="reminderDoneModal">
+    <div class="modal-content">
+        <span class="close" id="close-modal">&times;</span>
+        <h2>Czy chcesz oznaczyć te zadanie jako wykonane?</h2>
+        <!-- Tutaj możesz dodać formularz lub inne elementy, które będą w modalu -->
+        <form id="create-reminder-form">
+            <button type="submit">Tak</button>
+            <button type="submit">Nie</button>
+        </form>
+    </div>
+</div>

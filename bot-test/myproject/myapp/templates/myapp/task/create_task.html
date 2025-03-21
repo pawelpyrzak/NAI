@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utwórz Zadanie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px #ccc;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Utwórz Zadanie</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="id_title">Tytuł:</label>
+        {{ form.title }}
+
+        <label for="id_description">Opis:</label>
+        {{ form.description }}
+
+        <label for="id_start_date">Data rozpoczęcia:</label>
+        {{ form.start_date }}
+
+        <label for="id_due_date">Termin:</label>
+        {{ form.due_date }}
+
+        <label for="id_priority">Priorytet:</label>
+        {{ form.priority }}
+
+            <label for="id_assignee">Przypisany do:</label>
+        {{ form.assignee }}
+
+        <label for="id_project">Projekt:</label>
+        {{ form.project }}
+
+        <label for="id_add_to_jira">Dodaj do Jira:</label>
+        {{ form.add_to_jira }}
+
+        <button type="submit">Zapisz zadanie</button>
+    </form>
+</div>
+
+</body>
+</html>

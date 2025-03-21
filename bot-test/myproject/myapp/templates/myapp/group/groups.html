@@ -1,0 +1,55 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %} Moje zespoły {% endblock %}
+{% block extra_head %}
+{% load static %}
+<link href="{% static 'css/mainPageTeams.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="main-content">
+    <div class='content'>
+
+        <div class="header">
+            <h1>Moje zespoły</h1>
+
+            <div class="header-actions">
+                <div class="create-team">
+                    <a href="{% url 'teamCreate' %}">
+                        <button type="button">Utwórz nowy zespołt</button>
+                    </a>
+                    <a href="{% url 'teamJoin' %}">
+                        <button type="button">Dołącz do zespołu</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-container">
+            {% if groups %}
+            {% for membership in groups %}
+            <div class="team">
+                <a href="{% url 'teamPage' membership.group.id %}">
+                    <h2> {{ membership.group.name }} </h2>
+                    <img alt="Avatar Image" class="team" src="{{ membership.group.group_images.url }}">
+                </a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Nie należysz do żadnej grupy.</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

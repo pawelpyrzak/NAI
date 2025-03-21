@@ -34,7 +34,6 @@ html, body {
 }
 
 .header-actions h2{
-    cursor: pointer;
     color:#f5f4f3;
     margin-left: 20px;
     font-size: 15px;
@@ -450,4 +449,3 @@ html, body {
 .post-user-name p{
   font-size: 15px;
 }
-

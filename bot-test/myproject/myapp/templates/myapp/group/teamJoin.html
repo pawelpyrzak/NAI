@@ -1,0 +1,14 @@
+{% block extra_head %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <label for="join_code">Podaj kod grupy:</label>
+    <input type="text" id="join_code" name="join_code" required>
+    <button type="submit">Dołącz do grupy</button>
+</form>
+
+{% endblock %}

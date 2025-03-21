@@ -1,0 +1,26 @@
+{% block extra_head %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/tasks-widget.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="tasks-container">
+    <div class="tasks small">
+        <div class="tasks-header">
+            <div class="tasks-title">
+                <h2>Zadania</h2>
+            </div>
+            <div class="tasks-options">
+                <img src="{% static 'images/more-horizontal.svg' %}" id="tasks-options-icon">
+                <div id="tasks-options-menu" class="hidden">
+                    <ul>
+                        <li><div id="tasks-resize-small" class="resize-option">Pomniejsz</div></li>
+                        <li><div id="tasks-resize-full" class="resize-option">Pełny rozmiar</div></li>
+                        <li><div id="tasks-delete-widget" class="delete-widget">Usuń widżet</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

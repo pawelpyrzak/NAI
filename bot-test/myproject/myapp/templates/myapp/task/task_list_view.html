@@ -1,0 +1,22 @@
+{% load static %}
+{% load humanize %}
+
+{% if tasks %}
+<ul>
+    {% for task in tasks %}
+    <li class="{{ task_type }}-item"
+        data-days-left="{{ task.days_left }}"
+        data-deadline="{{ task.due_date|naturalday |default:'Brak terminu' }}"
+        data-manager-img="{{ task.managerImg}}"
+        data-manager-name="{{ task.managerName }}"
+        data-priority="{{ task.priority|default:'Brak priorytetu' }}"
+        data-start-date="{{ task.start_date|naturalday |default:'Brak daty' }}"
+        data-status="{{ task.status|default:'Brak statusu' }}"
+        data-task_url="{% url 'singleTask' task.id %}">
+        {{ task.title }} - {{ task.description }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Brak zadań</p>
+{% endif %}

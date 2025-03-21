@@ -1,0 +1,112 @@
+{% load static %}
+<div class="calendar-container">
+    <div class="calendar small">
+        <div class="calendar-header">
+            <div class="calendar-title">
+                <h2>Kalendarz</h2>
+            </div>
+            <div class="calendar-options">
+                <img id="calendar-options-icon" src="{% static 'images/more-horizontal.svg' %}">
+                <div class="hidden" id="calendar-options-menu">
+                    <ul>
+                        <li>
+                            <div class="resize-option" id="calendar-resize-small">Pomniejsz</div>
+                        </li>
+                        <li>
+                            <div class="resize-option" id="calendar-resize-full">Pełny rozmiar</div>
+                        </li>
+                        <li>
+                            <div class="delete-widget" id="calendar-delete-widget">Usuń widżet</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="calendar-content">
+            <div class="left-side-of-widget">
+                <div class="top-row">
+                    <div class="calendar-item">
+                        <div class="date-box">
+                            <div class="date-info-container">
+                                <div class="date-info">
+                                    <div class="date-day">
+                                        <h2 id="selected-day">28</h2>
+                                    </div>
+                                    <div class="date-details">
+                                        <div class="date-weekday">
+                                            <p id="selected-weekday">Piątek</p>
+                                        </div>
+                                        <div class="date-month">
+                                            <p id="selected-month">Styczeń</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="events">
+                                <h2>{{events|length}}
+                                    {% if events|length == 1 %}
+                                    wydarzenie
+                                    {% elif events|length > 1 and events|length < 5 %}
+                                    wydarzenia
+                                    {% else %}
+                                    wydarzeń
+                                    {% endif %}</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="to-do-list">
+                        <h2>Tego dnia: </h2>
+                        <ul>
+                            {% for event in events %}
+                            <li>{{event.title}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="reminder-container">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <div class="right-side-of-widget">
+                <div class="navigation">
+                    <div class="date">
+                        <h2 id="calendar-date">Tydzień / Rok</h2>
+                    </div>
+                    <div class="calendar-buttons">
+                        <button class="button" id="btn-prev">
+                            <img alt="Poprzedni" class="icon" src="{% static 'images/left-calendar.svg' %}">
+                        </button>
+                        <button class="button" id="btn-next">
+                            <img alt="Następny" class="icon" src="{% static 'images/right-calendar.svg' %}">
+                        </button>
+                        <button class="button" id="btn-today">Dzisiaj</button>
+                    </div>
+                </div>
+
+                <table class="calendar-table">
+                    <thead class="calendar-table-header">
+                    <tr>
+                        <th class="day-mon">Pon.</th>
+                        <th class="day-tue">Wt.</th>
+                        <th class="day-wed">Śr.</th>
+                        <th class="day-thu">Czw.</th>
+                        <th class="day-fri">Pt.</th>
+                        <th class="day-sat">Sb.</th>
+                        <th class="day-sun">Ndz.</th>
+                    </tr>
+                    </thead>
+                    <tbody id="calendar-body">
+                    <tr id="calendar-week"></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

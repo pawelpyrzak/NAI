@@ -1,0 +1,166 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Projekt Test{% endblock %}
+
+{% block extra_head %}
+{% load static %}
+{% load humanize %}
+
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="{% static 'css/project.css' %}" rel="stylesheet">
+<script src="{% static 'js/checkbox.js' %}"></script>
+<script src="{% static 'js/editModal.js' %}"></script>
+<script src="{% static 'js/timelineTaskActivity.js' %}"></script>
+<script src="{% static 'js/dynamicLine.js' %}"></script>
+<script src="{% static 'js/project_edit.js' %}"></script>
+<script src="{% static 'js/viewSwitch.js' %}"></script>
+<style>
+        .task-category {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .task-category h2 {
+            color: green;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .delayed {
+            color: red;
+            font-weight: bold;
+        }
+        .task-category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-category li {
+            color: white;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .task-category li:last-child {
+            border-bottom: none;
+        }
+        .task-category img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+    </style>
+<title>Projekt Test</title>
+{% endblock %}
+{% block content%}
+<div class="project-container">
+    <div class="project-header">
+        <h1>Richard McClintock</h1>
+        <nav class="project-nav">
+            <a data-target="project-information" href="#">Przegląd projektu</a>
+            <a data-target="task-list-container" href="#">Zadania</a>
+            <a data-target="calendar-container" href="#">Kalendarz</a>
+            <a data-target="files-container" href="#">Pliki</a>
+        </nav>
+        <div class="header-divider"></div>
+    </div>
+    <div class="project-scrollable">
+        <div class="main-content-project">
+            <section class="project-information" id="project-information">
+                {% include './project_preview.html' %}
+            </section>
+
+            <section class="task-list-container" id="task-list-container" style="display: none">
+                {% include './task_list.html' %}
+            </section>
+
+            <section id="calendar-container" style="display: none;">
+                <p>Kalendarz</p>
+            </section>
+            <section id="files-container" style="display: none;">
+                <p>Pliki</p>
+            </section>
+            <div class="details">
+                <div class="manager-container">
+                    <div class="pm-info">
+                        <div class="pm-avatar">
+                            <img alt="Manager Avatar"
+                                 src="{{ project.managerImg|default:'../static/images/person4.jpg'}}">
+                        </div>
+                        <div class="pm-details">
+                            <h2>{{ project.managerName|default:'Menadżer' }}</h2>
+                            <div class="user-container">
+                                <div class="position">
+                                    <p>Menadżer projektu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-details">
+                    <div class="start-date">
+                        <h2>Data rozpoczęcia</h2>
+                        <p>{{ project.start_date|naturalday|default:'Brak daty' }}</p>
+                    </div>
+                    <div class="deadline">
+                        <h2>Termin ukończenia</h2>
+                        <p>{{ project.due_date|naturalday|default:'Brak terminu' }}</p>
+                    </div>
+                    <div class="project-status">
+                        <h2>Status</h2>
+                        <p>{{ project.status|default:'Brak statusu' }}</p>
+                    </div>
+                    <div class="priority">
+                        <h2>Priorytet</h2>
+                        <p>{{ project.priority|default:'Brak priorytetu' }}</p>
+                    </div>
+                    <div class="days-left">
+                        {% if delay %}
+                        <h2>Opóźnienie</h2>
+                        {% else %}
+                        <h2>Pozostało dni</h2>
+                        {% endif %}
+                        <p>{{ project.days_left }} dni</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="project-statistics">
+                    <div class="project-progress">
+                        <div class="progress-info">
+                            <h2>Postępy projektu</h2>
+                            <p>{{ project.progres|default:'0' }}%</p>
+                        </div>
+                        <div class="progress-bar__container">
+                            <div class="progress-bar" style="width: {{ project.progres }}%;"></div>
+                            <span class="progress-bar__text">Uploaded Successfully!</span>
+                        </div>
+                    </div>
+                    <div class="created-tasks">
+                        <img alt="Created Tasks" class="created-icon" src="{% static 'images/plus-circle.svg' %}">
+                        <h2>Stworzone zadania</h2>
+                        <p>{{ project.created_tasks|default:'0' }}</p>
+                    </div>
+                    <div class="completed-tasks">
+                        <img alt="Completed Tasks" class="completed-icon"
+                             src="{% static 'images/check-circle (6).svg' %}">
+                        <h2>Zakończone zadania</h2>
+                        <p>{{ project.completed_tasks|default:'0' }}</p>
+                    </div>
+                    <div class="tasks-in-progress">
+                        <img alt="Tasks in Progress" class="in-progress-icon"
+                             src="{% static 'images/alert-circle (3).svg' %}">
+                        <h2>Zadania w toku</h2>
+                        <p>{{ project.tasks_in_progress|default:'0' }}</p>
+                    </div>
+                    <div class="upcoming-tasks">
+                        <img alt="Upcoming Tasks" class="upcoming-icon" src="{% static 'images/clock (1).svg' %}">
+                        <h2>Nadchodzące zadania</h2>
+                        <p>{{ project.upcoming_tasks|default:'0' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
